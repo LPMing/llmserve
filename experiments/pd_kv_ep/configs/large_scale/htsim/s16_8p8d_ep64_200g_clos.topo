@@ -1,0 +1,27 @@
+# S16/EP64 HTSim topology corresponding to the 128-GPU FlowSim/ns-3 setup.
+# Hosts 0..127 are GPU/rank endpoints: 64 prefill and 64 decode ranks.
+# Four 32-port leaves feed two spines through 16 parallel links per
+# leaf-spine pair.  The bundle is a topology representation detail; each
+# endpoint remains attached at 200 Gbps and the aggregate leaf-spine
+# directional capacity is 16 * 200 Gbps.
+Nodes 128
+Tiers 2
+Podsize 128
+
+Tier 0
+Downlink_speed_Gbps 200
+Radix_Down 32
+Radix_Up 32
+Downlink_Latency_ns 5000
+Switch_Latency_ns 0
+Oversubscribed 1
+Queue_Up 1048576
+Queue_Down 1048576
+
+Tier 1
+Downlink_speed_Gbps 200
+Radix_Down 64
+Downlink_Latency_ns 5000
+Switch_Latency_ns 0
+Bundle 16
+Queue_Down 1048576

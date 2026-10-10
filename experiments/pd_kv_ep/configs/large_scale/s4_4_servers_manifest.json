@@ -1,0 +1,32 @@
+{
+  "scale": "s4",
+  "server_count": 4,
+  "prefill_servers": 2,
+  "decode_servers": 2,
+  "gpus_per_server": 8,
+  "physical_gpu_count": 32,
+  "model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+  "hardware": "RTXPRO6000",
+  "tp_per_instance": 2,
+  "instances_per_server": 4,
+  "decode_ep_degree": 16,
+  "decode_instances_per_ep_pool": 8,
+  "physical_endpoint_count": 32,
+  "synthetic_prefill_companions": 0,
+  "logical_rank_count": 32,
+  "topology": {
+    "endpoint_count": 32,
+    "switch_count": 3,
+    "edge_count": 64,
+    "leaf_count": 1,
+    "spine_count": 2,
+    "endpoint_links_per_leaf": {
+      "0": 32
+    },
+    "aggregate_uplink_downlink_ratio": "1:1"
+  },
+  "cluster_config": "experiments/pd_kv_ep/configs/large_scale/s4_4_servers_qwen_ep16.json",
+  "rank_metadata": "experiments/pd_kv_ep/configs/large_scale/s4_4_servers_rank_metadata.csv",
+  "ns3_topology": "experiments/pd_kv_ep/configs/large_scale/ns3/s4_4_servers_200g_clos.txt",
+  "ep_profile_note": "EP=16 is the largest cross-instance degree in this generated plan; it uses the Qwen3 model's 128 experts and TP=2 profile. It is not a claim of native EP=64 profiling."
+}

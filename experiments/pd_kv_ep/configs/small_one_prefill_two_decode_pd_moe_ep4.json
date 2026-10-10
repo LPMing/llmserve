@@ -1,0 +1,41 @@
+{
+  "num_nodes": 1,
+  "link_bw": 16,
+  "link_latency": 20000,
+  "ns3_topology": "experiments/pd_kv_ep/configs/ns3/2_leaf_4_rank_shared_spine_50g.txt",
+  "nodes": [
+    {
+      "num_instances": 3,
+      "cpu_mem": {"mem_size": 512, "mem_bw": 256, "mem_latency": 0},
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {"mem_size": 96, "mem_bw": 1597, "mem_latency": 0},
+          "pd_type": "prefill",
+          "tp_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {"mem_size": 96, "mem_bw": 1597, "mem_latency": 0},
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 4,
+          "dp_group": "decode_ep4"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {"mem_size": 96, "mem_bw": 1597, "mem_latency": 0},
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 4,
+          "dp_group": "decode_ep4"
+        }
+      ]
+    }
+  ]
+}

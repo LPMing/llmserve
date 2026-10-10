@@ -1,0 +1,1032 @@
+{
+  "num_nodes": 16,
+  "link_bw": 50,
+  "link_latency": 5000,
+  "ns3_topology": "experiments/pd_kv_ep/configs/large_scale/ns3/s16_8p8d_ep64_shared_2nic_200g_clos.txt",
+  "nodes": [
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        }
+      ]
+    },
+    {
+      "num_instances": 4,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 64,
+          "dp_group": "decode_ep64_pool000"
+        }
+      ]
+    }
+  ]
+}

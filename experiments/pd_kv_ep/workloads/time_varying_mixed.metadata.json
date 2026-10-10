@@ -1,0 +1,13 @@
+{
+    "native_workload": true,
+    "synthetic_byte_override": false,
+    "arrival_process": "deterministic phase schedule",
+    "phases": [
+        {"name": "EP-heavy", "arrival_ns": 0, "count": 2, "input_toks": 8, "output_toks": 32},
+        {"name": "KV-heavy", "arrival_ns": 80000000, "count": 4, "input_toks": 64, "output_toks": 4},
+        {"name": "EP-heavy", "arrival_ns": 160000000, "count": 2, "input_toks": 8, "output_toks": 32}
+    ],
+    "prefix_reuse": "Input token IDs deliberately reuse common prefixes. Prefix caching was enabled in the native run; time_varying_native_v2 observed a 50.00% total prefix-hit ratio. Aggregate timeline accounting must not be interpreted as per-request P2D attribution for a multi-request prefill batch.",
+    "observed_run": "time_varying_native_v2",
+    "observed_total_prefix_hit_ratio_percent": 50.00
+}

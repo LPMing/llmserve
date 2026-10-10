@@ -1,0 +1,11 @@
+{
+  "source_trace_window": "/home/dell/lpm/LLMServingSim/experiments/pd_kv_ep/workloads/real/slices/azure2024_code/30s__window_016812.jsonl",
+  "output_workload": "/home/dell/lpm/LLMServingSim/experiments/pd_kv_ep/workloads/shared_nic_4p4d_ep32_azure_window_16812_16req.jsonl",
+  "request_count": 16,
+  "arrival_origin_shift_ns": 16498944,
+  "relative_arrivals_unchanged": true,
+  "input_output_lengths_unchanged": true,
+  "request_ids_and_provenance_preserved": true,
+  "first_arrival_ns": 0,
+  "last_arrival_ns": 64643072
+}

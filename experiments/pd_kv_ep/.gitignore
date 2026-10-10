@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+
+# Generated experiment outputs are reproducible from the scripts and configs.
+results/
+joint_exposure/results/
+workloads/real/

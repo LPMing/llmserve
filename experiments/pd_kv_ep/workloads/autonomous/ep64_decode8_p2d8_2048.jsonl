@@ -1,0 +1,16 @@
+{"request_id":"decode-0","input_toks":128,"output_toks":64,"arrival_time_ns":0,"emit_p2d":false,"emit_ep":true,"workload_role":"active_decode"}
+{"request_id":"decode-1","input_toks":128,"output_toks":64,"arrival_time_ns":0,"emit_p2d":false,"emit_ep":true,"workload_role":"active_decode"}
+{"request_id":"decode-2","input_toks":128,"output_toks":64,"arrival_time_ns":0,"emit_p2d":false,"emit_ep":true,"workload_role":"active_decode"}
+{"request_id":"decode-3","input_toks":128,"output_toks":64,"arrival_time_ns":0,"emit_p2d":false,"emit_ep":true,"workload_role":"active_decode"}
+{"request_id":"decode-4","input_toks":128,"output_toks":64,"arrival_time_ns":0,"emit_p2d":false,"emit_ep":true,"workload_role":"active_decode"}
+{"request_id":"decode-5","input_toks":128,"output_toks":64,"arrival_time_ns":0,"emit_p2d":false,"emit_ep":true,"workload_role":"active_decode"}
+{"request_id":"decode-6","input_toks":128,"output_toks":64,"arrival_time_ns":0,"emit_p2d":false,"emit_ep":true,"workload_role":"active_decode"}
+{"request_id":"decode-7","input_toks":128,"output_toks":64,"arrival_time_ns":0,"emit_p2d":false,"emit_ep":true,"workload_role":"active_decode"}
+{"request_id":"kv-0","input_toks":2048,"output_toks":0,"arrival_time_ns":20000000,"emit_p2d":true,"emit_ep":false,"workload_role":"new_p2d"}
+{"request_id":"kv-1","input_toks":2048,"output_toks":0,"arrival_time_ns":20000000,"emit_p2d":true,"emit_ep":false,"workload_role":"new_p2d"}
+{"request_id":"kv-2","input_toks":2048,"output_toks":0,"arrival_time_ns":20000000,"emit_p2d":true,"emit_ep":false,"workload_role":"new_p2d"}
+{"request_id":"kv-3","input_toks":2048,"output_toks":0,"arrival_time_ns":20000000,"emit_p2d":true,"emit_ep":false,"workload_role":"new_p2d"}
+{"request_id":"kv-4","input_toks":2048,"output_toks":0,"arrival_time_ns":20000000,"emit_p2d":true,"emit_ep":false,"workload_role":"new_p2d"}
+{"request_id":"kv-5","input_toks":2048,"output_toks":0,"arrival_time_ns":20000000,"emit_p2d":true,"emit_ep":false,"workload_role":"new_p2d"}
+{"request_id":"kv-6","input_toks":2048,"output_toks":0,"arrival_time_ns":20000000,"emit_p2d":true,"emit_ep":false,"workload_role":"new_p2d"}
+{"request_id":"kv-7","input_toks":2048,"output_toks":0,"arrival_time_ns":20000000,"emit_p2d":true,"emit_ep":false,"workload_role":"new_p2d"}

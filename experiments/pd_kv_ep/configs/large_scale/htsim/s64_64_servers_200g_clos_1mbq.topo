@@ -1,0 +1,26 @@
+# S64 HTSim validation topology with the same endpoint and link structure as
+# s64_64_servers_200g_clos.topo, but a 1 MiB per-link packet buffer.  The
+# original HTSim default is eight 4 KiB packets, which drops the first burst
+# of a 64-rank group-wide collective before TCP can observe the loss.  This
+# validation profile keeps finite queues while separating collective
+# correctness from an under-sized default buffer.
+Nodes 512
+Tiers 2
+Podsize 512
+
+Tier 0
+Downlink_speed_Gbps 200
+Radix_Down 64
+Radix_Up 2
+Queue_Down 1048576
+Queue_Up 1048576
+Downlink_Latency_ns 5000
+Switch_Latency_ns 0
+Oversubscribed 32
+
+Tier 1
+Downlink_speed_Gbps 200
+Radix_Down 8
+Queue_Down 1048576
+Downlink_Latency_ns 5000
+Switch_Latency_ns 0

@@ -1,0 +1,68 @@
+{
+  "purpose": "controlled minimal P2D KV versus Decode EP shared-fabric gate",
+  "physical_servers": {
+    "P0": 1,
+    "D0": 1,
+    "D1": 1
+  },
+  "gpus_per_server": 8,
+  "scaleout_nics_per_server": 2,
+  "scaleout_nic_rate_gbps": 200,
+  "aggregate_scaleout_rate_gbps_per_server": 400,
+  "average_gbps_per_gpu": 50.0,
+  "gpu_to_nic_group_size": 4,
+  "decode_ep_size": 16,
+  "logical_ep_ranks_D0": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "logical_ep_ranks_D1": [
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "astra_decode_ranks_D0": [
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "astra_decode_ranks_D1": [
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23
+  ],
+  "astra_receiver_mode": "ACTUAL",
+  "astra_rank_count": 24,
+  "topology": "one ToR, no spine; six independent 200-Gbps NIC uplinks",
+  "local_collective_links_gbps": 7200,
+  "synthetic_communication_byte_override": false,
+  "model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+  "model_layers": 48,
+  "experts": 128,
+  "top_k": 8,
+  "cluster_config": "experiments/pd_kv_ep/configs/large_scale/minimal_1p2d_ep16_shared_400g.json",
+  "rank_to_nic": "experiments/pd_kv_ep/configs/large_scale/minimal_1p2d_ep16_rank_to_nic.csv",
+  "ns3_topology": "experiments/pd_kv_ep/configs/large_scale/ns3/minimal_1p2d_ep16_2x200g_single_tor.txt",
+  "pd_pairing_map": "experiments/pd_kv_ep/configs/large_scale/minimal_1p2d_ep16_pairing.json"
+}

@@ -1,0 +1,1 @@
+experiment,qp_id,src_rank,dst_rank,CNP_count,rate_before,rate_min,queue_begin,queue_clear,rate_95_time,persistent_state_us,queue_duration_us,amplification_ratio,message_id,collective_id,phase,message_FCT,baseline_FCT,FCT_slowdown,CCT,baseline_CCT,CCT_slowdown,is_last_peer,is_near_last_peer,persistent_qp,cc_mode,classification

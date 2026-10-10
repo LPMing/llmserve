@@ -1,0 +1,129 @@
+gpu_id,rank,server_id,unit_id,rack_id,leaf_id,role,astra_compute_rank,astra_shadow_rank,mapping_status
+P0-S0-G0,0,P0-S0,P0,R0,Leaf0,prefill,0,32,requires co-located/control-only shadow treatment
+P0-S0-G1,1,P0-S0,P0,R0,Leaf0,prefill,1,33,requires co-located/control-only shadow treatment
+P0-S0-G2,2,P0-S0,P0,R0,Leaf0,prefill,2,34,requires co-located/control-only shadow treatment
+P0-S0-G3,3,P0-S0,P0,R0,Leaf0,prefill,3,35,requires co-located/control-only shadow treatment
+P0-S0-G4,4,P0-S0,P0,R0,Leaf0,prefill,4,36,requires co-located/control-only shadow treatment
+P0-S0-G5,5,P0-S0,P0,R0,Leaf0,prefill,5,37,requires co-located/control-only shadow treatment
+P0-S0-G6,6,P0-S0,P0,R0,Leaf0,prefill,6,38,requires co-located/control-only shadow treatment
+P0-S0-G7,7,P0-S0,P0,R0,Leaf0,prefill,7,39,requires co-located/control-only shadow treatment
+P0-S1-G0,8,P0-S1,P0,R0,Leaf0,prefill,8,40,requires co-located/control-only shadow treatment
+P0-S1-G1,9,P0-S1,P0,R0,Leaf0,prefill,9,41,requires co-located/control-only shadow treatment
+P0-S1-G2,10,P0-S1,P0,R0,Leaf0,prefill,10,42,requires co-located/control-only shadow treatment
+P0-S1-G3,11,P0-S1,P0,R0,Leaf0,prefill,11,43,requires co-located/control-only shadow treatment
+P0-S1-G4,12,P0-S1,P0,R0,Leaf0,prefill,12,44,requires co-located/control-only shadow treatment
+P0-S1-G5,13,P0-S1,P0,R0,Leaf0,prefill,13,45,requires co-located/control-only shadow treatment
+P0-S1-G6,14,P0-S1,P0,R0,Leaf0,prefill,14,46,requires co-located/control-only shadow treatment
+P0-S1-G7,15,P0-S1,P0,R0,Leaf0,prefill,15,47,requires co-located/control-only shadow treatment
+P0-S2-G0,16,P0-S2,P0,R0,Leaf0,prefill,16,48,requires co-located/control-only shadow treatment
+P0-S2-G1,17,P0-S2,P0,R0,Leaf0,prefill,17,49,requires co-located/control-only shadow treatment
+P0-S2-G2,18,P0-S2,P0,R0,Leaf0,prefill,18,50,requires co-located/control-only shadow treatment
+P0-S2-G3,19,P0-S2,P0,R0,Leaf0,prefill,19,51,requires co-located/control-only shadow treatment
+P0-S2-G4,20,P0-S2,P0,R0,Leaf0,prefill,20,52,requires co-located/control-only shadow treatment
+P0-S2-G5,21,P0-S2,P0,R0,Leaf0,prefill,21,53,requires co-located/control-only shadow treatment
+P0-S2-G6,22,P0-S2,P0,R0,Leaf0,prefill,22,54,requires co-located/control-only shadow treatment
+P0-S2-G7,23,P0-S2,P0,R0,Leaf0,prefill,23,55,requires co-located/control-only shadow treatment
+P0-S3-G0,24,P0-S3,P0,R0,Leaf0,prefill,24,56,requires co-located/control-only shadow treatment
+P0-S3-G1,25,P0-S3,P0,R0,Leaf0,prefill,25,57,requires co-located/control-only shadow treatment
+P0-S3-G2,26,P0-S3,P0,R0,Leaf0,prefill,26,58,requires co-located/control-only shadow treatment
+P0-S3-G3,27,P0-S3,P0,R0,Leaf0,prefill,27,59,requires co-located/control-only shadow treatment
+P0-S3-G4,28,P0-S3,P0,R0,Leaf0,prefill,28,60,requires co-located/control-only shadow treatment
+P0-S3-G5,29,P0-S3,P0,R0,Leaf0,prefill,29,61,requires co-located/control-only shadow treatment
+P0-S3-G6,30,P0-S3,P0,R0,Leaf0,prefill,30,62,requires co-located/control-only shadow treatment
+P0-S3-G7,31,P0-S3,P0,R0,Leaf0,prefill,31,63,requires co-located/control-only shadow treatment
+P1-S0-G0,32,P1-S0,P1,R0,Leaf1,prefill,64,96,requires co-located/control-only shadow treatment
+P1-S0-G1,33,P1-S0,P1,R0,Leaf1,prefill,65,97,requires co-located/control-only shadow treatment
+P1-S0-G2,34,P1-S0,P1,R0,Leaf1,prefill,66,98,requires co-located/control-only shadow treatment
+P1-S0-G3,35,P1-S0,P1,R0,Leaf1,prefill,67,99,requires co-located/control-only shadow treatment
+P1-S0-G4,36,P1-S0,P1,R0,Leaf1,prefill,68,100,requires co-located/control-only shadow treatment
+P1-S0-G5,37,P1-S0,P1,R0,Leaf1,prefill,69,101,requires co-located/control-only shadow treatment
+P1-S0-G6,38,P1-S0,P1,R0,Leaf1,prefill,70,102,requires co-located/control-only shadow treatment
+P1-S0-G7,39,P1-S0,P1,R0,Leaf1,prefill,71,103,requires co-located/control-only shadow treatment
+P1-S1-G0,40,P1-S1,P1,R0,Leaf1,prefill,72,104,requires co-located/control-only shadow treatment
+P1-S1-G1,41,P1-S1,P1,R0,Leaf1,prefill,73,105,requires co-located/control-only shadow treatment
+P1-S1-G2,42,P1-S1,P1,R0,Leaf1,prefill,74,106,requires co-located/control-only shadow treatment
+P1-S1-G3,43,P1-S1,P1,R0,Leaf1,prefill,75,107,requires co-located/control-only shadow treatment
+P1-S1-G4,44,P1-S1,P1,R0,Leaf1,prefill,76,108,requires co-located/control-only shadow treatment
+P1-S1-G5,45,P1-S1,P1,R0,Leaf1,prefill,77,109,requires co-located/control-only shadow treatment
+P1-S1-G6,46,P1-S1,P1,R0,Leaf1,prefill,78,110,requires co-located/control-only shadow treatment
+P1-S1-G7,47,P1-S1,P1,R0,Leaf1,prefill,79,111,requires co-located/control-only shadow treatment
+P1-S2-G0,48,P1-S2,P1,R0,Leaf1,prefill,80,112,requires co-located/control-only shadow treatment
+P1-S2-G1,49,P1-S2,P1,R0,Leaf1,prefill,81,113,requires co-located/control-only shadow treatment
+P1-S2-G2,50,P1-S2,P1,R0,Leaf1,prefill,82,114,requires co-located/control-only shadow treatment
+P1-S2-G3,51,P1-S2,P1,R0,Leaf1,prefill,83,115,requires co-located/control-only shadow treatment
+P1-S2-G4,52,P1-S2,P1,R0,Leaf1,prefill,84,116,requires co-located/control-only shadow treatment
+P1-S2-G5,53,P1-S2,P1,R0,Leaf1,prefill,85,117,requires co-located/control-only shadow treatment
+P1-S2-G6,54,P1-S2,P1,R0,Leaf1,prefill,86,118,requires co-located/control-only shadow treatment
+P1-S2-G7,55,P1-S2,P1,R0,Leaf1,prefill,87,119,requires co-located/control-only shadow treatment
+P1-S3-G0,56,P1-S3,P1,R0,Leaf1,prefill,88,120,requires co-located/control-only shadow treatment
+P1-S3-G1,57,P1-S3,P1,R0,Leaf1,prefill,89,121,requires co-located/control-only shadow treatment
+P1-S3-G2,58,P1-S3,P1,R0,Leaf1,prefill,90,122,requires co-located/control-only shadow treatment
+P1-S3-G3,59,P1-S3,P1,R0,Leaf1,prefill,91,123,requires co-located/control-only shadow treatment
+P1-S3-G4,60,P1-S3,P1,R0,Leaf1,prefill,92,124,requires co-located/control-only shadow treatment
+P1-S3-G5,61,P1-S3,P1,R0,Leaf1,prefill,93,125,requires co-located/control-only shadow treatment
+P1-S3-G6,62,P1-S3,P1,R0,Leaf1,prefill,94,126,requires co-located/control-only shadow treatment
+P1-S3-G7,63,P1-S3,P1,R0,Leaf1,prefill,95,127,requires co-located/control-only shadow treatment
+D0-S0-G0,64,D0-S0,D0,R0,Leaf2,decode,128,,requires native TP/EP=64 profile before execution
+D0-S0-G1,65,D0-S0,D0,R0,Leaf2,decode,129,,requires native TP/EP=64 profile before execution
+D0-S0-G2,66,D0-S0,D0,R0,Leaf2,decode,130,,requires native TP/EP=64 profile before execution
+D0-S0-G3,67,D0-S0,D0,R0,Leaf2,decode,131,,requires native TP/EP=64 profile before execution
+D0-S0-G4,68,D0-S0,D0,R0,Leaf2,decode,132,,requires native TP/EP=64 profile before execution
+D0-S0-G5,69,D0-S0,D0,R0,Leaf2,decode,133,,requires native TP/EP=64 profile before execution
+D0-S0-G6,70,D0-S0,D0,R0,Leaf2,decode,134,,requires native TP/EP=64 profile before execution
+D0-S0-G7,71,D0-S0,D0,R0,Leaf2,decode,135,,requires native TP/EP=64 profile before execution
+D0-S1-G0,72,D0-S1,D0,R0,Leaf2,decode,136,,requires native TP/EP=64 profile before execution
+D0-S1-G1,73,D0-S1,D0,R0,Leaf2,decode,137,,requires native TP/EP=64 profile before execution
+D0-S1-G2,74,D0-S1,D0,R0,Leaf2,decode,138,,requires native TP/EP=64 profile before execution
+D0-S1-G3,75,D0-S1,D0,R0,Leaf2,decode,139,,requires native TP/EP=64 profile before execution
+D0-S1-G4,76,D0-S1,D0,R0,Leaf2,decode,140,,requires native TP/EP=64 profile before execution
+D0-S1-G5,77,D0-S1,D0,R0,Leaf2,decode,141,,requires native TP/EP=64 profile before execution
+D0-S1-G6,78,D0-S1,D0,R0,Leaf2,decode,142,,requires native TP/EP=64 profile before execution
+D0-S1-G7,79,D0-S1,D0,R0,Leaf2,decode,143,,requires native TP/EP=64 profile before execution
+D0-S2-G0,80,D0-S2,D0,R0,Leaf2,decode,144,,requires native TP/EP=64 profile before execution
+D0-S2-G1,81,D0-S2,D0,R0,Leaf2,decode,145,,requires native TP/EP=64 profile before execution
+D0-S2-G2,82,D0-S2,D0,R0,Leaf2,decode,146,,requires native TP/EP=64 profile before execution
+D0-S2-G3,83,D0-S2,D0,R0,Leaf2,decode,147,,requires native TP/EP=64 profile before execution
+D0-S2-G4,84,D0-S2,D0,R0,Leaf2,decode,148,,requires native TP/EP=64 profile before execution
+D0-S2-G5,85,D0-S2,D0,R0,Leaf2,decode,149,,requires native TP/EP=64 profile before execution
+D0-S2-G6,86,D0-S2,D0,R0,Leaf2,decode,150,,requires native TP/EP=64 profile before execution
+D0-S2-G7,87,D0-S2,D0,R0,Leaf2,decode,151,,requires native TP/EP=64 profile before execution
+D0-S3-G0,88,D0-S3,D0,R0,Leaf2,decode,152,,requires native TP/EP=64 profile before execution
+D0-S3-G1,89,D0-S3,D0,R0,Leaf2,decode,153,,requires native TP/EP=64 profile before execution
+D0-S3-G2,90,D0-S3,D0,R0,Leaf2,decode,154,,requires native TP/EP=64 profile before execution
+D0-S3-G3,91,D0-S3,D0,R0,Leaf2,decode,155,,requires native TP/EP=64 profile before execution
+D0-S3-G4,92,D0-S3,D0,R0,Leaf2,decode,156,,requires native TP/EP=64 profile before execution
+D0-S3-G5,93,D0-S3,D0,R0,Leaf2,decode,157,,requires native TP/EP=64 profile before execution
+D0-S3-G6,94,D0-S3,D0,R0,Leaf2,decode,158,,requires native TP/EP=64 profile before execution
+D0-S3-G7,95,D0-S3,D0,R0,Leaf2,decode,159,,requires native TP/EP=64 profile before execution
+D0-S4-G0,96,D0-S4,D0,R0,Leaf3,decode,160,,requires native TP/EP=64 profile before execution
+D0-S4-G1,97,D0-S4,D0,R0,Leaf3,decode,161,,requires native TP/EP=64 profile before execution
+D0-S4-G2,98,D0-S4,D0,R0,Leaf3,decode,162,,requires native TP/EP=64 profile before execution
+D0-S4-G3,99,D0-S4,D0,R0,Leaf3,decode,163,,requires native TP/EP=64 profile before execution
+D0-S4-G4,100,D0-S4,D0,R0,Leaf3,decode,164,,requires native TP/EP=64 profile before execution
+D0-S4-G5,101,D0-S4,D0,R0,Leaf3,decode,165,,requires native TP/EP=64 profile before execution
+D0-S4-G6,102,D0-S4,D0,R0,Leaf3,decode,166,,requires native TP/EP=64 profile before execution
+D0-S4-G7,103,D0-S4,D0,R0,Leaf3,decode,167,,requires native TP/EP=64 profile before execution
+D0-S5-G0,104,D0-S5,D0,R0,Leaf3,decode,168,,requires native TP/EP=64 profile before execution
+D0-S5-G1,105,D0-S5,D0,R0,Leaf3,decode,169,,requires native TP/EP=64 profile before execution
+D0-S5-G2,106,D0-S5,D0,R0,Leaf3,decode,170,,requires native TP/EP=64 profile before execution
+D0-S5-G3,107,D0-S5,D0,R0,Leaf3,decode,171,,requires native TP/EP=64 profile before execution
+D0-S5-G4,108,D0-S5,D0,R0,Leaf3,decode,172,,requires native TP/EP=64 profile before execution
+D0-S5-G5,109,D0-S5,D0,R0,Leaf3,decode,173,,requires native TP/EP=64 profile before execution
+D0-S5-G6,110,D0-S5,D0,R0,Leaf3,decode,174,,requires native TP/EP=64 profile before execution
+D0-S5-G7,111,D0-S5,D0,R0,Leaf3,decode,175,,requires native TP/EP=64 profile before execution
+D0-S6-G0,112,D0-S6,D0,R0,Leaf3,decode,176,,requires native TP/EP=64 profile before execution
+D0-S6-G1,113,D0-S6,D0,R0,Leaf3,decode,177,,requires native TP/EP=64 profile before execution
+D0-S6-G2,114,D0-S6,D0,R0,Leaf3,decode,178,,requires native TP/EP=64 profile before execution
+D0-S6-G3,115,D0-S6,D0,R0,Leaf3,decode,179,,requires native TP/EP=64 profile before execution
+D0-S6-G4,116,D0-S6,D0,R0,Leaf3,decode,180,,requires native TP/EP=64 profile before execution
+D0-S6-G5,117,D0-S6,D0,R0,Leaf3,decode,181,,requires native TP/EP=64 profile before execution
+D0-S6-G6,118,D0-S6,D0,R0,Leaf3,decode,182,,requires native TP/EP=64 profile before execution
+D0-S6-G7,119,D0-S6,D0,R0,Leaf3,decode,183,,requires native TP/EP=64 profile before execution
+D0-S7-G0,120,D0-S7,D0,R0,Leaf3,decode,184,,requires native TP/EP=64 profile before execution
+D0-S7-G1,121,D0-S7,D0,R0,Leaf3,decode,185,,requires native TP/EP=64 profile before execution
+D0-S7-G2,122,D0-S7,D0,R0,Leaf3,decode,186,,requires native TP/EP=64 profile before execution
+D0-S7-G3,123,D0-S7,D0,R0,Leaf3,decode,187,,requires native TP/EP=64 profile before execution
+D0-S7-G4,124,D0-S7,D0,R0,Leaf3,decode,188,,requires native TP/EP=64 profile before execution
+D0-S7-G5,125,D0-S7,D0,R0,Leaf3,decode,189,,requires native TP/EP=64 profile before execution
+D0-S7-G6,126,D0-S7,D0,R0,Leaf3,decode,190,,requires native TP/EP=64 profile before execution
+D0-S7-G7,127,D0-S7,D0,R0,Leaf3,decode,191,,requires native TP/EP=64 profile before execution

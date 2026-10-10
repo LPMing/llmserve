@@ -1,0 +1,4 @@
+{"request_id":"decode-a","input_toks":128,"output_toks":8,"arrival_time_ns":0}
+{"request_id":"decode-b","input_toks":128,"output_toks":8,"arrival_time_ns":0}
+{"request_id":"p2d-short","input_toks":512,"output_toks":1,"arrival_time_ns":2000000}
+{"request_id":"p2d-long","input_toks":2048,"output_toks":1,"arrival_time_ns":2000000}

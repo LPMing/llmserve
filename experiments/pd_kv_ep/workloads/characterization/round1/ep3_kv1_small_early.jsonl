@@ -1,0 +1,4 @@
+{"request_id":"ep-0","input_toks":128,"output_toks":128,"arrival_time_ns":0,"emit_p2d":false,"emit_ep":true,"workload_role":"active_decode_cohort"}
+{"request_id":"ep-1","input_toks":128,"output_toks":128,"arrival_time_ns":0,"emit_p2d":false,"emit_ep":true,"workload_role":"active_decode_cohort"}
+{"request_id":"ep-2","input_toks":128,"output_toks":128,"arrival_time_ns":0,"emit_p2d":false,"emit_ep":true,"workload_role":"active_decode_cohort"}
+{"request_id":"kv-0","input_toks":128,"output_toks":1,"arrival_time_ns":10000000,"emit_p2d":true,"emit_ep":false,"workload_role":"new_p2d_request"}

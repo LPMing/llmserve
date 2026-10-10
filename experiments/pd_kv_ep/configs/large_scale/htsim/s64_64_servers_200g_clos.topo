@@ -1,0 +1,19 @@
+# Exact S64 shape used by the ns-3 replay: 512 GPU endpoints, 8 leaves,
+# and 2 spine switches. Hosts 0..511 remain the GPU/rank endpoints.
+Nodes 512
+Tiers 2
+Podsize 512
+
+Tier 0
+Downlink_speed_Gbps 200
+Radix_Down 64
+Radix_Up 2
+Downlink_Latency_ns 5000
+Switch_Latency_ns 0
+Oversubscribed 32
+
+Tier 1
+Downlink_speed_Gbps 200
+Radix_Down 8
+Downlink_Latency_ns 5000
+Switch_Latency_ns 0

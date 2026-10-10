@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "profile": "large_majority",
+  "request_count": 512,
+  "decode_count": 256,
+  "p2d_count": 256,
+  "small_p2d_count": 51,
+  "large_p2d_count": 205,
+  "small_input_tokens": 2048,
+  "large_input_tokens": 8192,
+  "decode_input_tokens": 128,
+  "decode_output_tokens": 64,
+  "p2d_arrival_ns": 20000000,
+  "bytes_source": "model-derived from input_toks; no synthetic byte override",
+  "synthetic_byte_override": false,
+  "output": "/home/dell/lpm/LLMServingSim/experiments/pd_kv_ep/workloads/autonomous/ep64_512_heterogeneous_large_majority.jsonl"
+}

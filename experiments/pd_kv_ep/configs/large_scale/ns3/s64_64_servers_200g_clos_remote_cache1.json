@@ -1,0 +1,38 @@
+{
+  "scale": "s64",
+  "base_manifest": "experiments/pd_kv_ep/configs/large_scale/s64_64_servers_manifest.json",
+  "topology": "experiments/pd_kv_ep/configs/large_scale/ns3/s64_64_servers_200g_clos_remote_cache1.txt",
+  "physical_serving_endpoints": 512,
+  "cache_endpoints_per_leaf": 1,
+  "cache_endpoints_by_leaf": {
+    "0": [
+      512
+    ],
+    "1": [
+      513
+    ],
+    "2": [
+      514
+    ],
+    "3": [
+      515
+    ],
+    "4": [
+      516
+    ],
+    "5": [
+      517
+    ],
+    "6": [
+      518
+    ],
+    "7": [
+      519
+    ]
+  },
+  "endpoint_count": 520,
+  "switch_count": 10,
+  "edge_count": 1040,
+  "link_rate": "200Gbps",
+  "placement": "dedicated_remote_cache_nic_per_leaf"
+}

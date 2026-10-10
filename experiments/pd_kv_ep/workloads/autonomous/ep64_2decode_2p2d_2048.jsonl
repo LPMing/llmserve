@@ -1,0 +1,4 @@
+{"request_id":"decode-0","input_toks":128,"output_toks":256,"arrival_time_ns":0}
+{"request_id":"decode-1","input_toks":128,"output_toks":256,"arrival_time_ns":0}
+{"request_id":"kv-0","input_toks":2048,"output_toks":1,"arrival_time_ns":20000000}
+{"request_id":"kv-1","input_toks":2048,"output_toks":1,"arrival_time_ns":20000000}

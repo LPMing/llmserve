@@ -1,0 +1,4 @@
+{"request_id":"ep-0","input_toks":128,"output_toks":128,"arrival_time_ns":0,"emit_p2d":false}
+{"request_id":"ep-1","input_toks":128,"output_toks":128,"arrival_time_ns":0,"emit_p2d":false}
+{"request_id":"ep-2","input_toks":128,"output_toks":128,"arrival_time_ns":0,"emit_p2d":false}
+{"request_id":"kv-short","input_toks":128,"output_toks":2,"arrival_time_ns":96919009,"emit_ep":false}
