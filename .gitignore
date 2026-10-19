@@ -32,3 +32,5 @@ astra-sim/inputs/runs/
 .copilot/
 .aider*
 .continue/
+
+research_autonomous/candidates/*/experiments/*/*.jsonl
