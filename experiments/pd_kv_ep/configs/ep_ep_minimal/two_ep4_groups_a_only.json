@@ -1,0 +1,97 @@
+{
+  "num_nodes": 3,
+  "link_bw": 25,
+  "link_latency": 5000,
+  "flowsim_topology": "experiments/pd_kv_ep/configs/large_scale/flowsim/minimal_1p2d_ep16_single_tor_nvlink.txt",
+  "flowsim_rank_map": "experiments/pd_kv_ep/configs/ep_ep_minimal/two_ep4_groups_a_only_logical_to_physical.json",
+  "pd_pairing": {
+    "0": "2",
+    "1": "3"
+  },
+  "nodes": [
+    {
+      "num_instances": 2,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        },
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 1
+        }
+      ]
+    },
+    {
+      "num_instances": 1,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 4,
+          "dp_group": "ep_a"
+        }
+      ]
+    },
+    {
+      "num_instances": 1,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+          "hardware": "RTXPRO6000",
+          "npu_mem": {
+            "mem_size": 96,
+            "mem_bw": 1597,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 2,
+          "tp_size": 2,
+          "ep_size": 4,
+          "dp_group": "ep_a"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "model": "Qwen3-30B-A3B-Instruct-2507",
+  "physical_rate_gbps": 200,
+  "rank_access_rate_gbps": 200,
+  "payload_bytes": 4096,
+  "cc_modes_to_test": [
+    0,
+    1
+  ],
+  "kv_bytes_per_token": 98304,
+  "input_tokens": 4096,
+  "request_kv_bytes": 402653184,
+  "tp2_required_shard_bytes": 201326592,
+  "single_shard_serialization_lower_bound_ms": 8.05306368,
+  "main_topology": {
+    "server_count": 5,
+    "gpu_hosts": 40,
+    "nic_nodes": 10,
+    "leaf_nodes": 10,
+    "spine_nodes": 8,
+    "switch_count": 28,
+    "physical_link_count": 66,
+    "decode_servers": 1,
+    "multipath": false,
+    "receiver_links": {
+      "D0-NIC0": {
+        "nic_node": 48,
+        "leaf_node": 58,
+        "capacity_gbps": 200
+      },
+      "D0-NIC1": {
+        "nic_node": 49,
+        "leaf_node": 59,
+        "capacity_gbps": 200
+      }
+    }
+  },
+  "inputs": {
+    "N0_SINGLE_SHARD": {
+      "events": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/N0_SINGLE_SHARD/events.csv",
+      "manifest": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/N0_SINGLE_SHARD/replay_manifest.json"
+    },
+    "N1_TWO_TO_ONE_RECEIVER_NIC": {
+      "events": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/N1_TWO_TO_ONE_RECEIVER_NIC/events.csv",
+      "manifest": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/N1_TWO_TO_ONE_RECEIVER_NIC/replay_manifest.json"
+    },
+    "N2_FOUR_TO_ONE_RECEIVER_NIC": {
+      "events": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/N2_FOUR_TO_ONE_RECEIVER_NIC/events.csv",
+      "manifest": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/N2_FOUR_TO_ONE_RECEIVER_NIC/replay_manifest.json"
+    },
+    "N3_FOUR_TO_TWO_RECEIVER_NICS": {
+      "events": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/N3_FOUR_TO_TWO_RECEIVER_NICS/events.csv",
+      "manifest": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/N3_FOUR_TO_TWO_RECEIVER_NICS/replay_manifest.json"
+    },
+    "N5_FOUR_PATHS_NO_RECEIVER_COLLISION": {
+      "events": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/N5_FOUR_PATHS_NO_RECEIVER_COLLISION/events.csv",
+      "manifest": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/N5_FOUR_PATHS_NO_RECEIVER_COLLISION/replay_manifest.json"
+    },
+    "FULL_FOUR_REQUESTS_TWO_REQUIRED_SHARDS": {
+      "events": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/FULL_FOUR_REQUESTS_TWO_REQUIRED_SHARDS/events.csv",
+      "manifest": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/FULL_FOUR_REQUESTS_TWO_REQUIRED_SHARDS/replay_manifest.json"
+    },
+    "N4_FOUR_TO_FOUR_RECEIVER_NICS": {
+      "events": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/N4_FOUR_TO_FOUR_RECEIVER_NICS/events.csv",
+      "manifest": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/N4_FOUR_TO_FOUR_RECEIVER_NICS/replay_manifest.json"
+    },
+    "N5_MULTIPATH_ROUTE_AUDIT": {
+      "events": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/N5_MULTIPATH_ROUTE_AUDIT/events.csv",
+      "manifest": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/N5_MULTIPATH_ROUTE_AUDIT/replay_manifest.json"
+    }
+  },
+  "limitations": [
+    "Packet replay only; no integrated serving scheduler feedback.",
+    "No compute events are represented in these correctness cases.",
+    "N4 changes receiver-server count and is a network capacity control, not the target deployment.",
+    "N5 route balance is only established after inspecting actual link telemetry."
+  ]
+}

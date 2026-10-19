@@ -1,0 +1,23 @@
+{
+  "bytes": 4617817342,
+  "filename": "qwen3-32b-buckets.jsonl",
+  "license_from_card": "other",
+  "range_checks": [
+    {
+      "bytes": 4096,
+      "offset": 0
+    },
+    {
+      "bytes": 4096,
+      "offset": 2310000000
+    },
+    {
+      "bytes": 4096,
+      "offset": 4617813246
+    }
+  ],
+  "revision": "c3dd66602b564ce189f7db81115620413e646cd5",
+  "sha256": "58b2265b98a10ec3bb2a0b455c520731c1296967906c7adc7b6d3710a013e402",
+  "source": "https://huggingface.co/datasets/eth-easl/swissai-serving-trace",
+  "source_etag": "a00c42af3365e2cb93e6448bd2672faad715e1e6f10d4214204dd3005e3426ed"
+}

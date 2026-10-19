@@ -1,0 +1,38 @@
+{
+  "label": "CONTROLLED_MODEL_DERIVED_WORKLOAD",
+  "model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+  "hardware_profile": "RTXPRO6000",
+  "topology": "research_motivation/nic_priority/generated/topology_4p2d_200g_single_tor.txt",
+  "cluster_config": "research_motivation/nic_priority/generated/cluster_4p2d_ep4.json",
+  "rank_map": "research_motivation/nic_priority/generated/logical_to_physical.json",
+  "workload": "research_motivation/nic_priority/generated/A8_neighbor.jsonl",
+  "physical_servers": {
+    "prefill": 4,
+    "decode": 2
+  },
+  "gpus_per_server": 8,
+  "nics_per_server": 2,
+  "nic_gbps": 200,
+  "gpus_per_nic": 4,
+  "decode_ep_groups": 2,
+  "ep_degree_each": 4,
+  "seed_requests": 8,
+  "candidate_requests": 8,
+  "candidate_arrival_ns": 67284113,
+  "seed_input_toks": 128,
+  "seed_output_toks": 24,
+  "candidate_input_toks": 2048,
+  "candidate_medium_input_toks": 1024,
+  "medium_candidates_per_rail": 0,
+  "candidate_output_toks": 1,
+  "candidate_rail_split": [
+    8,
+    0
+  ],
+  "hashes": {
+    "topology": "2e1ce6854d46164ec5b4dfdd5d0c4fec6f8ebba4572f6963f9a85331540b79fe",
+    "rank_map": "38ad97e5a5e5216071b0d15fde999b40c526f75eb98f05a208a55f76c0b66ba6",
+    "cluster_config": "7417270b29694d891f108897ef2a6dc122b0eaab54d56ec8eb5f4dc6d2edc786",
+    "workload": "794992ee36482be55dd68c6285f9d1b783274bba299e02ca6cbdc491c6a1955f"
+  }
+}

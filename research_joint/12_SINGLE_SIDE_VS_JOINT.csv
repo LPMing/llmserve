@@ -1,0 +1,6 @@
+direction,metric,S0_original_serving_fair,S1_network_only,S2_serving_only_fair,S3_joint,relation_or_result,status
+B,mean_ITL_ms,6.157552,NOT_RUN,6.108723,NOT_RUN,"B3 is a serving-side one-time initial phase gate; not a combined network+serving controller",NO_JOINT_INCREMENT_TEST
+B,makespan_ms,235.757112,NOT_RUN,234.253400,NOT_RUN,"S2 change is -0.638% vs S0; no independent S1 or S3",NO_JOINT_INCREMENT_TEST
+B,TTFT_mean_ms,44.873,NOT_RUN,44.873,NOT_RUN,"Prefill produces token 1 before Decode phase gate",NO_JOINT_INCREMENT_TEST
+A,request_second_token_or_makespan,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,"Historical one-request slot-crossing is not the required fixed-resource 2x2",NOT_RUN_BY_GATE
+C,collective_barrier_and_TBT,NOT_RUN,NOT_RUN,NOT_RUN,NOT_RUN,"Exact route-matrix gate failed",NOT_RUN_BY_GATE

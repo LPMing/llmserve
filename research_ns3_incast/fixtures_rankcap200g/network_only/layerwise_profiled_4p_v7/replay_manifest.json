@@ -1,0 +1,618 @@
+{
+  "case": "LAYERWISE_PROFILED_RELEASE_PACKET_REPLAY",
+  "status": "INPUT_READY",
+  "model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
+  "hardware_profile": "RTXPRO6000",
+  "profile_variant": "bf16",
+  "input_tokens": 4096,
+  "output_tokens": 1,
+  "tp_size": 2,
+  "num_layers": 48,
+  "kv_bytes_per_token_all_layers": 98304,
+  "kv_bytes_per_request": 402653184,
+  "kv_bytes_per_tp_rank": 201326592,
+  "bytes_per_layer_per_tp_rank_by_chunk": {
+    "0": 2097152,
+    "1": 2097152
+  },
+  "request_count": 4,
+  "event_count": 768,
+  "total_event_bytes": 1610612736,
+  "profiled_prefill_compute_span_ns": 135319248,
+  "release_offsets": [
+    {
+      "layer_id": 0,
+      "release_ns": 76554,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 1,
+      "release_ns": 1415654,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 2,
+      "release_ns": 2754754,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 3,
+      "release_ns": 4093854,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 4,
+      "release_ns": 5432954,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 5,
+      "release_ns": 6772054,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 6,
+      "release_ns": 8111154,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 7,
+      "release_ns": 9450254,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 8,
+      "release_ns": 10789354,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 9,
+      "release_ns": 12128454,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 10,
+      "release_ns": 13467554,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 11,
+      "release_ns": 14806654,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 12,
+      "release_ns": 16145754,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 13,
+      "release_ns": 17484854,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 14,
+      "release_ns": 18823954,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 15,
+      "release_ns": 20163054,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 16,
+      "release_ns": 21502154,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 17,
+      "release_ns": 22841254,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 18,
+      "release_ns": 24180354,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 19,
+      "release_ns": 25519454,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 20,
+      "release_ns": 26858554,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 21,
+      "release_ns": 28197654,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 22,
+      "release_ns": 29536754,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 23,
+      "release_ns": 30875854,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 24,
+      "release_ns": 32214954,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 25,
+      "release_ns": 33554054,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 26,
+      "release_ns": 34893154,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 27,
+      "release_ns": 36232254,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 28,
+      "release_ns": 37571354,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 29,
+      "release_ns": 38910454,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 30,
+      "release_ns": 40249554,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 31,
+      "release_ns": 41588654,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 32,
+      "release_ns": 42927754,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 33,
+      "release_ns": 44266854,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 34,
+      "release_ns": 45605954,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 35,
+      "release_ns": 46945054,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 36,
+      "release_ns": 48284154,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 37,
+      "release_ns": 49623254,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 38,
+      "release_ns": 50962354,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 39,
+      "release_ns": 52301454,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 40,
+      "release_ns": 53640554,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 41,
+      "release_ns": 54979654,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 42,
+      "release_ns": 56318754,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 43,
+      "release_ns": 57657854,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 44,
+      "release_ns": 58996954,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 45,
+      "release_ns": 60336054,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 46,
+      "release_ns": 61675154,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 47,
+      "release_ns": 63014254,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 0
+    },
+    {
+      "layer_id": 0,
+      "release_ns": 64599402,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 1,
+      "release_ns": 66069201,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 2,
+      "release_ns": 67539000,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 3,
+      "release_ns": 69008799,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 4,
+      "release_ns": 70478598,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 5,
+      "release_ns": 71948397,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 6,
+      "release_ns": 73418196,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 7,
+      "release_ns": 74887995,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 8,
+      "release_ns": 76357794,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 9,
+      "release_ns": 77827593,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 10,
+      "release_ns": 79297392,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 11,
+      "release_ns": 80767191,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 12,
+      "release_ns": 82236990,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 13,
+      "release_ns": 83706789,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 14,
+      "release_ns": 85176588,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 15,
+      "release_ns": 86646387,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 16,
+      "release_ns": 88116186,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 17,
+      "release_ns": 89585985,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 18,
+      "release_ns": 91055784,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 19,
+      "release_ns": 92525583,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 20,
+      "release_ns": 93995382,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 21,
+      "release_ns": 95465181,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 22,
+      "release_ns": 96934980,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 23,
+      "release_ns": 98404779,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 24,
+      "release_ns": 99874578,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 25,
+      "release_ns": 101344377,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 26,
+      "release_ns": 102814176,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 27,
+      "release_ns": 104283975,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 28,
+      "release_ns": 105753774,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 29,
+      "release_ns": 107223573,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 30,
+      "release_ns": 108693372,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 31,
+      "release_ns": 110163171,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 32,
+      "release_ns": 111632970,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 33,
+      "release_ns": 113102769,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 34,
+      "release_ns": 114572568,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 35,
+      "release_ns": 116042367,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 36,
+      "release_ns": 117512166,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 37,
+      "release_ns": 118981965,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 38,
+      "release_ns": 120451764,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 39,
+      "release_ns": 121921563,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 40,
+      "release_ns": 123391362,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 41,
+      "release_ns": 124861161,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 42,
+      "release_ns": 126330960,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 43,
+      "release_ns": 127800759,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 44,
+      "release_ns": 129270558,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 45,
+      "release_ns": 130740357,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 46,
+      "release_ns": 132210156,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    },
+    {
+      "layer_id": 47,
+      "release_ns": 133679955,
+      "bytes_per_tp_rank": 2097152,
+      "chunk_id": 1
+    }
+  ],
+  "ns3_topology": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/4p1d_unique_spines/topology.txt",
+  "rank_to_nic_map": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/4p1d_unique_spines/rank_to_nic.csv",
+  "packet_level_only": true,
+  "release_semantics": "four identical one-request prefills are phase-aligned and each uses two 2048-token prefill chunks within the profile's measured token bound; each layer's two TP shards are released after the profile-derived QKV compute node; the second chunk starts after the first chunk's profiled compute graph completes, not after its P2D network drain",
+  "per_chunk_profiled_compute_span_ns": [
+    64522848,
+    70796400
+  ],
+  "limitations": [
+    "The replay freezes profile-derived release offsets; ns-3 completion does not feed back into the serving scheduler.",
+    "TP/NVSwitch communication time is excluded from the release clock; only profiled compute-node durations are accumulated.",
+    "This is controlled synchronized Prefill, not a production-arrival claim.",
+    "Decode admission and TTFT/TBT are not simulated."
+  ],
+  "events_sha256": "00ba29302252239323840c27d17b9cfcb8feadbf1d4bd3bb84836316625e32b7",
+  "topology_sha256": "4254141f11f0ea8d03a27f7b1fecbd04e0697327eed61ccb7ec5de3fd2ce2df7",
+  "rank_map_sha256": "0b4ed9676e19070670a4a164753597cad1e625fbbe40ab80bafa970bc07c9c56",
+  "serving_metrics": "NOT_AVAILABLE: packet replay has no serving feedback"
+}

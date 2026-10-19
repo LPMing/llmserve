@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "updated_utc": "2026-10-15T13:29:52Z",
+  "round": 19,
+  "highest_gate": "MOTIVATION_VALIDATED",
+  "paper_headroom_validated": false,
+  "solution_validated": false,
+  "paper_ready": false,
+  "active_research_lines": [
+    "r18_prefix_retention",
+    "r18_credit_timing",
+    "r18_joint_bottleneck"
+  ],
+  "candidates": {
+    "r18_prefix_retention": {
+      "gate": "MOTIVATION_VALIDATED",
+      "evidence": "24 fillers negative; 28 fillers D miss; 28 fillers plus ordinary refresh restores D hit; all measured with real profile and audited P2D/timing paths",
+      "paper_headroom": "NO_GO in Round-19 ordered history/varied-cost fixture: simple online LFU has the same modeled target completion as ideal D hit; frozen motivation remains valid",
+      "frozen_motivation_cases": [
+        "research_autonomous/candidates/r18_prefix_retention/experiments/filler_24",
+        "research_autonomous/candidates/r18_prefix_retention/experiments/filler_28",
+        "research_autonomous/candidates/r18_prefix_retention/experiments/filler_28_refresh"
+      ]
+    },
+    "r18_credit_timing": {
+      "gate": "MECHANISM_OBSERVED",
+      "evidence": "12k prompts fit four early credits; 14k prompts exceed normal D pool and delay fourth P until first D completion",
+      "paper_headroom": "NO_GO for admission timing in matched uniform/heterogeneous Round-19 fixtures: ordinary two-stage FIFO captures 25.35%/22.56% versus early POST and 17.92%/18.07% versus stronger early LAYERWISE; it is within 0.000252%/zero of scoped admission-only Oracle",
+      "cases": [
+        "research_autonomous/candidates/r18_credit_timing/experiments/prompt_12000",
+        "research_autonomous/candidates/r18_credit_timing/experiments/prompt_14000",
+        "research_autonomous/candidates/r18_credit_timing/experiments/prompt_14000_early_post_r19b",
+        "research_autonomous/candidates/r18_credit_timing/experiments/prompt_14000_two_stage_fifo_r19b",
+        "research_autonomous/candidates/r18_credit_timing/experiments/prompt_14000_early_post_hetero_r19h",
+        "research_autonomous/candidates/r18_credit_timing/experiments/prompt_14000_two_stage_fifo_hetero_r19h",
+        "research_autonomous/candidates/r18_credit_timing/experiments/prompt_14000_r19layeru",
+        "research_autonomous/candidates/r18_credit_timing/experiments/prompt_14000_hetero_r19layerh"
+      ]
+    },
+    "r18_joint_bottleneck": {
+      "gate": "THEORY_SCREENED",
+      "evidence": "A source-cut and B D-capacity conditions select different bottlenecks; simple uniform network FIFO tie-break gains 6.76% over FAIR with the same two-stage admission; unchanged first50 ShareGPT requests have a 3.078% conditional fixed-work cut/last-job screen",
+      "paper_headroom": "NO_GO for current uniform fixture and network-only ShareGPT50 screen; no same-resource joint strong-baseline failure or global Oracle yet"
+    }
+  },
+  "next_discriminator": "Find an observed online joint memory/Decode-order decision with >=10% remaining modeled completion/SLO headroom after two-stage FIFO, network FIFO/SRPT, LFU/cost-aware placement, DELTA/single-flight and cache/load/network-aware routing. The first50 ShareGPT network-only cut screen is weak; do not retune the validated Round-19 fixtures for a positive result.",
+  "primary_report": "research_autonomous/MOTIVATION_REPORT.md",
+  "next_session": "research_autonomous/NEXT_SESSION.md"
+}

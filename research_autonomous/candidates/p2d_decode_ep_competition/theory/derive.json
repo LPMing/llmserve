@@ -1,0 +1,37 @@
+{
+  "baseline": "FAIR, EP_FIRST, topology-aware P/D pairing, and existing phase staggering",
+  "classification": {
+    "link_rate": "A/C: existing 200 Gb/s configured physical cut",
+    "model_and_prior_measured_cohort": "A",
+    "same-cut_2048_new_wave": "C: candidate arrival pattern"
+  },
+  "falsifiable_prediction": "a 2048-token P wave released while D is active must share at least one directed cut interval with D EP and delay D token2/ITL under FAIR; EP_FIRST should recover most of it",
+  "four_request_one_rail_bytes": 402653184,
+  "four_request_one_rail_serialization_ms": 16.10612736,
+  "gain_upper_new_wave": null,
+  "inputs": {
+    "model_sha256": "0736f3bafb95cc658776c92ab34f5f98d8169634a3a36b84892d71448a1f19d3",
+    "prior_integrated_csv_sha256": "49ac5bfb48a0ea69ff9aeea7afae27c023590b06ae5b9eaa4ff16fe6c16d5115",
+    "profile_meta_sha256": "e755433ea63a19e9d4a4919f04da412807aa520972dc97df3dfb8908b6a70f96"
+  },
+  "kv_bytes_per_2048_request": 201326592,
+  "kv_bytes_per_tp_rank": 100663296,
+  "limits": [
+    "The old synchronized run had initial P2D before Decode EP; its <1% ceiling applies only to EP-versus-EP interference.",
+    "The 2048-token four-request cut time is a serialization bound, not exposed Decode delay.",
+    "The integrated MoE collective is AG/RS with synthetic BALANCED routing, not measured sparse A2A.",
+    "A staggered new wave requires provenance-backed arrival evidence before population SLO claims."
+  ],
+  "model": "Qwen3-30B-A3B BF16 TP2 EP4 PP1",
+  "oracle": "zero *additional* EP waiting from a new P2D wave, preserving EP and KV bytes",
+  "per_layer_four_request_rail_serialization_us": 335.54431999999997,
+  "prior_ep_only_cross_group_interference_ceiling_fraction": 0.007982393002933684,
+  "prior_isolated_itl_ms": 6.1084,
+  "prior_phase_gain_fraction": 0.007929937091883197,
+  "prior_phase_itl_ms": 6.108723,
+  "prior_sync_ep_combine_bytes_per_group": 36569088,
+  "prior_sync_ep_dispatch_bytes_per_group": 77709312,
+  "prior_sync_itl_ms": 6.157552,
+  "prior_sync_kv_bytes_per_group": 50331648,
+  "status": "THEORY_READY_NEEDS_OVERLAP_EVENT; prior EP-only interference upper <1% does not bound a new KV-overlap wave"
+}

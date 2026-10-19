@@ -1,0 +1,254 @@
+{
+  "conditional_reduction_if_residency_restored_fraction": 0.877999180036265,
+  "controls": {
+    "churn0_distinct": {
+      "aggregate_target_kv_bytes": 67108864,
+      "case": "churn0_distinct",
+      "completed_prior_requests": 8,
+      "distinct_target_prefixes": 8,
+      "last_prior_completion_ms": 227.221,
+      "normal_decode_kv_blocks": [
+        3400
+      ],
+      "sha256": {
+        "cluster.json": "c66cdab861a2913b564cba26f91b59e20444b3a6a11b8fc5e5014d75d1864a2b",
+        "events.jsonl": "f7343cb55752b1c1fbb54f7311228579a7149d745dbe19da06978328824f5849",
+        "flows.jsonl": "ee6e704a939d028618b56815684a9d15f11ddcc8e7e91950cfd4da002a8be75b",
+        "rank_map.json": "204b3061e2cc1ee560f0ec2c082eb1cb0e5b054bc92541e4d82ed0a0a954414e",
+        "requests.csv": "89eaef6f67e8777c984659b03fee9ab07f6070fd862b50ed601c75de43e0475e",
+        "topology.txt": "acccc3459f6bc89c432c48884413185733d0e04ee3105e9ab2ff7d766ab2841b",
+        "workload.jsonl": "30e0b437c1f9425a7418e765914672b6cc45ab912cd7bcda34976db6387110a7"
+      },
+      "source_edge": "10->13",
+      "source_nic_gbps": 100,
+      "target_flows": 256,
+      "targets": {
+        "10": {
+          "admit_elapsed_ms": 20.969,
+          "complete_elapsed_ms": 58.005,
+          "decode_instance_id": 8,
+          "destination_query": "HIT",
+          "kv_bytes": 8388608,
+          "last_flow_elapsed_ms": 19.464973,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 20.969,
+          "source_instance_id": 2,
+          "token2_elapsed_ms": 39.487
+        },
+        "11": {
+          "admit_elapsed_ms": 20.969,
+          "complete_elapsed_ms": 58.005,
+          "decode_instance_id": 8,
+          "destination_query": "HIT",
+          "kv_bytes": 8388608,
+          "last_flow_elapsed_ms": 19.464973,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 20.969,
+          "source_instance_id": 3,
+          "token2_elapsed_ms": 39.487
+        },
+        "12": {
+          "admit_elapsed_ms": 20.969,
+          "complete_elapsed_ms": 58.005,
+          "decode_instance_id": 9,
+          "destination_query": "HIT",
+          "kv_bytes": 8388608,
+          "last_flow_elapsed_ms": 19.464973,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 20.969,
+          "source_instance_id": 4,
+          "token2_elapsed_ms": 39.487
+        },
+        "13": {
+          "admit_elapsed_ms": 20.969,
+          "complete_elapsed_ms": 58.005,
+          "decode_instance_id": 9,
+          "destination_query": "HIT",
+          "kv_bytes": 8388608,
+          "last_flow_elapsed_ms": 19.464973,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 20.969,
+          "source_instance_id": 5,
+          "token2_elapsed_ms": 39.487
+        },
+        "14": {
+          "admit_elapsed_ms": 20.969,
+          "complete_elapsed_ms": 58.005,
+          "decode_instance_id": 9,
+          "destination_query": "HIT",
+          "kv_bytes": 8388608,
+          "last_flow_elapsed_ms": 19.464973,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 20.969,
+          "source_instance_id": 6,
+          "token2_elapsed_ms": 39.487
+        },
+        "15": {
+          "admit_elapsed_ms": 20.969,
+          "complete_elapsed_ms": 58.005,
+          "decode_instance_id": 9,
+          "destination_query": "HIT",
+          "kv_bytes": 8388608,
+          "last_flow_elapsed_ms": 19.464973,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 20.969,
+          "source_instance_id": 7,
+          "token2_elapsed_ms": 39.487
+        },
+        "8": {
+          "admit_elapsed_ms": 20.969,
+          "complete_elapsed_ms": 58.005,
+          "decode_instance_id": 8,
+          "destination_query": "HIT",
+          "kv_bytes": 8388608,
+          "last_flow_elapsed_ms": 19.464973,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 20.969,
+          "source_instance_id": 0,
+          "token2_elapsed_ms": 39.487
+        },
+        "9": {
+          "admit_elapsed_ms": 20.969,
+          "complete_elapsed_ms": 58.005,
+          "decode_instance_id": 8,
+          "destination_query": "HIT",
+          "kv_bytes": 8388608,
+          "last_flow_elapsed_ms": 19.464973,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 20.969,
+          "source_instance_id": 1,
+          "token2_elapsed_ms": 39.487
+        }
+      }
+    },
+    "churn8_distinct": {
+      "aggregate_target_kv_bytes": 2147483648,
+      "case": "churn8_distinct",
+      "completed_prior_requests": 72,
+      "distinct_target_prefixes": 8,
+      "last_prior_completion_ms": 2630.197,
+      "normal_decode_kv_blocks": [
+        3400
+      ],
+      "sha256": {
+        "cluster.json": "eba7169495713eacc4c00c1697329069eaf3a83f855db2fdda099c7bad9b3672",
+        "events.jsonl": "4a948ac127d63efd3558cec73ea79786d8b7ff83c9bcf592d96abc394885918d",
+        "flows.jsonl": "9c34e7db4390044abe027690e7c4ebebec03bece2312cb6df2f370ff65eacc73",
+        "rank_map.json": "204b3061e2cc1ee560f0ec2c082eb1cb0e5b054bc92541e4d82ed0a0a954414e",
+        "requests.csv": "8cdcdc42da846b2cd1875391628aff84d162b3a7a77208be7d6f6dd12c1e9e1c",
+        "topology.txt": "acccc3459f6bc89c432c48884413185733d0e04ee3105e9ab2ff7d766ab2841b",
+        "workload.jsonl": "2fdba51d693d9ede54832d905170e1457337245bc52ed33f92cd57de9cb12477"
+      },
+      "source_edge": "10->13",
+      "source_nic_gbps": 100,
+      "target_flows": 256,
+      "targets": {
+        "72": {
+          "admit_elapsed_ms": 171.875894,
+          "complete_elapsed_ms": 208.911894,
+          "decode_instance_id": 8,
+          "destination_query": "MISS",
+          "kv_bytes": 268435456,
+          "last_flow_elapsed_ms": 171.875894,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 171.875894,
+          "source_instance_id": 0,
+          "token2_elapsed_ms": 190.393894
+        },
+        "73": {
+          "admit_elapsed_ms": 171.875894,
+          "complete_elapsed_ms": 208.911894,
+          "decode_instance_id": 8,
+          "destination_query": "MISS",
+          "kv_bytes": 268435456,
+          "last_flow_elapsed_ms": 171.875894,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 171.875894,
+          "source_instance_id": 1,
+          "token2_elapsed_ms": 190.393894
+        },
+        "74": {
+          "admit_elapsed_ms": 171.875894,
+          "complete_elapsed_ms": 208.911894,
+          "decode_instance_id": 8,
+          "destination_query": "MISS",
+          "kv_bytes": 268435456,
+          "last_flow_elapsed_ms": 171.875894,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 171.875894,
+          "source_instance_id": 2,
+          "token2_elapsed_ms": 190.393894
+        },
+        "75": {
+          "admit_elapsed_ms": 171.875894,
+          "complete_elapsed_ms": 208.911894,
+          "decode_instance_id": 8,
+          "destination_query": "MISS",
+          "kv_bytes": 268435456,
+          "last_flow_elapsed_ms": 171.875894,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 171.875894,
+          "source_instance_id": 3,
+          "token2_elapsed_ms": 190.393894
+        },
+        "76": {
+          "admit_elapsed_ms": 171.875894,
+          "complete_elapsed_ms": 208.911894,
+          "decode_instance_id": 9,
+          "destination_query": "MISS",
+          "kv_bytes": 268435456,
+          "last_flow_elapsed_ms": 171.875894,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 171.875894,
+          "source_instance_id": 4,
+          "token2_elapsed_ms": 190.393894
+        },
+        "77": {
+          "admit_elapsed_ms": 171.875894,
+          "complete_elapsed_ms": 208.911894,
+          "decode_instance_id": 9,
+          "destination_query": "MISS",
+          "kv_bytes": 268435456,
+          "last_flow_elapsed_ms": 171.875894,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 171.875894,
+          "source_instance_id": 5,
+          "token2_elapsed_ms": 190.393894
+        },
+        "78": {
+          "admit_elapsed_ms": 171.875894,
+          "complete_elapsed_ms": 208.911894,
+          "decode_instance_id": 9,
+          "destination_query": "MISS",
+          "kv_bytes": 268435456,
+          "last_flow_elapsed_ms": 171.875894,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 171.875894,
+          "source_instance_id": 6,
+          "token2_elapsed_ms": 190.393894
+        },
+        "79": {
+          "admit_elapsed_ms": 171.875894,
+          "complete_elapsed_ms": 208.911894,
+          "decode_instance_id": 9,
+          "destination_query": "MISS",
+          "kv_bytes": 268435456,
+          "last_flow_elapsed_ms": 171.875894,
+          "prefix_hit_tokens": 1984,
+          "ready_elapsed_ms": 171.875894,
+          "source_instance_id": 7,
+          "token2_elapsed_ms": 190.393894
+        }
+      }
+    }
+  },
+  "eviction_minus_resident_ready_ms": 150.906894,
+  "limit": "Identical-Prefix single-flight is ruled out by eight distinct target prefixes. A cache-admission/placement baseline might retain them; the control is not an achieved new policy.",
+  "source_sha256": {
+    "research_autonomous/experiments/prefix_inversion/analyze_churn.py": "e917ee39625ec18f66a3e7a166ab27331f9b2b8d12858a560bc944b01c592e35",
+    "research_autonomous/experiments/prefix_inversion/churn.py": "1ed68e889afe35c5f1247e03a83641776ed76b0b553f7d003eac147b5cb9e6ca",
+    "serving/core/router.py": "f29b2990c3f88af5cbc4ebd7bb977de63486afce3fc78cffb5ee833dc3b93bda",
+    "serving/core/scheduler.py": "7c2c753b71ce8f964a7cdbf0c59e02ca18abdc97966ab2f0d7084ce71161cddc"
+  },
+  "status": "NATURAL_ASYMMETRY_VALIDATED; no incremental online-policy gain"
+}

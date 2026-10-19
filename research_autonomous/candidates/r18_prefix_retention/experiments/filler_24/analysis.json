@@ -1,0 +1,30 @@
+{
+  "analyzer_sha256": "b78c3afc71be1344e6147139e1e33d9dcff6206aa73b4f58d79902f33b0ef770",
+  "last_flow_slack_ns": [
+    1629856,
+    1629856
+  ],
+  "raw_sha256": {
+    "events.jsonl": "bad6e2273a6d82dfe2fbdf571466ff19610a9db61a8083bf2dbe3ecc300d7608",
+    "flows.jsonl": "48518179c5078217d52b73ad378e4e185d2bf807dc4074da50cf9f52298e83a6",
+    "requests.csv": "4f749b5ed6d3bb46fafeaf6738a5a91ade2044f9146cacacbd3f6b26f21cf4ae"
+  },
+  "request_count": 28,
+  "source_cut_target_bytes": 16777216,
+  "status": "VALID",
+  "target_bytes_each": 8388608,
+  "target_completion_elapsed_ns": [
+    56971000,
+    56971000
+  ],
+  "target_count": 2,
+  "target_d_hit_tokens": 1984,
+  "target_ready_elapsed_ns": [
+    20969000,
+    20969000
+  ],
+  "target_token2_elapsed_ns": [
+    38970000,
+    38970000
+  ]
+}

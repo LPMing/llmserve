@@ -328,6 +328,25 @@ class LLMConverter:
             layers.append(Layer(line))
         return layers
 
+    @staticmethod
+    def _replicated_single_expert(layers: List[Layer], start: int) -> bool:
+        """Identify EP1 compute replicated across TP ranks.
+
+        The frontend emits one EXPERT 0 marker with no dispatch for EP1.
+        Multi-rank EP emits several markers or a dispatch collective, so
+        its experts remain assigned to individual ranks below.
+        """
+        marker = layers[start]
+        if (marker.expert_num != '0' or marker.comm_type != 'NONE' or
+                marker.comm_size != 0):
+            return False
+        end = start + 1
+        while end < len(layers) and not layers[end].is_expert:
+            end += 1
+        return (end < len(layers) and layers[end].expert_num == 'END' and
+                layers[end].comm_type == 'NONE' and
+                layers[end].comm_size == 0)
+
     def convert_rows(self, header_line: str, rows: List[List[str]]) -> None:
         """Convert from pre-parsed field lists, with no text round trip.
 
@@ -833,6 +852,7 @@ class LLMConverter:
                             encode_message(g, receive_input_node)
 
                     expert_start = False
+                    replicated_expert = False
                     pim_start = False
                     attn_remain = False # to handle remaining prefill attention after pim
                     pim_parent_nodes = []
@@ -937,6 +957,8 @@ class LLMConverter:
                         # expert layer starts
                         elif layers[layer_num].is_expert:
                             # communication can happen even with one NPU in the group, for example, expert input gathering in data parallel
+                            if not expert_start:
+                                replicated_expert = self._replicated_single_expert(layers, layer_num)
                             if expert_start == False and layers[layer_num].comm_size > 0 and layers[layer_num].comm_type != "NONE": 
                                 # Start of expert communication before expert computation.
                                 comm_coll_node = self.emit_expert_communication(
@@ -958,7 +980,7 @@ class LLMConverter:
                                 continue
                             # round robin assignment
                             expert_id = int(layers[layer_num].expert_num) % npus_per_group
-                            if npu_offset != expert_id:
+                            if not replicated_expert and npu_offset != expert_id:
                                 # go to next expert
                                 while True:
                                     layer_num += 1
@@ -1148,6 +1170,16 @@ class LLMConverter:
                 npu_id = npu_group * npus_per_group + npu_offset + self.npu_offset
                 output_filename1 = "%s.%d.et" % (self.output_filename, npu_id)
                 output_filename2 = "%s.%d.et" % (self.output_filename, npu_id + self.num_npus) # sender for prefill-decode
+                if self.pd_decode_offset is not None:
+                    # ConfigBuilder reserves a legacy shadow-rank range after
+                    # each Prefill instance. Serving/FlowSim still polls those
+                    # ranks as members of the Prefill batch, so emit an empty
+                    # graph for compatibility. Actual P2D communication is
+                    # represented only by the sender nodes below, addressed
+                    # to the real Decode ranks; these files contain no RECVs
+                    # and cannot complete or duplicate KV traffic.
+                    with open(output_filename2, "wb") as shadow:
+                        encode_message(shadow, self.get_global_metadata())
                 first_comp_node = True
                 comp_node = None
                 # Explicit P/D mode sends directly to the real Decode rank;
@@ -1203,6 +1235,7 @@ class LLMConverter:
                             encode_message(g, receive_input_node)
 
                     expert_start = False
+                    replicated_expert = False
                     layer_num = layer_start
                     push_last_nodes = {}
                     push_settlement_nodes = {}
@@ -1352,6 +1385,8 @@ class LLMConverter:
                         # expert layer starts
                         elif layers[layer_num].is_expert:
                             # communication can happen even with one NPU in the group, for example, expert input gathering in data parallel
+                            if not expert_start:
+                                replicated_expert = self._replicated_single_expert(layers, layer_num)
                             if expert_start == False and layers[layer_num].comm_size > 0 and layers[layer_num].comm_type != "NONE": 
                                 # Start of expert communication before expert computation.
                                 comm_coll_node = self.emit_expert_communication(
@@ -1373,7 +1408,7 @@ class LLMConverter:
                                 continue
                             # round robin assignment
                             expert_id = int(layers[layer_num].expert_num) % npus_per_group
-                            if npu_offset != expert_id:
+                            if not replicated_expert and npu_offset != expert_id:
                                 # go to next expert
                                 while True:
                                     layer_num += 1

@@ -1,0 +1,17 @@
+{
+  "admission": "TWO_STAGE_FIFO",
+  "analyzer_sha256": "62e3912403a2fbde498b84cc882c977103cab38463b217ee9dcd188d363ab331",
+  "last_completion_ns": 4112784320,
+  "max_reserved_d_blocks": 2753,
+  "mean_completion_latency_ns": 3071096570.0,
+  "p2d_bytes": 7340032000,
+  "p2d_flow_count": 4,
+  "raw_sha256": {
+    "events.jsonl": "7e857c5de71f91df61144b5708879002292fb524baa1cbde53afccf1db282b2c",
+    "flows.jsonl": "959c3587e377a50bb2e341676e7598a3b0f8c3a3d1eb2e5925150cc9ca994e85",
+    "requests.csv": "cc5daa6622b758ab6597278f64088f9a430b8314149e2577cac4c67222d0eaf1"
+  },
+  "requests_complete": 4,
+  "shape": "HETERO",
+  "status": "VALID"
+}

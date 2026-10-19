@@ -1,0 +1,38 @@
+{
+  "20": {
+    "all_rows": 136200192,
+    "local_chute_column_file": "chute_ids_shard20.parquet",
+    "logical_bytes": 2046116415,
+    "model_chute_id": "0d7184a2-32a3-53e0-9607-058c37edaab5",
+    "model_rows": 1542078,
+    "revision": "85722e694bf7bb8a5a5ccdf70424fa5998372467",
+    "shard": 20,
+    "source": "https://huggingface.co/datasets/harvardMadsys/chutes_metadata/resolve/85722e694bf7bb8a5a5ccdf70424fa5998372467/data/trace/train-00020-of-00045.parquet",
+    "source_etag": "be499dc7e4f32cbe2f42c01e82e1d4b46cd4a26eecb1dc770e11ce793cc1d01b",
+    "sparse_allocated_bytes": 85868544
+  },
+  "30": {
+    "all_rows": 136199426,
+    "local_chute_column_file": "chute_ids_shard30.parquet",
+    "logical_bytes": 1998277238,
+    "model_chute_id": "0d7184a2-32a3-53e0-9607-058c37edaab5",
+    "model_rows": 1782882,
+    "revision": "85722e694bf7bb8a5a5ccdf70424fa5998372467",
+    "shard": 30,
+    "source": "https://huggingface.co/datasets/harvardMadsys/chutes_metadata/resolve/85722e694bf7bb8a5a5ccdf70424fa5998372467/data/trace/train-00030-of-00045.parquet",
+    "source_etag": "5c3a284ea9749ac3425b78ba5cf7e37b5732146cb65e578c8981eb0529c5a88f",
+    "sparse_allocated_bytes": 87035904
+  },
+  "40": {
+    "all_rows": 136200192,
+    "local_chute_column_file": "chute_ids_shard40.parquet",
+    "logical_bytes": 2180173733,
+    "model_chute_id": "0d7184a2-32a3-53e0-9607-058c37edaab5",
+    "model_rows": 40267133,
+    "revision": "85722e694bf7bb8a5a5ccdf70424fa5998372467",
+    "shard": 40,
+    "source": "https://huggingface.co/datasets/harvardMadsys/chutes_metadata/resolve/85722e694bf7bb8a5a5ccdf70424fa5998372467/data/trace/train-00040-of-00045.parquet",
+    "source_etag": "db2be65ae6ec989d8e5affee2975accd10c06fa42f90f4c9c5b3e4a370ed871f",
+    "sparse_allocated_bytes": 70922240
+  }
+}

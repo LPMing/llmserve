@@ -1,0 +1,2 @@
+candidate,policy,group_priority,per_group_collective_completion,per_group_cut_service,overlap_bytes,remaining_cut_work,deadline_miss,result_status,reason
+G1_H1_PROFILE_SCREEN,NOT_RUN,NOT_RUN,NOT_MEASURED,NOT_MEASURED,NOT_MEASURED,NOT_MEASURED,NOT_MEASURED,GATED_NOT_RUN_G1_FAIL,"Heterogeneous-group optimistic profile/cut-service bound <=0.3161% per-token interval; no nontrivial network-only headroom gate"

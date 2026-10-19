@@ -1,0 +1,9 @@
+start_ns,src,dst,bytes,event_type,request_id,collective_id,layer_id,tag,active_request_ids,serving_role
+0,0,32,201326592,1,0,0,47,0,0,prefill
+0,4,36,201326592,1,0,0,47,1,0,prefill
+8200000,8,33,201326592,1,1,0,47,2,1,prefill
+8200000,12,37,201326592,1,1,0,47,3,1,prefill
+16400000,16,34,201326592,1,2,0,47,4,2,prefill
+16400000,20,38,201326592,1,2,0,47,5,2,prefill
+24600000,24,35,201326592,1,3,0,47,6,3,prefill
+24600000,28,39,201326592,1,3,0,47,7,3,prefill

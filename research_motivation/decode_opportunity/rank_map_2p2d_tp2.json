@@ -1,0 +1,4 @@
+{
+  "semantics": "Logical ranks 0-11: P0 actual 0-1 and shadow 2-3; P1 actual 4-5 and shadow 6-7; D0 actual 8-9; D1 actual 10-11. Prefill shadow ranks alias their paired physical Decode GPUs.",
+  "logical_to_physical": [0, 1, 8, 9, 4, 5, 10, 11, 8, 9, 10, 11]
+}

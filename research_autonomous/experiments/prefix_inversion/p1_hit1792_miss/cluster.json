@@ -1,0 +1,81 @@
+{
+  "num_nodes": 3,
+  "link_bw": 100,
+  "link_latency": 5000,
+  "flowsim_topology": "research_autonomous/experiments/prefix_inversion/p1_hit1792_miss/topology.txt",
+  "flowsim_rank_map": "research_autonomous/experiments/prefix_inversion/p1_hit1792_miss/rank_map.json",
+  "pd_pairing": {
+    "0": "1"
+  },
+  "nodes": [
+    {
+      "num_instances": 1,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "meta-llama/Llama-3.1-8B",
+          "hardware": "RTX4090",
+          "npu_mem": {
+            "mem_size": 24,
+            "mem_bw": 1008,
+            "mem_latency": 0
+          },
+          "pd_type": "prefill",
+          "num_npus": 1,
+          "tp_size": 1,
+          "ep_size": 1
+        }
+      ]
+    },
+    {
+      "num_instances": 1,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "meta-llama/Llama-3.1-8B",
+          "hardware": "RTX4090",
+          "npu_mem": {
+            "mem_size": 24,
+            "mem_bw": 1008,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 1,
+          "tp_size": 1,
+          "ep_size": 1
+        }
+      ]
+    },
+    {
+      "num_instances": 1,
+      "cpu_mem": {
+        "mem_size": 512,
+        "mem_bw": 256,
+        "mem_latency": 0
+      },
+      "instances": [
+        {
+          "model_name": "meta-llama/Llama-3.1-8B",
+          "hardware": "RTX4090",
+          "npu_mem": {
+            "mem_size": 24,
+            "mem_bw": 1008,
+            "mem_latency": 0
+          },
+          "pd_type": "decode",
+          "num_npus": 1,
+          "tp_size": 1,
+          "ep_size": 1
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+request_count,topology_resource_groups,requests_per_resource_group,per_request_kv_bytes,tp_shard_bytes,bottleneck_capacity_Bps,path_propagation_ns,ideal_simultaneous_release_fair_mean_handoff_ns,ideal_simultaneous_release_grouped_mean_handoff_ns,ideal_simultaneous_release_mean_gain_pct,interpretation
+1,1,0,201326592,100663296,25000000000.0,10200.0,8063264.0,8063264.0,0.0,simultaneous-release network-only upper bound; not serving prediction
+2,1,"0,1",201326592,100663296,25000000000.0,10200.0,16116328.0,12089796.0,24.984177537215672,simultaneous-release network-only upper bound; not serving prediction
+4,2,"0,1;2,3",201326592,100663296,25000000000.0,10200.0,16116328.0,12089796.0,24.984177537215672,simultaneous-release network-only upper bound; not serving prediction

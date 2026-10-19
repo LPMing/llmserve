@@ -1,0 +1,52 @@
+{
+  "case": "ep_first",
+  "ep_bytes": 268075008,
+  "ep_flow_count": 85248,
+  "event_counts": {
+    "BATCH_COMPLETED": 168,
+    "BATCH_GRAPH_SUBMITTED": 168,
+    "BATCH_SELECTED": 168,
+    "DECODE_ELIGIBLE": 24,
+    "DECODE_PREFIX_CACHE_LOOKUP": 24,
+    "NO_BATCH_PIPELINE_CAPACITY": 168,
+    "NO_BATCH_SELECTED": 44,
+    "P2D_READY": 24,
+    "PREFILL_STARTED": 24,
+    "PREFIX_CACHE_LOOKUP": 24,
+    "SCHEDULER_DECISION": 380,
+    "SECOND_TOKEN_VISIBLE": 24
+  },
+  "flow_count": 87168,
+  "kv_bytes": 3321888768,
+  "kv_flow_count": 1920,
+  "min_new_last_flow_to_ready_slack_ms": 1.161108,
+  "new": {
+    "max_absolute_completion_ms": 415.943616,
+    "mean_completion_ms": 77.14737000000001,
+    "mean_token2_ms": 71.34369000000001,
+    "mean_tpot_ms": 6.217685,
+    "requests": 16
+  },
+  "new_kv_ep_same_directed_link_interval_pairs": 39920,
+  "new_kv_link_rows_overlapping_ep": 1440,
+  "old": {
+    "max_absolute_completion_ms": 236.1766,
+    "mean_completion_ms": 236.1766,
+    "mean_token2_ms": 51.030552,
+    "mean_tpot_ms": 6.171083,
+    "requests": 8
+  },
+  "request_count": 24,
+  "shared_directed_links": [
+    "26->10",
+    "26->11",
+    "26->8",
+    "26->9",
+    "28->16",
+    "28->17",
+    "28->18",
+    "28->19",
+    "30->26",
+    "30->28"
+  ]
+}

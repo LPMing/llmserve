@@ -1,0 +1,8 @@
+{
+  "bytes": 2180173733,
+  "file": "train-00040-of-00045.parquet",
+  "revision": "85722e694bf7bb8a5a5ccdf70424fa5998372467",
+  "sha256": "a0ddd2de011287d9321cd2c2a46891caf5b7545ba688fe753cd14eada20fcad9",
+  "source": "https://huggingface.co/datasets/harvardMadsys/chutes_metadata/resolve/85722e694bf7bb8a5a5ccdf70424fa5998372467/data/trace/train-00040-of-00045.parquet",
+  "source_etag": "db2be65ae6ec989d8e5affee2975accd10c06fa42f90f4c9c5b3e4a370ed871f"
+}

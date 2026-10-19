@@ -1,0 +1,17 @@
+{
+  "admission": "EARLY_POST",
+  "analyzer_sha256": "62e3912403a2fbde498b84cc882c977103cab38463b217ee9dcd188d363ab331",
+  "last_completion_ns": 5310646680,
+  "max_reserved_d_blocks": 2753,
+  "mean_completion_latency_ns": 3312135160.0,
+  "p2d_bytes": 7340032000,
+  "p2d_flow_count": 4,
+  "raw_sha256": {
+    "events.jsonl": "3fd28cc0dbca5205aab52af18a22f9d981e240d813d21eb086a3daf758afbfca",
+    "flows.jsonl": "e2b3a56229282e3a29840b9c3d746c3cf9e7bfee44a4fb7d74ac7a406dd43b6c",
+    "requests.csv": "035dee5fa0dec32a74d1311a80842ba4fbeee16f6d5d36d2f0869d679a349dc2"
+  },
+  "requests_complete": 4,
+  "shape": "HETERO",
+  "status": "VALID"
+}

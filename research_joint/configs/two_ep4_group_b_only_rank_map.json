@@ -1,0 +1,8 @@
+{
+  "semantics": "Isolated ep_b control: same physical D0/D1 server and rail placement used by the full two-group fixture; Prefill shadow ranks alias their paired Decode GPU endpoints.",
+  "logical_to_physical": [
+    0, 1, 10, 11,
+    2, 3, 18, 19,
+    10, 11, 18, 19
+  ]
+}

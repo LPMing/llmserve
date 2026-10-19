@@ -1,0 +1,23 @@
+{
+  "status": "INPUT_READY",
+  "case": "PREFIX_CACHE_HIT_PACKET_REPLAY",
+  "mode": "paced",
+  "request_count": 1,
+  "request_ids": [
+    1
+  ],
+  "event_count": 96,
+  "total_event_bytes": 403537920,
+  "bytes_per_request": {
+    "1": 403537920
+  },
+  "per_request_flow_count": {
+    "1": 96
+  },
+  "source_flows": "/home/dell/lpm/LLMServingSim/research_prefix_exposure/results/hit_4_flows.jsonl",
+  "source_flows_sha256": "b7d737f0dc91685fcf5a78ff9c620c5e9a58b0bcad658d9779b1cc6dbf001050",
+  "source_timeline": "FlowSim requested_start_ns; normalized to first request flow",
+  "pacing": "offline request-bundle release offset equal to 201,768,960 B / 25 GB/s = per-request serialization lower bound on one 200G rail; preserves each request's internal layerwise release offsets",
+  "pacing_spacing_ns": 8070759,
+  "serving_metrics": "NOT_AVAILABLE: fixed packet replay has no serving feedback"
+}

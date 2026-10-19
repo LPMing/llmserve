@@ -1,0 +1,23 @@
+{
+  "git_head": "0c0839aff54ec0abb1810dc09cf3d66f06b1b078",
+  "python": "/home/lpm/.conda/envs/llmsim-flowsim/bin/python",
+  "sha256": {
+    "configs/model/Qwen/Qwen3-30B-A3B-Instruct-2507.json": "0736f3bafb95cc658776c92ab34f5f98d8169634a3a36b84892d71448a1f19d3",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-30B-A3B-Instruct-2507/bf16/meta.yaml": "e755433ea63a19e9d4a4919f04da412807aa520972dc97df3dfb8908b6a70f96",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-30B-A3B-Instruct-2507/bf16/tp1/moe.csv": "aa6e29a17412a62234a6610d7a699f72e5938f09386374b635925c5db29045f6",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-30B-A3B-Instruct-2507/bf16/tp2/attention.csv": "0b0fb7a5436cb4bffba5e89397cf747064b1566e0053db4584c70d766d243b10",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-30B-A3B-Instruct-2507/bf16/tp2/dense.csv": "710f04261d67ec53639095cec91751c9a9dc1aa6f5b335c9decaee4802407633",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-30B-A3B-Instruct-2507/bf16/tp2/per_sequence.csv": "ed094edb86909d5ceaf9c9a0c14c1711508ffb6211f92196a0536dc6c65de097",
+    "research_cache_network_joint/3p2d_logical_to_physical.json": "e4fde284347b9865db2ffdd6794ef9d1e4e0348c21bd451f57cd34d90160bca6",
+    "research_cache_network_joint/3p2d_tp2_flowsim.json": "c32b4f6b9c629d9943d74658b7e80f55ef2aff4390135ce8ce515704a45e6fd9",
+    "research_ns3_incast/fixtures_rankcap200g/fixtures/4p1d_unique_spines/topology.txt": "4254141f11f0ea8d03a27f7b1fecbd04e0697327eed61ccb7ec5de3fd2ce2df7",
+    "research_receiver_matching/cohort_3x2048.jsonl": "b16c3556df5909880610ae59b592a489deeb704ba05044ef361dbf490eccfa77",
+    "serving/__main__.py": "a2b88618a3ac3902929bc863339222c287ff3d67556d96ec9186fc44febf4966",
+    "serving/core/flowsim_backend.py": "89028c7c75d1eb8fa181647f3de82dc01fa55be4ff3f108e79676fa251fc35aa",
+    "serving/core/flowsim_worker.py": "36435f5ac8f8e0a78b153f941f08816fde3683017cd7a39a9a3469c9afa77feb",
+    "serving/core/router.py": "b058efe4978eddc1218ca37001d9c955f5b35b2a86bdd2c55f72c71ffe3b2646",
+    "serving/core/scheduler.py": "e9fed150f0561188d6f6755a36bb20ab34aec4af9db7fffd5a5b3fc96cab44e1",
+    "serving/core/trace_generator.py": "ebb151ca81268a90557e3e1bf2e887a7280f30362728d2be78f71cf9be5e3afe"
+  },
+  "tracked_diff_sha256": "e7df10df63f778fbb2e371156e5305190b8a64ee6d9dfd2f9f91fc3ed02da46f"
+}

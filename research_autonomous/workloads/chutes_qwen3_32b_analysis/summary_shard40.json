@@ -1,0 +1,120 @@
+{
+  "arrival_bucket_count_with_ge_9_distinct_instances": {
+    "10000ms_offset0ms": 87739,
+    "10000ms_offset5000ms": 87738,
+    "1000ms_offset0ms": 871643,
+    "1000ms_offset500ms": 871543,
+    "2000ms_offset0ms": 438511,
+    "2000ms_offset1000ms": 438506,
+    "200ms_offset0ms": 1086713,
+    "200ms_offset100ms": 1086312
+  },
+  "arrival_bucket_max_all_instances": {
+    "10000ms_offset0ms": 2940,
+    "10000ms_offset5000ms": 3123,
+    "1000ms_offset0ms": 459,
+    "1000ms_offset500ms": 463,
+    "2000ms_offset0ms": 819,
+    "2000ms_offset1000ms": 885,
+    "200ms_offset0ms": 116,
+    "200ms_offset100ms": 107
+  },
+  "arrival_bucket_max_distinct_instances": {
+    "10000ms_offset0ms": 42,
+    "10000ms_offset5000ms": 42,
+    "1000ms_offset0ms": 40,
+    "1000ms_offset500ms": 40,
+    "2000ms_offset0ms": 42,
+    "2000ms_offset1000ms": 42,
+    "200ms_offset0ms": 34,
+    "200ms_offset100ms": 32
+  },
+  "arrival_bucket_max_one_instance": {
+    "10000ms_offset0ms": 387,
+    "10000ms_offset5000ms": 386,
+    "1000ms_offset0ms": 66,
+    "1000ms_offset500ms": 69,
+    "2000ms_offset0ms": 94,
+    "2000ms_offset1000ms": 108,
+    "200ms_offset0ms": 35,
+    "200ms_offset100ms": 56
+  },
+  "arrival_bucket_requests_with_ge_9_distinct_instances": {
+    "10000ms_offset0ms": 40267111,
+    "10000ms_offset5000ms": 40267098,
+    "1000ms_offset0ms": 40110669,
+    "1000ms_offset500ms": 40108962,
+    "2000ms_offset0ms": 40264177,
+    "2000ms_offset1000ms": 40263702,
+    "200ms_offset0ms": 15601804,
+    "200ms_offset100ms": 15598967
+  },
+  "arrival_rate_rps_over_shard_span": 45.8919853915808,
+  "cached_quantiles": [
+    178.0,
+    2311.0,
+    11319.0,
+    12308.0
+  ],
+  "cached_ratio_ge_gate": 11016037,
+  "cached_ratio_ge_gate_profile_length_streaming": 250829,
+  "cached_ratio_quantiles": [
+    0.04169650748372078,
+    0.9743083119392395,
+    0.9808589816093445,
+    0.9952453970909119
+  ],
+  "cached_token_gt_input": 0,
+  "cached_token_observed": 36525702,
+  "cached_token_positive": 36521142,
+  "conditional_cache_hit_gate": 0.8833275253994244,
+  "duration_ms_mean": 16891.459424265442,
+  "duration_ms_quantiles": [
+    12236.0,
+    33650.0,
+    47821.0,
+    85318.0
+  ],
+  "duration_observed": 40267133,
+  "first_arrival": "1970-11-07 05:28:06.635065",
+  "function_counts": {
+    "chat": 38692376,
+    "chat_stream": 854666,
+    "completion": 29,
+    "completion_stream": 720042,
+    "get_models": 20
+  },
+  "input_le_16384": 36495089,
+  "input_le_2048": 17900095,
+  "input_quantiles": [
+    2067.0,
+    12445.0,
+    12580.0,
+    12876.0
+  ],
+  "instance_request_count_p50_p95_max": [
+    12032,
+    252714,
+    806279
+  ],
+  "instances": 771,
+  "interpretation": "Aligned arrival buckets count requests to this model, not Prefill starts or flows on one physical network cut. TTFT values are production seconds on unknown instance GPUs and cannot calibrate local RTXPRO6000 P/D transfer time directly. Cached tokens are observed outcomes, not exact reusable prefix identities.",
+  "last_arrival": "1970-11-17 09:11:59.429842",
+  "output_quantiles": [
+    353.0,
+    738.0,
+    822.0,
+    1110.0
+  ],
+  "rows": 40267133,
+  "rows_with_lengths": 36525702,
+  "source_file": "qwen3_32b_shard40.parquet",
+  "ttft_observed": 1319046,
+  "ttft_seconds_quantiles": [
+    1.1679999828338623,
+    2.634999990463257,
+    3.3340001106262207,
+    7.359099864959717
+  ],
+  "users": 1429
+}

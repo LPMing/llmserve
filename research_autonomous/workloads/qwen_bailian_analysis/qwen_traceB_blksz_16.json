@@ -1,0 +1,96 @@
+{
+  "arrival_buckets": {
+    "0.2": {
+      "buckets_with_9_requests": 2595,
+      "exact_256_token_prefix_groups_with_2_requests": 8742,
+      "exact_256_token_prefix_groups_with_4_requests": 1023,
+      "nonempty_buckets": 35554,
+      "peak_requests": 19,
+      "requests_in_9_request_buckets": 25919,
+      "requests_in_exact_256_token_prefix_groups_with_2": 22055,
+      "requests_in_exact_256_token_prefix_groups_with_4": 4470,
+      "requests_per_nonempty_bucket_p50_p95_p99": [
+        5,
+        9,
+        11
+      ]
+    },
+    "1.0": {
+      "buckets_with_9_requests": 7178,
+      "exact_256_token_prefix_groups_with_2_requests": 8186,
+      "exact_256_token_prefix_groups_with_4_requests": 3267,
+      "nonempty_buckets": 7200,
+      "peak_requests": 52,
+      "requests_in_9_request_buckets": 172633,
+      "requests_in_exact_256_token_prefix_groups_with_2": 34974,
+      "requests_in_exact_256_token_prefix_groups_with_4": 24339,
+      "requests_per_nonempty_bucket_p50_p95_p99": [
+        24,
+        36,
+        41
+      ]
+    }
+  },
+  "compressed_trie_nodes": 178358,
+  "counts": {
+    "high_reuse_within_16k": 38323,
+    "input_tokens": 158029113,
+    "input_within_16k": 172681,
+    "output_tokens": 15833228,
+    "prefix_reuse_within_10s": 96712,
+    "prefix_reuse_within_1s": 55177,
+    "prefix_reuse_within_60s": 127798,
+    "requests": 172800,
+    "requests_reuse_2048": 3989,
+    "requests_reuse_256": 92490,
+    "requests_reuse_at_least_88pct": 38331,
+    "requests_reuse_at_least_half": 111977,
+    "reusable_input_tokens": 84993456
+  },
+  "input_tokens_p50_p95_p99": [
+    574,
+    2491,
+    6294
+  ],
+  "output_tokens_p50_p95_p99": [
+    39,
+    328,
+    1006
+  ],
+  "parent_arrival_gap_seconds_p50_p95_p99": [
+    null,
+    null,
+    null
+  ],
+  "parent_lcp_tokens_p50_p95_p99": [
+    null,
+    null,
+    null
+  ],
+  "prior_input_reusable_tokens_p50_p95_p99": [
+    272,
+    1584,
+    2816
+  ],
+  "prior_input_reuse_ratio_p50_p95_p99": [
+    0.676056338028169,
+    0.9748096074985354,
+    0.9953917050691244
+  ],
+  "prior_prefix_age_seconds_p50_p95_p99": [
+    5.430999999999585,
+    1074.7900000000002,
+    3291.5959999999995
+  ],
+  "request_types_and_turns": {
+    "api": 150936,
+    "text": 21864,
+    "turn_1": 172800
+  },
+  "source_file": "qwen_traceB_blksz_16.jsonl",
+  "time_seconds": {
+    "max": 7199.97,
+    "mean_rps": 24.00010000041667,
+    "min": 0.0
+  }
+}

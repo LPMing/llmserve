@@ -1,0 +1,8 @@
+{
+  "source": "harvardMadsys/chutes_metadata",
+  "revision": "85722e694bf7bb8a5a5ccdf70424fa5998372467",
+  "file": "data/chute_models.parquet",
+  "bytes": 199541,
+  "sha256": "13a15bcfaf3603fe75cfe559e823a5dabd1255b1122eb241cbf4a888a92b2637",
+  "license": "CC-BY-4.0"
+}

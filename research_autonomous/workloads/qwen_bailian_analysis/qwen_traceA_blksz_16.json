@@ -1,0 +1,135 @@
+{
+  "arrival_buckets": {
+    "0.2": {
+      "buckets_with_9_requests": 4,
+      "exact_256_token_prefix_groups_with_2_requests": 2542,
+      "exact_256_token_prefix_groups_with_4_requests": 54,
+      "nonempty_buckets": 24665,
+      "peak_requests": 10,
+      "requests_in_9_request_buckets": 37,
+      "requests_in_exact_256_token_prefix_groups_with_2": 5549,
+      "requests_in_exact_256_token_prefix_groups_with_4": 236,
+      "requests_per_nonempty_bucket_p50_p95_p99": [
+        1,
+        4,
+        5
+      ]
+    },
+    "1.0": {
+      "buckets_with_9_requests": 1266,
+      "exact_256_token_prefix_groups_with_2_requests": 4563,
+      "exact_256_token_prefix_groups_with_4_requests": 1167,
+      "nonempty_buckets": 7163,
+      "peak_requests": 18,
+      "requests_in_9_request_buckets": 13084,
+      "requests_in_exact_256_token_prefix_groups_with_2": 13484,
+      "requests_in_exact_256_token_prefix_groups_with_4": 5395,
+      "requests_per_nonempty_bucket_p50_p95_p99": [
+        6,
+        11,
+        13
+      ]
+    }
+  },
+  "compressed_trie_nodes": 62020,
+  "counts": {
+    "high_reuse_within_16k": 10972,
+    "input_tokens": 100382715,
+    "input_within_16k": 42808,
+    "nonroot_requests": 19957,
+    "output_tokens": 18535289,
+    "prefix_reuse_within_10s": 15866,
+    "prefix_reuse_within_1s": 10910,
+    "prefix_reuse_within_60s": 24259,
+    "requests": 43058,
+    "requests_reuse_2048": 7024,
+    "requests_reuse_256": 28093,
+    "requests_reuse_at_least_88pct": 11121,
+    "requests_reuse_at_least_half": 28898,
+    "reusable_input_tokens": 58189168
+  },
+  "input_tokens_p50_p95_p99": [
+    1046,
+    8809,
+    14372
+  ],
+  "output_tokens_p50_p95_p99": [
+    375,
+    1032,
+    1642
+  ],
+  "parent_arrival_gap_seconds_p50_p95_p99": [
+    110.64499999999998,
+    1152.8359999999993,
+    2207.351
+  ],
+  "parent_lcp_tokens_p50_p95_p99": [
+    1168,
+    8864,
+    14640
+  ],
+  "prior_input_reusable_tokens_p50_p95_p99": [
+    720,
+    6304,
+    11936
+  ],
+  "prior_input_reuse_ratio_p50_p95_p99": [
+    0.6701030927835051,
+    0.9774236387782205,
+    0.9916855631141346
+  ],
+  "prior_prefix_age_seconds_p50_p95_p99": [
+    41.447000000000116,
+    1107.415,
+    2653.3199999999997
+  ],
+  "request_types_and_turns": {
+    "file": 1510,
+    "image": 1617,
+    "search": 8187,
+    "text": 31744,
+    "turn_1": 23101,
+    "turn_10": 153,
+    "turn_11": 106,
+    "turn_12": 77,
+    "turn_13": 59,
+    "turn_14": 44,
+    "turn_15": 35,
+    "turn_16": 26,
+    "turn_17": 21,
+    "turn_18": 18,
+    "turn_19": 14,
+    "turn_2": 9012,
+    "turn_20": 12,
+    "turn_21": 10,
+    "turn_22": 9,
+    "turn_23": 8,
+    "turn_24": 7,
+    "turn_25": 6,
+    "turn_26": 5,
+    "turn_27": 4,
+    "turn_28": 4,
+    "turn_29": 3,
+    "turn_3": 4538,
+    "turn_30": 2,
+    "turn_31": 2,
+    "turn_32": 2,
+    "turn_33": 2,
+    "turn_34": 1,
+    "turn_35": 1,
+    "turn_36": 1,
+    "turn_37": 1,
+    "turn_4": 2474,
+    "turn_5": 1401,
+    "turn_6": 840,
+    "turn_7": 510,
+    "turn_8": 328,
+    "turn_9": 221
+  },
+  "source_file": "qwen_traceA_blksz_16.jsonl",
+  "time_seconds": {
+    "max": 7199.464,
+    "mean_rps": 5.980723009379587,
+    "min": 0.0
+  }
+}

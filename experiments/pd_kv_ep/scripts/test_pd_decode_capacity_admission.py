@@ -5,6 +5,7 @@ import unittest
 
 from serving.core.request import Request, RequestStatus
 from serving.core.scheduler import Scheduler
+from serving.__main__ import _pass_response
 
 
 class _KV:
@@ -30,6 +31,14 @@ class _Logger:
         pass
 
 
+class _Router:
+    def __init__(self, next_arrival=None):
+        self.next_arrival = next_arrival
+
+    def get_next_pending_arrival(self):
+        return self.next_arrival
+
+
 def _decode_request(request_id, source_arrival, ready_time):
     req = Request(request_id, "test/model", 4, 8, source_arrival, 9)
     req.num_computed_tokens = 4
@@ -38,7 +47,7 @@ def _decode_request(request_id, source_arrival, ready_time):
     return req
 
 
-def _scheduler(max_num_seqs, running):
+def _scheduler(max_num_seqs, running, phase_delay_ns=0):
     scheduler = Scheduler.__new__(Scheduler)
     scheduler.instance_id = 9
     scheduler.pd_type = "decode"
@@ -55,10 +64,24 @@ def _scheduler(max_num_seqs, running):
     scheduler.memory = _Memory()
     scheduler.logger = _Logger()
     scheduler.recompute_tokens = 0
+    scheduler.research_decode_phase_delay_ns = phase_delay_ns
+    scheduler.research_decode_phase_gate_until_ns = None
+    scheduler.research_decode_phase_gate_open = False
     return scheduler
 
 
 class DecodeCapacityAdmissionTest(unittest.TestCase):
+    def test_handoff_requires_real_completion_timestamp(self):
+        scheduler = _scheduler(max_num_seqs=2, running=[])
+        req = _decode_request(0, source_arrival=10, ready_time=-1)
+
+        with self.assertRaisesRegex(ValueError, "requires the simulator completion time"):
+            scheduler.add_decode(req)
+
+        self.assertEqual(scheduler.running, [])
+        self.assertEqual(scheduler.waiting, [])
+        self.assertEqual(req.status, RequestStatus.WAITING)
+
     def test_ready_handoff_waits_when_max_sequences_full(self):
         incumbent = object()
         scheduler = _scheduler(max_num_seqs=1, running=[incumbent])
@@ -98,6 +121,48 @@ class DecodeCapacityAdmissionTest(unittest.TestCase):
         self.assertEqual(scheduler.waiting, [])
         self.assertEqual(req.status, RequestStatus.RUNNING)
         self.assertEqual(req.decode_capacity_queue_enter_time_ns, -1)
+
+    def test_initial_phase_gate_holds_only_decode_admission(self):
+        scheduler = _scheduler(max_num_seqs=2, running=[], phase_delay_ns=20)
+        req = _decode_request(5, source_arrival=0, ready_time=100)
+
+        scheduler.add_decode(req, completion_time_ns=100)
+        self.assertEqual(req.p2d_kv_ready_time_ns, 100)
+        self.assertEqual(req.decode_eligible_time_ns, 120)
+        self.assertEqual(req.decode_phase_wait_ns, 20)
+        self.assertEqual(scheduler.running, [])
+        self.assertEqual(scheduler.waiting, [req])
+
+        scheduled = []
+        scheduler._schedule_waiting(119, scheduled, 16)
+        self.assertEqual(scheduled, [])
+        self.assertEqual(scheduler.waiting, [req])
+
+        scheduler._schedule_waiting(120, scheduled, 16)
+        self.assertEqual(scheduled, [(req, 1, 4)])
+        self.assertEqual(req.decode_admit_time_ns, 120)
+        self.assertEqual(req.p2d_kv_ready_time_ns, 100)
+
+    def test_phase_gate_exposes_exact_scheduler_wakeup_deadline(self):
+        scheduler = _scheduler(max_num_seqs=2, running=[], phase_delay_ns=20)
+        req = _decode_request(6, source_arrival=0, ready_time=100)
+        scheduler.add_decode(req, completion_time_ns=100)
+
+        self.assertEqual(scheduler.next_scheduler_wakeup_time(100), 120)
+        self.assertIsNone(scheduler.next_scheduler_wakeup_time(120))
+
+    def test_pass_response_uses_earliest_scheduler_or_arrival_deadline(self):
+        router = _Router(next_arrival=150)
+        self.assertEqual(
+            _pass_response(router, 100, scheduler_deadline=120),
+            "pass 120")
+        self.assertEqual(
+            _pass_response(router, 100, scheduler_deadline=170),
+            "pass 150")
+        self.assertEqual(
+            _pass_response(router, 100, state_changed=True,
+                           scheduler_deadline=120),
+            "pass -1")
 
     def test_capacity_waiters_order_by_decode_ready_time(self):
         scheduler = _scheduler(max_num_seqs=1, running=[object()])

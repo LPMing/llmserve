@@ -1,0 +1,14 @@
+{
+  "source": "https://github.com/kvcache-ai/Mooncake/tree/1204367d7c7165d80c6b234190ed90e4f58e7bbf/FAST25-release/traces",
+  "commit": "1204367d7c7165d80c6b234190ed90e4f58e7bbf",
+  "files": {
+    "conversation_trace.jsonl": {
+      "bytes": 3029533,
+      "sha256": "b8cbb061a85206d729d91cdc2981f43c9e0d99209dce588d3af5f7934408b9df"
+    },
+    "toolagent_trace.jsonl": {
+      "bytes": 4415857,
+      "sha256": "48a2db1a13d3bc05e6330140c64f604ba366df20d3c9e128b5c35a01c1fa5f71"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "case": "control_fair",
+  "ep_bytes": 228556800,
+  "ep_flow_count": 71424,
+  "event_counts": {
+    "BATCH_COMPLETED": 128,
+    "BATCH_GRAPH_SUBMITTED": 128,
+    "BATCH_SELECTED": 128,
+    "DECODE_ELIGIBLE": 8,
+    "DECODE_PREFIX_CACHE_LOOKUP": 8,
+    "NO_BATCH_PIPELINE_CAPACITY": 128,
+    "NO_BATCH_SELECTED": 140,
+    "P2D_READY": 8,
+    "PREFILL_STARTED": 8,
+    "PREFIX_CACHE_LOOKUP": 8,
+    "SCHEDULER_DECISION": 396,
+    "SECOND_TOKEN_VISIBLE": 8
+  },
+  "flow_count": 71808,
+  "kv_bytes": 100663296,
+  "kv_flow_count": 384,
+  "min_new_last_flow_to_ready_slack_ms": null,
+  "new": null,
+  "new_kv_ep_same_directed_link_interval_pairs": 0,
+  "new_kv_link_rows_overlapping_ep": 0,
+  "old": {
+    "max_absolute_completion_ms": 235.757112,
+    "mean_completion_ms": 235.757112,
+    "mean_token2_ms": 51.030552,
+    "mean_tpot_ms": 6.157552,
+    "requests": 8
+  },
+  "request_count": 8,
+  "shared_directed_links": []
+}

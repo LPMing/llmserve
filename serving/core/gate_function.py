@@ -9,6 +9,16 @@ class RoutingResult:
     local_tokens: list     # [rank] -> token count routed to this rank
     activated_experts: list # [rank] -> number of distinct experts activated on this rank
     source_tokens: list    # [rank] -> token count originating from this rank before dispatch
+    routing_policy: str = ""
+    provenance: str = ""
+    layer_num: int = 0
+    batch_id: str = ""
+    # Optional simulator-policy details. ``batch_token_ordinal`` is an
+    # ordinal in the synthetic rank-concatenated batch, not a model tokenizer
+    # token ID or a learned-router output.
+    token_routes: list = None
+    pair_matrix: list = None
+    owner_expert_token_counts: list = None
 
 
 class GateRouter:
@@ -104,7 +114,8 @@ class GateRouter:
         )
         return counts
 
-    def route_ep(self, layer_num, batch_id, total_len, ep_size):
+    def route_ep(self, layer_num, batch_id, total_len, ep_size,
+                 capture_routes=False):
         """EP-aware routing: returns per-rank token counts and activated experts.
 
         Tokens are distributed evenly across EP ranks before dispatch
@@ -130,20 +141,59 @@ class GateRouter:
             local_tokens, activated_counts = self._balanced_route_ep(
                 total_len, ep_size, source_tokens,
             )
+            provenance = "BALANCED_ANALYTIC_APPROXIMATION"
+            token_routes = None
+            pair_matrix = None
+            owner_expert_token_counts = None
         else:
             local_tokens = [0] * ep_size
             activated_experts = [set() for _ in range(ep_size)]
+            token_routes = [] if capture_routes else None
+            pair_matrix = ([[0] * ep_size for _ in range(ep_size)]
+                           if capture_routes else None)
+            owner_expert_token_counts = ([{} for _ in range(ep_size)]
+                                         if capture_routes else None)
+            provenance = "SIMULATOR_POLICY_{}".format(self.routing_policy)
+            batch_token_ordinal = 0
 
             for src_rank in range(ep_size):
-                for _ in range(source_tokens[src_rank]):
-                    selected = self.routing_fn(0, self.E, self.k)
+                for local_token_ordinal in range(source_tokens[src_rank]):
+                    # Give every synthetic token a stable ordinal across the
+                    # rank-concatenated batch. Passing 0 here made RR route
+                    # every token to the same experts and also broke any
+                    # CUSTOM policy that keys on token_idx.
+                    token_ordinal = batch_token_ordinal + local_token_ordinal
+                    selected = list(self.routing_fn(token_ordinal, self.E, self.k))
+                    if (len(selected) != self.k or len(set(selected)) != self.k or
+                            any(expert_id < 0 or expert_id >= self.E
+                                for expert_id in selected)):
+                        raise ValueError(
+                            "Routing policy must return {} distinct expert IDs "
+                            "in [0, {}) for batch token {}".format(
+                                self.k, self.E, token_ordinal))
                     dest_ranks = set()
+                    selected_owners = []
                     for expert_id in selected:
                         owner = self.expert_owner(expert_id, ep_size, self.E)
                         activated_experts[owner].add(expert_id)
                         dest_ranks.add(owner)
+                        selected_owners.append(owner)
+                        if capture_routes:
+                            counts = owner_expert_token_counts[owner]
+                            counts[expert_id] = counts.get(expert_id, 0) + 1
                     for owner in dest_ranks:
                         local_tokens[owner] += 1
+                        if capture_routes:
+                            pair_matrix[src_rank][owner] += 1
+                    if capture_routes:
+                        token_routes.append({
+                            "batch_token_ordinal": token_ordinal,
+                            "source_rank": src_rank,
+                            "selected_expert_ids": selected,
+                            "selected_expert_owner_ranks": selected_owners,
+                            "destination_owner_ranks": sorted(dest_ranks),
+                        })
+                batch_token_ordinal += source_tokens[src_rank]
 
             activated_counts = [len(s) for s in activated_experts]
 
@@ -157,6 +207,13 @@ class GateRouter:
             local_tokens=local_tokens,
             activated_experts=activated_counts,
             source_tokens=source_tokens,
+            routing_policy=self.routing_policy,
+            provenance=provenance,
+            layer_num=int(layer_num),
+            batch_id=str(batch_id),
+            token_routes=token_routes,
+            pair_matrix=pair_matrix,
+            owner_expert_token_counts=owner_expert_token_counts,
         )
 
     def _balanced_route_ep(self, total_len, ep_size, source_tokens):

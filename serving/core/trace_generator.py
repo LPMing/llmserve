@@ -104,6 +104,7 @@ class TraceCtx:
     is_moe: bool
     kv_fp: int    # bytes per KV element (1 for fp8, else fp) -- P/D transfer sizing
     pd_type: str  # 'prefill', 'decode', or None
+    pd_kv_transfer_mode: str  # 'LAYERWISE' or 'POST_PREFILL'
     tp_size: int       # tensor parallel degree (for ALLREDUCE on attention/FFN)
     pp_size: int       # pipeline parallel degree
     local_ep: int      # expert parallel degree within this instance
@@ -896,7 +897,7 @@ def _catalog_has(perf_db, category, name):
 
 def _build_trace_ctx(hardware, model, config, tp_size, pp_size, local_ep, ep_total, node_id, fp,
                      placement, gate, enable_attn_offloading, power_model, pim_model, pd_type,
-                     variant, kv_cache_dtype='auto',
+                     variant, kv_cache_dtype='auto', pd_kv_transfer_mode='LAYERWISE',
                      runtime_max_num_batched_tokens=None, runtime_max_num_seqs=None,
                      tp_dim=None, ep_dim=None, dp_sum_total_len=0):
     model_type = config.get('model_type')
@@ -930,6 +931,7 @@ def _build_trace_ctx(hardware, model, config, tp_size, pp_size, local_ep, ep_tot
         n_head=n_head, kv_head=kv_head, head_dim=head_dim, is_moe=is_moe,
         kv_fp=(1 if kv_cache_dtype == 'fp8' else fp),
         pd_type=pd_type,
+        pd_kv_transfer_mode=str(pd_kv_transfer_mode).upper(),
         tp_size=tp_size, pp_size=pp_size, local_ep=local_ep, ep_total=ep_total,
         tp_dim=tp_dim, ep_dim=ep_dim, dp_sum_total_len=dp_sum_total_len,
     )
@@ -1047,10 +1049,11 @@ def _emit_layer(ctx, bctx, layer_name, lines, power_acc, batch_tag='NONE', layer
 def _pd_kv_send_bytes(ctx, bctx):
     """Per-layer, per-rank KV bytes a prefill instance ships to its decode peer.
 
-    ``batch.pd_kv_send_tokens`` counts this iteration's computed tokens plus, on a
-    request's first step, its prefix-cache hit: the decode side needs that KV even
-    though the prefill side read it from cache instead of computing it. Using the
-    trace's ``total_len`` instead would silently drop exactly the hit.
+    By default ``batch.pd_kv_send_tokens`` includes Prefill-side prefix hits,
+    because the Decode side needs those KV bytes too. In the opt-in DELTA
+    handoff mode, the scheduler subtracts only the prefix blocks already pinned
+    at the paired Decode instance. Using the trace's ``total_len`` instead
+    would silently drop the source-side cache hit in the default mode.
     """
     tokens = getattr(bctx.batch, 'pd_kv_send_tokens', 0) or 0
     if tokens <= 0:
@@ -1263,7 +1266,8 @@ def _emit_sequence(ctx, bctx, layer_num, layers, lines, power_acc, batch_tag):
             comm_size, comm_type = _tp_comm(ctx, layer_name, bctx.total_len)
             _emit_layer(ctx, bctx, layer_name, lines, power_acc, batch_tag, layer_num,
                         comm_type=_with_dim(comm_type, ctx.tp_dim), comm_size=comm_size)
-        elif layer_name == 'qkv_proj' and ctx.pd_type == 'prefill':
+        elif (layer_name == 'qkv_proj' and ctx.pd_type == 'prefill' and
+              ctx.pd_kv_transfer_mode == 'LAYERWISE'):
             # P/D disaggregation: this layer's KV has to reach the paired decode
             # instance. The Chakra converter's PREFILL path emits a point-to-point
             # send after every *v_proj layer and takes the byte count from the
@@ -1397,12 +1401,13 @@ def _emit_prologue(ctx, bctx, rows, batch_tag='NONE'):
 def _synthesize_trace(hardware, model, config, tp_size, pp_size, local_ep, ep_total, pd_type, node_id, instance_id,
                       batch, max_len, placement, block_mode_on, gate,
                       enable_attn_offloading, power_model, pim_model, fp,
-                      variant, kv_cache_dtype='auto',
+                      variant, kv_cache_dtype='auto', pd_kv_transfer_mode='LAYERWISE',
                       runtime_max_num_batched_tokens=None, runtime_max_num_seqs=None,
                       tp_dim=None, ep_dim=None, dp_sum_total_len=0):
     ctx = _build_trace_ctx(hardware, model, config, tp_size, pp_size, local_ep, ep_total, node_id, fp,
                            placement, gate, enable_attn_offloading, power_model, pim_model, pd_type,
                            variant=variant, kv_cache_dtype=kv_cache_dtype,
+                           pd_kv_transfer_mode=pd_kv_transfer_mode,
                            runtime_max_num_batched_tokens=runtime_max_num_batched_tokens,
                            runtime_max_num_seqs=runtime_max_num_seqs,
                            tp_dim=tp_dim, ep_dim=ep_dim, dp_sum_total_len=dp_sum_total_len)
@@ -1448,6 +1453,37 @@ def _synthesize_trace(hardware, model, config, tp_size, pp_size, local_ep, ep_to
 
     # Final layers
     _emit_final_layers(ctx, bctx, rows)
+
+    if pd_type == 'prefill' and ctx.pd_kv_transfer_mode == 'POST_PREFILL':
+        # A chunked request emits no P2D bytes until its final Prefill graph.
+        # Mixed complete/incomplete batches remain unsupported because one
+        # marker cannot attribute different request lifetimes to its SENDs.
+        incomplete = [
+            int(req.id) for req in batch.requests
+            if int(req.num_computed_tokens) < int(req.original_input)
+        ]
+        if incomplete and len(incomplete) != len(batch.requests):
+            raise ValueError(
+                "POST_PREFILL cannot mix complete and incomplete Prefill "
+                "requests in one graph: %s" % incomplete)
+        if pp_size != 1:
+            raise ValueError(
+                "POST_PREFILL currently requires pp_size=1 so the transfer "
+                "marker and complete Prefill graph share one converter stage")
+        if batch.requests and not incomplete:
+            send_tokens = sum(
+                max(0, int(req.original_input) - int(getattr(
+                    req, 'destination_prefix_reuse_tokens', 0)))
+                for req in batch.requests)
+            kv_dim = ctx.kv_head * ctx.head_dim
+            complete_rank_bytes = (
+                2 * kv_dim * send_tokens * ctx.kv_fp // max(ctx.tp_size, 1)
+                * num_layers)
+            if complete_rank_bytes > 0:
+                rows.append((
+                    'pd_kv_transfer', '0', 'LOCAL', '0', 'LOCAL', '0',
+                    'LOCAL', '0', 'NONE', str(complete_rank_bytes), 'NONE'))
+
     _emit_pp_pd_power(ctx, bctx)
 
     return rows, block_starts
@@ -1608,13 +1644,24 @@ def generate_trace(batch, hardware, tp_size, pp_size, local_ep, ep_total, pd_typ
                    placement={}, block_mode_on=False, expert_routing_policy="BALANCED",
                    enable_prefix_caching=False, enable_attn_offloading=False, power_model=None, pim_model=None,
                    enable_sub_batch_interleaving=False, fp=16, dtype=None, kv_cache_dtype='auto',
-                   tp_dim=None, ep_dim=None, dp_sum_total_len=0, enable_block_copy=True, inputs_root=None):
+                   tp_dim=None, ep_dim=None, dp_sum_total_len=0, enable_block_copy=True, inputs_root=None,
+                   pd_kv_transfer_mode='LAYERWISE'):
 
     model = batch.model
     config = get_config(model)
     fp = fp // 8  # bit -> byte of floating point
     max_len = min(max_num_batched_tokens, config['max_position_embeddings'])
     variant = resolve_variant(dtype, kv_cache_dtype, config)
+    pd_kv_transfer_mode = str(pd_kv_transfer_mode).upper()
+    if pd_kv_transfer_mode not in ('LAYERWISE', 'POST_PREFILL', 'COMPUTE_ONLY'):
+        raise ValueError(
+            "pd_kv_transfer_mode must be LAYERWISE, POST_PREFILL, or COMPUTE_ONLY, got %r" %
+            pd_kv_transfer_mode)
+    if (pd_type == 'prefill' and pd_kv_transfer_mode == 'POST_PREFILL' and
+            enable_sub_batch_interleaving):
+        raise ValueError(
+            "POST_PREFILL does not support sub-batch interleaving; the "
+            "request-level KV handoff marker must follow the complete Prefill graph")
 
     # vllm: add load or eviction in the txt file
     load_size = batch.load
@@ -1656,6 +1703,7 @@ def generate_trace(batch, hardware, tp_size, pp_size, local_ep, ep_total, pd_typ
                         enable_attn_offloading=enable_attn_offloading,
                         power_model=power_model, pim_model=pim_model, fp=fp,
                         variant=variant, kv_cache_dtype=kv_cache_dtype,
+                        pd_kv_transfer_mode=pd_kv_transfer_mode,
                         runtime_max_num_batched_tokens=max_num_batched_tokens,
                         runtime_max_num_seqs=max_num_seqs,
                         tp_dim=tp_dim, ep_dim=ep_dim, dp_sum_total_len=dp_sum_total_len)
@@ -1732,6 +1780,41 @@ class TraceData:
     path: str
 
 
+def generate_handoff_trace(batch, config, tp_size, pp_size, fp,
+                           kv_cache_dtype, path):
+    """Build a zero-compute KV transfer graph for a held Prefill request.
+
+    The P source owns its blocks throughout this graph. The converter's
+    post-prefill marker emits the actual SEND/RECV nodes, so FlowSim charges
+    the declared physical links and its graph completion is P2D-ready.
+    """
+    if not getattr(batch, "handoff_only", False) or len(batch.requests) != 1:
+        raise ValueError("handoff trace requires exactly one transfer batch")
+    if tp_size != 1 or pp_size != 1:
+        raise ValueError("handoff trace currently requires TP1/PP1")
+    req = batch.requests[0]
+    if req.destination_prefix_reservation is None:
+        raise RuntimeError("P2D transfer graph requires a live D reservation")
+    head_dim = int(config.get(
+        "head_dim", config["hidden_size"] // config["num_attention_heads"]))
+    kv_heads = int(config["num_key_value_heads"])
+    num_layers = int(config["num_hidden_layers"])
+    kv_fp = 1 if kv_cache_dtype == "fp8" else int(fp) // 8
+    sent_tokens = (int(req.original_input) -
+                   int(getattr(req, "destination_prefix_reuse_tokens", 0)))
+    if sent_tokens < 0:
+        raise ValueError("destination prefix reuse exceeds prompt length")
+    total_bytes = (sent_tokens * 2 * kv_heads * head_dim *
+                   kv_fp * num_layers)
+    row = lambda name, size: (
+        name, "0", "LOCAL", "0", "LOCAL", "0", "LOCAL", "0",
+        "NONE", str(size), "NONE")
+    return TraceData(
+        header_line="PREFILL\t\tmodel_parallel_NPU_group: 1",
+        rows=[row("handoff_anchor", 0), row("pd_kv_transfer", total_bytes)],
+        path=path)
+
+
 _TRACE_ROW_FIELDS = 11
 
 # One-shot guard, see _write_trace.
@@ -1755,7 +1838,13 @@ def indexed_cols(rows):
     out = []
     for i, row in enumerate(rows):
         if len(row) == _TRACE_ROW_FIELDS:
-            out.append([f'{row[0]}_{i}', *row[1:]])
+            # The serving trace stores profile-backed computation in ns, but
+            # Chakra's ET schema names this field duration_micros. Convert at
+            # the adapter boundary; otherwise every compute node runs 1000x
+            # too long in ASTRA-Sim and FlowSim's serving clock.
+            duration_ns = int(row[1])
+            duration_us = max(1, (duration_ns + 999) // 1000)
+            out.append([f'{row[0]}_{i}', str(duration_us), *row[2:]])
         elif len(row) == 1:
             out.append(row[0].split())
         else:

@@ -1,0 +1,29 @@
+{
+  "assumption": "One 200-Gbps source cut, BF16 Qwen3-30B-A3B KV, all width-1 avoidable copies serialize on that cut. Observed group spans belong to different provider models; their ratio is a cross-model screening diagnostic, not a causal upper bound on Qwen JCT.",
+  "copy_to_fastest_child_ttft_p50_p95_max": [
+    0.027814726256359862,
+    0.29418909260122744,
+    2.007356817679558
+  ],
+  "copy_to_observed_span_p50_p95_max": [
+    0.0001581029967986298,
+    0.0020239012950881746,
+    0.0076650055731377845
+  ],
+  "first_child_within_2048_tokens": 2,
+  "first_child_within_attention_context_profile": 219,
+  "group_count": 288,
+  "groups_ratio_ge_10pct": 0,
+  "groups_ratio_ge_1pct": 0,
+  "groups_ttft_ratio_ge_10pct": 54,
+  "groups_with_first_child_ttft": 288,
+  "groups_with_negative_parent_lag": 76,
+  "groups_with_parent_next_request": 263,
+  "kv_bytes_per_token_all_layers": 98304,
+  "profile_context_limit_tokens": 16384,
+  "serial_copy_ms_p50_p95_max": [
+    52.15617024,
+    344.3502612479988,
+    824.62113792
+  ]
+}

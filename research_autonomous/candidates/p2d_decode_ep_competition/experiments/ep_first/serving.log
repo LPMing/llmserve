@@ -1,0 +1,152 @@
+─────────────────────────────── LLMServingSim2.0 ───────────────────────────────
+  A Unified Simulator for Heterogeneous Hardware and Serving Techniques in LLM  
+────────────────────────────────────────────────────────────────────────────────
+      _    _    __  __ ___              _           ___ _       ___   __        
+     | |  | |  |  \/  / __| ___ _ ___ _(_)_ _  __ _/ __(_)_ __ |_  ) /  \       
+     | |__| |__| |\/| \__ \/ -_) '_\ V / | ' \/ _` \__ \ | '  \ / / | () |      
+     |____|____|_|  |_|___/\___|_|  \_/|_|_||_\__, |___/_|_|_|_/___(_)__/       
+                                              |___/                             
+────────────────────────────────────────────────────────────────────────────────
+                              Input configuration                               
+
+  • Cluster config             : experiments/pd_kv_ep/configs/ep_ep_minimal/two_ep4_groups_full.json
+  • Run ID                     : r15-p2d-ep-ep_first
+  • ASTRA-Sim inputs root      : /home/dell/lpm/LLMServingSim/astra-sim/inputs/runs/r15-p2d-ep-ep_first
+  • Dataset                    : research_autonomous/candidates/p2d_decode_ep_competition/experiments/workload_24.jsonl
+  • Max num seqs               : 8
+  • Max batched tokens         : 2048
+  • Block size (tokens)        : 16
+  • Request routing            : RR
+  • Expert routing             : BALANCED
+  • Prefix caching             : DISABLED
+  • Chunked prefill            : DISABLED
+  • Prefix caching scheme      : xPU-Only
+  • Centralized prefix caching : DISABLED
+  • Offload attention to PIM   : DISABLED
+  • Sub-batch interleaving     : DISABLED
+  • Network backend            : flowsim
+  • Log interval (s)           : 60.0
+  • Log level                  : WARNING
+────────────────────────────────────────────────────────────────────────────────
+                            KV Cache Initialization                             
+
+  • Instance [0] : 676160 tokens / 42260 blocks (30.95 GiB/rank at util 0.90)
+  • Instance [1] : 676160 tokens / 42260 blocks (30.95 GiB/rank at util 0.90)
+  • Instance [2] : 676160 tokens / 42260 blocks (30.95 GiB/rank at util 0.90)
+  • Instance [3] : 676160 tokens / 42260 blocks (30.95 GiB/rank at util 0.90)
+  • Instance [4] : 1560896 tokens / 97556 blocks (71.45 GiB/rank at util 0.90)
+  • Instance [5] : 1560896 tokens / 97556 blocks (71.45 GiB/rank at util 0.90)
+  • Instance [6] : 1560896 tokens / 97556 blocks (71.45 GiB/rank at util 0.90)
+  • Instance [7] : 1560896 tokens / 97556 blocks (71.45 GiB/rank at util 0.90)
+────────────────────────────────────────────────────────────────────────────────
+▶ Starting simulation...
+
+────────────────────────────────────────────────────────────────────────────────
+▶ Exiting simulation...
+
+All Request Has Been Exited
+────────────────────────────────────────────────────────────────────────────────
+▶ Simulation results...
+
+Total simulation time: 0h 1m 25.992s
+────────────────────────────── Throughput Results ──────────────────────────────
+Total requests:                                                     24
+Total clocks (ns):                                                  415943616
+Total latency (s):                                                  0.416
+Total input tokens:                                                 33792
+Total generated tokens:                                             280
+Request throughput (req/s):                                         57.70
+Average prompt throughput (tok/s):                                  81241.78
+Average generation throughput (tok/s):                              673.17
+Total token throughput (tok/s):                                     81914.95
+Throughput per 60 sec ([prompt_throughput], [gen_throughput]): []
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [0] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+No Time data available
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+No Time data available
+───────────────────────────── Inter-token Latency ──────────────────────────────
+No Inter-token data available
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [1] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+No Time data available
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+No Time data available
+───────────────────────────── Inter-token Latency ──────────────────────────────
+No Inter-token data available
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [2] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+No Time data available
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+No Time data available
+───────────────────────────── Inter-token Latency ──────────────────────────────
+No Inter-token data available
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [3] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+No Time data available
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+No Time data available
+───────────────────────────── Inter-token Latency ──────────────────────────────
+No Inter-token data available
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [4] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     58.10
+Median TTFT (ms):                                                   64.71
+P99 TTFT (ms):                                                      64.71
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     6.20
+Median TPOT (ms):                                                   5.89
+P99 TPOT (ms):                                                      7.93
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     6.18
+Median ITL (ms) :                                                   6.16
+P99 ITL (ms) :                                                      7.39
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [5] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     58.10
+Median TTFT (ms):                                                   64.71
+P99 TTFT (ms):                                                      64.71
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     6.20
+Median TPOT (ms):                                                   5.89
+P99 TPOT (ms):                                                      7.93
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     6.18
+Median ITL (ms) :                                                   6.16
+P99 ITL (ms) :                                                      7.39
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [6] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     58.10
+Median TTFT (ms):                                                   64.71
+P99 TTFT (ms):                                                      64.71
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     6.20
+Median TPOT (ms):                                                   5.89
+P99 TPOT (ms):                                                      7.93
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     6.18
+Median ITL (ms) :                                                   6.16
+P99 ITL (ms) :                                                      7.39
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [7] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     58.10
+Median TTFT (ms):                                                   64.71
+P99 TTFT (ms):                                                      64.71
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     6.20
+Median TPOT (ms):                                                   5.89
+P99 TPOT (ms):                                                      7.93
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     6.18
+Median ITL (ms) :                                                   6.16
+P99 ITL (ms) :                                                      7.39
+────────────────────────────────────────────────────────────────────────────────
+Saving each request's information to output file: research_autonomous/candidates/p2d_decode_ep_competition/experiments/ep_first/requests.csv

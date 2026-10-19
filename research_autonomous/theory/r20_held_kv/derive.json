@@ -1,0 +1,130 @@
+{
+  "kv_bytes_per_prompt_token_all_ranks": 262144,
+  "kv_bytes_per_prompt_token_per_rank": 131072,
+  "kv_pool_blocks_per_tp_rank": 28614,
+  "kv_pool_tokens_per_tp_rank": 457824,
+  "measured_2048_prefill_compute_ms_excluding_tp_collectives": 184.64660107,
+  "model_sha256": "855a9d23f97f8771c84280619ae156c8f73c9cd64a5d53a059125b4aecab12d4",
+  "parameter_classes": {
+    "A": "local Qwen3-32B model and RTXPRO6000 TP2 profile, normal simulator 0.9 KV pool; pinned SwissAI raw trace if mined",
+    "B": "No measured production NIC or P/D role mapping is available",
+    "C": "200-Gb/s per-rank rail and 4P1D placement of SwissAI arrivals; neither is a measured production topology"
+  },
+  "profile_screen_sha256": "e238e1766aec59e4cb7ed954997dae7753d7446fdb4c147f52247a8662d788eb",
+  "profiled_2048_layerwise_cut_service_ms": 10.73741824,
+  "qualifiers": [
+    "KV pool excludes activation peak and CUDA context and is an upper capacity bound.",
+    "A physical P/D topology and actual cache residence are not in SwissAI.",
+    "A memory threshold is necessary, not sufficient for an exposed critical path or policy gain.",
+    "Two-stage simulator currently supports TP1 only; a TP2 experiment needs a byte/path-conserving extension."
+  ],
+  "scenarios": {
+    "1024": {
+      "aggregate_kv_bytes": 268435456,
+      "per_rank_cut_floor_ms_at_100_gbps": 10.73741824,
+      "per_rank_cut_floor_ms_at_200_gbps": 5.36870912,
+      "per_rank_kv_bytes": 134217728,
+      "required_blocks_including_first_decode_slot": 65,
+      "simultaneous_held_requests_to_exceed_one_p_pool": 441
+    },
+    "128": {
+      "aggregate_kv_bytes": 33554432,
+      "per_rank_cut_floor_ms_at_100_gbps": 1.34217728,
+      "per_rank_cut_floor_ms_at_200_gbps": 0.67108864,
+      "per_rank_kv_bytes": 16777216,
+      "required_blocks_including_first_decode_slot": 9,
+      "simultaneous_held_requests_to_exceed_one_p_pool": 3180
+    },
+    "16384": {
+      "aggregate_kv_bytes": 4294967296,
+      "per_rank_cut_floor_ms_at_100_gbps": 171.79869184,
+      "per_rank_cut_floor_ms_at_200_gbps": 85.89934592,
+      "per_rank_kv_bytes": 2147483648,
+      "required_blocks_including_first_decode_slot": 1025,
+      "simultaneous_held_requests_to_exceed_one_p_pool": 28
+    },
+    "2048": {
+      "aggregate_kv_bytes": 536870912,
+      "per_rank_cut_floor_ms_at_100_gbps": 21.47483648,
+      "per_rank_cut_floor_ms_at_200_gbps": 10.73741824,
+      "per_rank_kv_bytes": 268435456,
+      "required_blocks_including_first_decode_slot": 129,
+      "simultaneous_held_requests_to_exceed_one_p_pool": 222
+    },
+    "4096": {
+      "aggregate_kv_bytes": 1073741824,
+      "per_rank_cut_floor_ms_at_100_gbps": 42.94967296,
+      "per_rank_cut_floor_ms_at_200_gbps": 21.47483648,
+      "per_rank_kv_bytes": 536870912,
+      "required_blocks_including_first_decode_slot": 257,
+      "simultaneous_held_requests_to_exceed_one_p_pool": 112
+    },
+    "512": {
+      "aggregate_kv_bytes": 134217728,
+      "per_rank_cut_floor_ms_at_100_gbps": 5.36870912,
+      "per_rank_cut_floor_ms_at_200_gbps": 2.68435456,
+      "per_rank_kv_bytes": 67108864,
+      "required_blocks_including_first_decode_slot": 33,
+      "simultaneous_held_requests_to_exceed_one_p_pool": 868
+    },
+    "8192": {
+      "aggregate_kv_bytes": 2147483648,
+      "per_rank_cut_floor_ms_at_100_gbps": 85.89934592,
+      "per_rank_cut_floor_ms_at_200_gbps": 42.94967296,
+      "per_rank_kv_bytes": 1073741824,
+      "required_blocks_including_first_decode_slot": 513,
+      "simultaneous_held_requests_to_exceed_one_p_pool": 56
+    }
+  },
+  "status": "THEORY_THRESHOLD_ONLY",
+  "swissai_counts": {
+    "effective_input_tokens": 4675981005,
+    "missing_reported_input": 3761,
+    "reported_output_tokens": 2126171763,
+    "rows": 3994435,
+    "source_rows": 3994435,
+    "total_completion_ms": 67807853864,
+    "valid_reported_output_rows": 3990674
+  },
+  "swissai_peak_arrival_1s": {
+    "buckets_with_9_requests": 111777,
+    "nonempty_buckets": 317641,
+    "peak_arriving_input_tokens": 1547774,
+    "peak_arriving_output_tokens": 274738,
+    "peak_requests": 714,
+    "requests_in_9_request_buckets": 3427270
+  },
+  "swissai_peak_arrival_200ms": {
+    "buckets_with_9_requests": 95330,
+    "nonempty_buckets": 914258,
+    "peak_arriving_input_tokens": 763351,
+    "peak_requests": 210,
+    "requests_in_9_request_buckets": 1788187,
+    "requests_in_same_2048_token_prefix_groups_with_2": 39305,
+    "requests_in_same_2048_token_prefix_groups_with_4": 3624,
+    "requests_in_same_256_token_prefix_groups_with_4": 2755581,
+    "requests_per_nonempty_bucket_p50_p95_p99": [
+      2,
+      14,
+      34
+    ],
+    "same_2048_token_prefix_groups_with_2_requests": 17881,
+    "same_2048_token_prefix_groups_with_4_requests": 817,
+    "same_256_token_prefix_groups_with_4_requests": 283338
+  },
+  "swissai_prefix_signal": {
+    "same_day_completed_input_prefix_ratio_p50_p95_p99": [
+      0.9138110072689511,
+      0.9975786924939467,
+      1.0
+    ],
+    "same_day_completed_input_prefix_tokens_p50_p95_p99": [
+      864,
+      1808,
+      2928
+    ]
+  },
+  "swissai_raw_manifest_sha256": "deb148334640df3af4357bd91870660a08d74b988460e86f892899d0c3adba8c",
+  "swissai_summary_sha256": "f8f15e03ee3d755ef8b89875a8fd6b7a7336dcda763d0c6bec122460d999262f",
+  "weight_gib_per_tp_rank": 30.512704849243164
+}

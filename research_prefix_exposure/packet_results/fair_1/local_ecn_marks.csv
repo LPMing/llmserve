@@ -1,0 +1,1 @@
+timestamp_ns,switch_id,link_id,next_node,egress_port,queue_index,mmu_egress_bytes_after_dequeue,kmin_bytes,kmax_bytes,packet_uid,ecn_before,sip,dip,sport,dport,udp_seq,traffic_class,event_ids,request_ids,collective_ids,layer_ids,qp_tuple

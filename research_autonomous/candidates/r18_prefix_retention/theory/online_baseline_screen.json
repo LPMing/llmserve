@@ -1,0 +1,71 @@
+{
+  "block_size_tokens": 16,
+  "capacity_blocks": 3400,
+  "claim": "cache admission decision screen; no Serving latency or policy gain",
+  "kv_bytes_per_token": 131072,
+  "results": {
+    "one_prior_access": {
+      "COST_LFU": {
+        "resident_blocks": 3328,
+        "target_hits": [
+          false,
+          false
+        ]
+      },
+      "FUTURE_KNOWING_ORACLE": {
+        "resident_blocks": 3320,
+        "target_hits": [
+          true,
+          true
+        ]
+      },
+      "LFU": {
+        "resident_blocks": 3328,
+        "target_hits": [
+          false,
+          false
+        ]
+      },
+      "LRU": {
+        "resident_blocks": 3328,
+        "target_hits": [
+          false,
+          false
+        ]
+      }
+    },
+    "two_prior_accesses_analytic_only": {
+      "COST_LFU": {
+        "resident_blocks": 3320,
+        "target_hits": [
+          true,
+          true
+        ]
+      },
+      "FUTURE_KNOWING_ORACLE": {
+        "resident_blocks": 3320,
+        "target_hits": [
+          true,
+          true
+        ]
+      },
+      "LFU": {
+        "resident_blocks": 3320,
+        "target_hits": [
+          true,
+          true
+        ]
+      },
+      "LRU": {
+        "resident_blocks": 3328,
+        "target_hits": [
+          false,
+          false
+        ]
+      }
+    }
+  },
+  "script_sha256": "6254cf761377e7f1a77af8746e003a5c79f3856fa8add831fe801e1fe83912cd",
+  "status": "ANALYTICAL_ONLY",
+  "workload_sha256": "b710cc65585fea1b36a0d8c454a4f78922e28a2d342405ad238cdebcbae55d3b"
+}

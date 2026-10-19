@@ -1,0 +1,4 @@
+case,condition,traffic_semantics,bytes_match,cut_work,collective_cct,TBT_or_request_effect,status,reason
+C_route_matrix_capability,current integrated BALANCED case,closed-form rank work + ALLGATHER/REDUCESCATTER,NA,NA,NA,NA,NOT_RUN,"No retained exact token-to-expert-owner provenance for matched batch reordering"
+C_same_token_set_rebatch,proposed,requires exact model route matrix and fixed token set,NA,NA,NA,NA,NOT_RUN,"Would otherwise invent expert ownership or alter semantics"
+C_prior_work,related-work gate,FAST + Sem-MoE + Gimbal,NA,NA,NA,NA,THEORY_GATE_FAIL,"Substantial overlap; no differentiated cut/barrier mechanism specified"

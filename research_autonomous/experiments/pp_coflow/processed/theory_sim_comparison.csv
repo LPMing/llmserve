@@ -1,0 +1,4 @@
+case,requests,p2d_flows,p2d_bytes,first_stage0_release_ms,last_stage0_release_ms,first_stage1_release_ms,last_stage1_release_ms,last_kv_finish_ms,first_wave_fct_ms,p2d_ready_ms,token2_ms,request_completion_ms
+raw_before_fix,4,384,805306368,0.078,30.967,0.072,30.961,31.652289,0.685289,32.474,39.593,46.712
+raw_after_pp_fix_before_moe_fix,4,384,805306368,0.078,30.967,31.243,63.199,63.554745,0.355745,64.712,78.723,92.734
+raw,4,384,805306368,0.078,30.967,32.31,63.199,63.554745,0.355745,64.712,78.723,92.734

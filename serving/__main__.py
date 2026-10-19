@@ -18,6 +18,10 @@ from serving.core.scheduler import *
 from serving.core.request import *
 from serving.core.utils import *
 from serving.core.controller import *
+from serving.core.flowsim_groups import (
+    instance_group_command,
+    queued_group_graph_owners,
+)
 from serving.core.memory_model import *
 from serving.core.graph_generator import *
 from serving.core.trace_generator import *
@@ -62,7 +66,8 @@ def _pad_batch_to_max(batch, max_len):
     batch.num_decode += pad              # counted for lm_head / dense shape
 
 
-def _pass_response(router, current, state_changed=False):
+def _pass_response(router, current, state_changed=False,
+                   scheduler_deadline=None):
     """The "pass" answer, carrying the next known arrival when there is one.
 
     ASTRA-Sim stops re-asking an NPU that passed until either some NPU
@@ -73,20 +78,34 @@ def _pass_response(router, current, state_changed=False):
     past an arrival it should have admitted, in the case where every other
     instance is still mid-batch and so no report is coming.
 
-``state_changed=True`` sends ``pass -1``: this pass altered scheduler
+    ``state_changed=True`` sends ``pass -1``: this pass altered scheduler
     state, so it is not idempotent and re-asking is not a wasted question.
-    The three DP-barrier passes do that -- joining a round with a dummy,
-    joining it with a real batch, or handing a batch claim back -- and none
-    of them is preceded by a report, so nothing else would lift the
-    suppression. ASTRA-Sim treats it like a workload assignment: this NPU
-    stays askable and every other one is re-opened too.
+    This includes DP-barrier transitions and a Decode graph completion that
+    makes a running request schedulable again. In those cases a future-arrival
+    suppression on the instance's start rank must be invalidated immediately.
+    ASTRA-Sim treats it like a workload assignment: this NPU stays askable and
+    every other Decode rank is re-opened too.
     """
     if state_changed:
         return "pass -1"
+    deadlines = []
     nxt = router.get_next_pending_arrival()
-    if nxt is None or nxt <= current:
+    if nxt is not None and nxt > current:
+        deadlines.append(int(nxt))
+    if scheduler_deadline is not None and scheduler_deadline > current:
+        deadlines.append(int(scheduler_deadline))
+    if not deadlines:
         return "pass"
-    return f"pass {int(nxt)}"
+    return f"pass {min(deadlines)}"
+
+
+def _scheduler_completion_changed_state(prompt_tokens, generated_tokens,
+                                        finished_requests, inflight_before,
+                                        inflight_after):
+    """Whether graph completion changed state relevant to the next schedule."""
+    return bool(
+        prompt_tokens or generated_tokens or finished_requests or
+        inflight_after < inflight_before)
 
 
 def _runtime_limit(value):
@@ -126,20 +145,28 @@ def _cleanup_inputs_root(run_paths, logger):
     logger.info("Removed ASTRA-Sim inputs root: %s", inputs_root)
 
 
-def _prepare_ns3_config(astra_sim, run_paths):
-    template = os.path.join(astra_sim, "extern/network_backend/ns-3/scratch/config/config.txt")
+def _prepare_ns3_config(astra_sim, run_paths, topology_path=None,
+                        template_path=None):
+    template = template_path or os.path.join(
+        astra_sim, "extern/network_backend/ns-3/scratch/config/config.txt")
     output_dir = os.path.join(run_paths.inputs_root, "ns3", "output")
     config_path = os.path.join(run_paths.inputs_root, "ns3", "config.txt")
     os.makedirs(output_dir, exist_ok=True)
     os.makedirs(os.path.dirname(config_path), exist_ok=True)
 
     replacements = {
+        "TOPOLOGY_FILE": topology_path,
         "FLOW_FILE": os.path.join(output_dir, "flow.txt"),
         "TRACE_FILE": os.path.join(output_dir, "trace.txt"),
         "TRACE_OUTPUT_FILE": os.path.join(output_dir, "mix.tr"),
         "FCT_OUTPUT_FILE": os.path.join(output_dir, "fct.txt"),
         "PFC_OUTPUT_FILE": os.path.join(output_dir, "pfc.txt"),
         "QLEN_MON_FILE": os.path.join(output_dir, "qlen.txt"),
+        "COMM_EVENTS_FILE": os.path.join(output_dir, "comm_events.csv"),
+        "CC_TELEMETRY_FILE": os.path.join(output_dir, "cc_telemetry.csv"),
+        "LOCAL_ECN_MARK_FILE": os.path.join(output_dir, "local_ecn_marks.csv"),
+        "LINK_TIMESERIES_FILE": os.path.join(output_dir, "link_timeseries.csv"),
+        "LINK_SUMMARY_FILE": os.path.join(output_dir, "link_summary.csv"),
     }
 
     for path in (replacements["FLOW_FILE"], replacements["TRACE_FILE"]):
@@ -151,11 +178,24 @@ def _prepare_ns3_config(astra_sim, run_paths):
     with open(config_path, "w", encoding="utf-8") as f:
         for line in lines:
             parts = line.split(maxsplit=1)
-            if parts and parts[0] in replacements:
+            if (parts and parts[0] in replacements and
+                    replacements[parts[0]] is not None):
                 f.write(f"{parts[0]} {replacements[parts[0]]}\n")
             else:
                 f.write(line)
     return config_path
+
+
+def _write_ns3_logical_topology(path, topology_dims):
+    """Write a rank-sized ASTRA logical topology for the packet backend."""
+    dimensions = [int(size) for size in topology_dims]
+    if not dimensions or any(size < 1 for size in dimensions):
+        raise ValueError("ns-3 logical topology dimensions must be positive")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as stream:
+        json.dump({"logical-dims": [str(size) for size in dimensions]}, stream)
+        stream.write("\n")
+    return path
 
 
 def _iter_raw_instances(cluster_config):
@@ -369,10 +409,86 @@ def main():
                         help='KV cache data type: auto (inherit --dtype) or fp8. Selects the profile '
                         'variant folder -- fp8 resolves to <dtype>-kvfp8, e.g. bf16-kvfp8 -- and '
                         'halves KV cache memory. Override per instance with "kv_cache_dtype"')
-    parser.add_argument('--network-backend', type=str, choices=['analytical', 'ns3'], default='analytical',
-                        help='network simulation backend: analytical (fast, default) or ns3 (detailed, WIP)')
+    parser.add_argument('--network-backend', type=str,
+                        choices=['analytical', 'ns3', 'flowsim'],
+                        default='analytical',
+                        help='network simulation backend: ASTRA analytical, native ns-3, or integrated FlowSim fluid model')
+    parser.add_argument('--pd-kv-transfer-mode', type=str,
+                        choices=['LAYERWISE', 'POST_PREFILL'],
+                        default='LAYERWISE',
+                        help=('P/D KV release granularity: per transformer layer '
+                              'or one complete-request transfer after Prefill; '
+                              'POST_PREFILL currently requires PP=1 and '
+                              'cannot mix complete and incomplete requests '
+                              'in one Prefill graph'))
+    parser.add_argument('--destination-prefix-handoff', type=str,
+                        choices=['DISABLED', 'QUERY', 'DELTA'],
+                        default='DISABLED',
+                        help=('research mode for pre-P2D destination prefix '
+                              'lookup/reservation; DELTA suppresses only KV '
+                              'tokens pinned at the paired Decode instance'))
+    parser.add_argument('--pd-handoff-capacity-reservation',
+                        action=argparse.BooleanOptionalAction, default=False,
+                        help=('reserve Decode KV staging blocks before a Prefill '
+                              'graph can send P2D bytes; a full receiver holds '
+                              'Prefill admission until capacity becomes free'))
+    parser.add_argument('--pd-handoff-admission', type=str,
+                        choices=['EARLY', 'TWO_STAGE_FIFO'], default='EARLY',
+                        help=('EARLY reserves Decode blocks before Prefill; '
+                              'TWO_STAGE_FIFO retains completed source KV and '
+                              'sends it only after Decode capacity credit'))
+    parser.add_argument('--decode-kv-eviction-policy', type=str,
+                        choices=['LRU', 'LFU'], default='LRU',
+                        help=('research comparison for free Decode prefix '
+                              'blocks; LFU uses observed block-hit counts'))
+    parser.add_argument('--flowsim-topology', type=str, default=None,
+                        help='FlowSim topology in repository ns-3 text format; defaults to cluster-config flowsim_topology')
+    parser.add_argument('--flowsim-rank-map', type=str, default=None,
+                        help='JSON logical-rank to physical-endpoint map; defaults to cluster-config flowsim_rank_map')
+    parser.add_argument('--flowsim-policy', type=str,
+                        choices=['FAIR', 'EP_FIRST', 'KV_FIRST',
+                                 'KV_ISOLATED', 'EP_ISOLATED',
+                                 'KV_REQUEST_FIRST',
+                                 'EP_THEN_KV_REQUEST_FIRST'],
+                        default='FAIR',
+                        help=('FlowSim fluid service policy; *_ISOLATED are '
+                              'non-deployable counterfactuals that place one '
+                              'traffic class on an independent virtual copy '
+                              'of every directed link'))
+    parser.add_argument('--flowsim-request-first-id', type=int, default=None,
+                        help='required request id for the offline KV_REQUEST_FIRST characterization policy')
+    parser.add_argument('--flowsim-telemetry', type=str, default=None,
+                        help='optional path for bounded FlowSim flow/link telemetry')
+    parser.add_argument('--research-decode-phase-delay-ns', type=int,
+                        default=0,
+                        help=('research-only one-time delay before the first '
+                              'real Decode batch of a DP group; does not alter '
+                              'request arrival or KV-ready time'))
+    parser.add_argument('--research-decode-phase-dp-group', type=str,
+                        default=None,
+                        help='DP group receiving the research-only initial Decode phase delay')
 
     args = parser.parse_args()
+
+    if (args.flowsim_policy in ('KV_REQUEST_FIRST',
+                                'EP_THEN_KV_REQUEST_FIRST') and
+            args.flowsim_request_first_id is None):
+        parser.error('--flowsim-request-first-id is required with '
+                     'request-specific FlowSim policies')
+    if args.research_decode_phase_delay_ns < 0:
+        parser.error('--research-decode-phase-delay-ns must be non-negative')
+    if (args.research_decode_phase_delay_ns > 0 and
+            not args.research_decode_phase_dp_group):
+        parser.error('--research-decode-phase-dp-group is required with a positive phase delay')
+    if args.pd_handoff_admission == 'TWO_STAGE_FIFO':
+        if args.network_backend != 'flowsim':
+            parser.error('TWO_STAGE_FIFO currently requires FlowSim')
+        if not args.pd_handoff_capacity_reservation:
+            parser.error('TWO_STAGE_FIFO requires --pd-handoff-capacity-reservation')
+        if args.pd_kv_transfer_mode != 'POST_PREFILL':
+            parser.error('TWO_STAGE_FIFO requires --pd-kv-transfer-mode POST_PREFILL')
+        if args.destination_prefix_handoff not in ('DISABLED', 'DELTA'):
+            parser.error('TWO_STAGE_FIFO supports DISABLED or DELTA destination prefix handoff')
     
     args.run_id = resolve_run_id(args.run_id)
     run_paths = build_run_paths(astra_sim, args.run_id, args.inputs_root)
@@ -428,14 +544,45 @@ def main():
     # ----------------------------------------- Set config -----------------------------------------
     # Automatic network, memory configuration
     # If you want to set more specific information such as latency, look at config.py and each json file
+    flowsim_topology_value = (
+        args.flowsim_topology or raw_cluster_config.get('flowsim_topology'))
+    flowsim_rank_map_value = (
+        args.flowsim_rank_map or raw_cluster_config.get('flowsim_rank_map'))
+
+    def _resolve_repo_file(value, label):
+        if not value:
+            raise ValueError(
+                "--network-backend flowsim requires %s via CLI or cluster "
+                "config" % label)
+        path = value if os.path.isabs(value) else os.path.join(cwd, value)
+        path = os.path.abspath(path)
+        if not os.path.isfile(path):
+            raise FileNotFoundError("%s does not exist: %s" % (label, path))
+        return path
+
     if network_backend == 'analytical':
         network=run_paths.network_config
         binary=os.path.join(astra_sim, "build/astra_analytical/build/AnalyticalAstra/bin/AnalyticalAstra")
     elif network_backend == 'ns3':
-        network=_prepare_ns3_config(astra_sim, run_paths)
+        ns3_topology_value = raw_cluster_config.get('ns3_topology')
+        ns3_template_value = raw_cluster_config.get('ns3_config_template')
+        ns3_topology = (
+            _resolve_repo_file(ns3_topology_value, "ns-3 topology")
+            if ns3_topology_value else None)
+        ns3_template = (
+            _resolve_repo_file(ns3_template_value, "ns-3 config template")
+            if ns3_template_value else None)
+        network = _prepare_ns3_config(
+            astra_sim, run_paths, topology_path=ns3_topology,
+            template_path=ns3_template)
         binary=os.path.join(astra_sim, "extern/network_backend/ns-3/build/scratch/ns3.42-AstraSimNetwork-default")
+    elif network_backend == 'flowsim':
+        network = _resolve_repo_file(flowsim_topology_value, "FlowSim topology")
+        flowsim_rank_map_path = _resolve_repo_file(
+            flowsim_rank_map_value, "FlowSim logical rank map")
+        binary = None
     else:
-        raise NotImplementedError("Only analytical and ns3 network backend are supported")
+        raise NotImplementedError("Unsupported network backend %r" % network_backend)
     memory=run_paths.memory_config
     system=run_paths.system_config
     # ------------------------------------- Prepare simulation -------------------------------------
@@ -512,6 +659,20 @@ def main():
             raise NotImplementedError(f"Prefix storage type {prefix_storage} is not supported or memory size is invalid")
 
     schedulers = []
+    configured_pd_pairing = {
+        int(prefill_id): int(decode_id)
+        for prefill_id, decode_id in
+        (raw_cluster_config.get("pd_pairing") or {}).items()
+    }
+    decode_instance_ids = {
+        int(instance["instance_id"])
+        for instance in instances
+        if instance.get("pd_type") == "decode"
+    }
+    if args.pd_handoff_admission == 'TWO_STAGE_FIFO' and any(
+            instance.get('pd_type') == 'prefill' and
+            instance.get('dp_group') is not None for instance in instances):
+        raise ValueError('TWO_STAGE_FIFO does not yet support DP groups')
     for instance_id, instance in enumerate(instances):
         prefix_pool_index = prefix_pool_inst_mapping[instance_id]
         prefix_pool = None
@@ -540,7 +701,22 @@ def main():
             kv_cache_dtype=inst_cfg["kv_cache_dtype"],
             npu_memory_utilization=inst_cfg["npu_memory_utilization"],
             reserve_full_isl=inst_cfg["reserve_full_isl"],
+            actual_pd_receivers=(
+                instance.get("pd_type") == "prefill" and
+                (len(decode_instance_ids) == 1 or
+                 int(instance_id) in configured_pd_pairing)),
+            research_decode_phase_delay_ns=(
+                args.research_decode_phase_delay_ns
+                if instance.get("dp_group") ==
+                args.research_decode_phase_dp_group else 0),
+            destination_prefix_handoff=args.destination_prefix_handoff,
+            pd_handoff_capacity_reservation=(
+                args.pd_handoff_capacity_reservation),
+            pd_handoff_admission=args.pd_handoff_admission,
         ))
+        if instance.get("pd_type") == "decode":
+            schedulers[-1].kv.npu_pool.eviction_policy = (
+                args.decode_kv_eviction_policy)
 
     # The derived KV capacity, not the utilization fraction, is what decides
     # memory pressure. It is per instance and only known once the schedulers
@@ -564,7 +740,23 @@ def main():
     # Controller for astra-sim process communication
     controller = Controller(total_npu)
     # Global Request Router
-    router = Router(num_instances, schedulers, num_req, request_routing_policy)
+    router = Router(
+        num_instances, schedulers, num_req, request_routing_policy,
+        pd_pairing=raw_cluster_config.get('pd_pairing'))
+    decode_scheduler_by_id = {
+        int(scheduler.instance_id): scheduler
+        for scheduler in schedulers if scheduler.pd_type == "decode"
+    }
+    for scheduler in schedulers:
+        if scheduler.pd_type != "prefill":
+            continue
+        scheduler.destination_decode_schedulers = decode_scheduler_by_id
+        paired_decode_id = configured_pd_pairing.get(
+            int(scheduler.instance_id))
+        if paired_decode_id is None and len(decode_scheduler_by_id) == 1:
+            paired_decode_id = next(iter(decode_scheduler_by_id))
+        scheduler.destination_decode_scheduler = decode_scheduler_by_id.get(
+            paired_decode_id)
     # Power Modeling if enabled
     if power_modeling:
         power_model = PowerModel(power_configs)
@@ -619,14 +811,68 @@ def main():
                    save_trace_text=args.save_trace_text, trace=event_trace)
     # set first workload file
     workload = get_workload(None, None, event=True, inputs_root=run_paths.inputs_root)
-    # run subprocess
-    astra_args = [binary, "--workload-configuration="+workload, "--system-configuration="+system, "--network-configuration="+network, "--memory-configuration="+memory]
-    if start_npu_ids != "":
-        astra_args.append("--start-npu-ids="+start_npu_ids)
-    if end_npu_ids != "":
-        astra_args.append("--end-npu-ids="+end_npu_ids)
-    if network_backend == 'ns3':
-        astra_args.append("--logical-topology-configuration="+astra_sim+"/inputs/logical_topology/logical_8nodes_1D.json")
+    # run subprocess / interactive network worker
+    if network_backend == 'flowsim':
+        worker_path = os.path.join(cwd, "serving", "core", "flowsim_worker.py")
+        decode_ranks = []
+        rank_groups = []
+        decode_dp_groups = defaultdict(list)
+        for inst in instances:
+            inst_id = int(inst["instance_id"])
+            base = int(inst2npu_mapping[inst_id])
+            count = int(inst["num_npus"])
+            if inst.get("pd_type") == "prefill":
+                rank_groups.append(list(range(base, base + 2 * count)))
+            else:
+                local_ranks = list(range(base, base + count))
+                rank_groups.append(local_ranks)
+                decode_ranks.extend(local_ranks)
+                if inst.get("dp_group") is not None:
+                    decode_dp_groups[inst["dp_group"]].extend(local_ranks)
+        rank_groups.extend(
+            ranks for ranks in decode_dp_groups.values() if len(ranks) > 1)
+        rank_group_arg = ";".join(
+            ",".join(str(rank) for rank in group)
+            for group in rank_groups if group)
+        astra_args = [
+            flush.executable, worker_path,
+            "--workload-configuration=" + workload,
+            "--total-ranks=" + str(total_npu),
+            "--topology-dims=" + ",".join(
+                str(value) for value in cluster["topology_dims"]),
+            "--topology=" + network,
+            "--policy=" + args.flowsim_policy,
+            "--decode-ranks=" + ",".join(map(str, decode_ranks)),
+            "--rank-groups=" + rank_group_arg,
+            "--rank-map=" + flowsim_rank_map_path,
+        ]
+        if args.flowsim_request_first_id is not None:
+            astra_args.append(
+                "--request-first-id=" +
+                str(args.flowsim_request_first_id))
+        if args.flowsim_telemetry:
+            telemetry_path = args.flowsim_telemetry
+            if not os.path.isabs(telemetry_path):
+                telemetry_path = os.path.join(cwd, telemetry_path)
+            astra_args.append(
+                "--telemetry=" + os.path.abspath(telemetry_path))
+    else:
+        astra_args = [binary, "--workload-configuration="+workload,
+                      "--system-configuration="+system,
+                      "--network-configuration="+network,
+                      "--memory-configuration="+memory]
+        if network_backend == 'ns3':
+            logical_topology_path = os.path.join(
+                run_paths.inputs_root, "ns3", "logical_topology.json")
+            _write_ns3_logical_topology(
+                logical_topology_path, cluster["topology_dims"])
+            astra_args.append(
+                "--logical-topology-configuration=" + logical_topology_path)
+        else:
+            if start_npu_ids != "":
+                astra_args.append("--start-npu-ids="+start_npu_ids)
+            if end_npu_ids != "":
+                astra_args.append("--end-npu-ids="+end_npu_ids)
     p = subprocess.Popen(astra_args, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
     # DP group synchronization: defer trace generation until all members have scheduled
@@ -654,9 +900,69 @@ def main():
     # the first one's graph, and a single slot silently dropped the first.
     dp_ready_workloads = defaultdict(deque)  # npu_id -> deque[workload_path]
 
+    def _graph_event_metadata(batch, pd_type, batch_id=None,
+                              request_ids=None):
+        ids = (sorted({int(req.id) for req in batch.requests})
+               if request_ids is None else
+               sorted({int(request_id) for request_id in request_ids}))
+        effective_batch_id = int(
+            batch.batch_id if batch_id is None else batch_id)
+        role = str(pd_type or "")
+        return {
+            "batch_id": effective_batch_id,
+            "ep_collective_batch_id": effective_batch_id,
+            "request_ids": ids,
+            "pd_request_ids": ids if role == "prefill" else [],
+            "decode_request_ids": ids if role == "decode" else [],
+            "execution_type": role,
+        }
+
+    def _flowsim_dp_group_command(group_name, workload_path, current_sys):
+        """Atomically submit every rank of one assembled DP/EP graph to FlowSim.
+
+        A collective parsed from only one rank ET is not a collective.  The
+        worker's group command makes the complete DP×TP participant set visible
+        to its group-wide barrier executor.  Other member start ranks already
+        have matching ready graph paths queued by the frontend.
+        """
+        member_ids = dp_groups[group_name]
+        ranks = []
+        member_ranges = []
+        for member_id in member_ids:
+            start_rank = int(inst2npu_mapping[member_id])
+            instance = instances[member_id]
+            count = int(instance["num_npus"])
+            member_ranges.append((start_rank, count))
+            ranks.extend(range(start_rank, start_rank + count))
+        queued_owners, blockers = queued_group_graph_owners(
+            member_ranges, workload_path, current_sys, dp_ready_workloads)
+        if blockers:
+            logger.error(
+                "FlowSim DP group %s cannot assemble workload=%s current_rank=%s blockers=%s",
+                group_name, workload_path, current_sys, blockers)
+            return None
+        for owner_rank in queued_owners:
+            queued = dp_ready_workloads.get(owner_rank)
+            if queued and queued[0] == workload_path:
+                queued.popleft()
+                if not queued:
+                    del dp_ready_workloads[owner_rank]
+        return "group %s %s" % (
+            workload_path, ",".join(str(rank) for rank in ranks))
+
     # ----------------------------------- Start simulation loop ------------------------------------
     print_markup("[sim.heading]▶ Starting simulation...[/]\n")
     flush.stdout.flush()
+
+    p2d_decode_wakeup_pending = False
+
+    def _write_response(process, response):
+        nonlocal p2d_decode_wakeup_pending
+        if network_backend == "flowsim" and p2d_decode_wakeup_pending:
+            if response != "exit":
+                response = "wake-decode " + response
+            p2d_decode_wakeup_pending = False
+        controller.write_flush(process, response)
 
     # Starting simulation, one while loop processes one iteration
     while True:
@@ -690,7 +996,12 @@ def main():
             waiting_request[instance_id] = True
 
         # check request is done
-        prompt_t, gen_t, finished_reqs = schedulers[instance_id].add_done(id, sys, current)
+        inflight_before = len(schedulers[instance_id].inflight)
+        prompt_t, gen_t, finished_reqs = schedulers[instance_id].add_done(
+            id, sys, current)
+        scheduler_state_changed = _scheduler_completion_changed_state(
+            prompt_t, gen_t, finished_reqs, inflight_before,
+            len(schedulers[instance_id].inflight))
         # add tokens in throughput
         prompt_th += prompt_t
         total_prompt += prompt_t
@@ -706,7 +1017,10 @@ def main():
 
         # Add prefill ended requests to decode instance
         if instances[instance_id]["pd_type"] == "prefill" and len(finished_reqs) > 0:
-            router.transfer_prefill_request(finished_reqs)
+            router.transfer_prefill_request(
+                finished_reqs, completion_time_ns=current)
+            if network_backend == "flowsim":
+                p2d_decode_wakeup_pending = True
 
         # An NPU that opened a DP round owes ASTRA-Sim that round's graph, and it
         # has to be handed over before the scheduler may open anything new. vLLM
@@ -726,9 +1040,19 @@ def main():
 
         # Hand over a workload pre-generated by a DP round this NPU opened.
         if pending:
-            controller.write_flush(p, pending.popleft())
-            if not pending:
-                del dp_ready_workloads[sys]
+            if network_backend == 'flowsim' and instance_id in inst_dp_group:
+                group_command = _flowsim_dp_group_command(
+                    inst_dp_group[instance_id], pending[0], sys)
+                if group_command is not None:
+                    _write_response(p, group_command)
+                else:
+                    _write_response(p, pending.popleft())
+                    if not pending:
+                        del dp_ready_workloads[sys]
+            else:
+                _write_response(p, pending.popleft())
+                if not pending:
+                    del dp_ready_workloads[sys]
             responded = True
         # DP group: truly idle instance (no inflight batch) — create dummy batch so ALLTOALL syncs
         # An idle DP member has to keep pace with a busy one. vLLM requires every
@@ -793,6 +1117,11 @@ def main():
                     # Shared workload folder for all DP members
                     first_inst_id = dp_groups[dg][0]
                     first_batch = round_batches[first_inst_id][0]
+                    round_request_ids = sorted({
+                        int(req.id)
+                        for batch_item, _ in round_batches.values()
+                        for req in batch_item.requests
+                    })
                     dp_workload_name = f'{instances[first_inst_id]["hardware"]}/{instances[first_inst_id]["model_name"]}/dp_{dg}_batch{first_batch.batch_id}'
 
                     for inst_id in dp_groups[dg]:
@@ -813,14 +1142,25 @@ def main():
                                        tp_dim=inst.get("tp_dim"), ep_dim=inst.get("ep_dim"),
                                        dp_sum_total_len=sum_total_len,
                                        enable_block_copy=inst_cfg["enable_block_copy"],
-                                       inputs_root=run_paths.inputs_root)
+                                       inputs_root=run_paths.inputs_root,
+                                       pd_kv_transfer_mode=args.pd_kv_transfer_mode)
                         generate_graph(batch, inst["hardware"], inst["num_npus"], nid,
                                        inst_id, inst2npu_mapping[inst_id],
                                        inst_cfg["enable_local_offloading"],
                                        workload_name=dp_workload_name,
                                        inputs_root=run_paths.inputs_root,
                                        save_trace_text=args.save_trace_text,
+                                       event_metadata=_graph_event_metadata(
+                                           batch, inst["pd_type"],
+                                           batch_id=first_batch.batch_id,
+                                           request_ids=round_request_ids),
+                        **pd_decode_graph_kwargs(
+                            batch.requests, inst_id, instances,
+                            inst2npu_mapping,
+                            raw_cluster_config.get("pd_pairing")),
                                        trace=trace_data)
+                        schedulers[inst_id].mark_batch_graph_start(
+                            batch, current)
                         # ``fired[0]`` is the NPU that opened this member's
                         # round -- the one that owes ASTRA-Sim its graph. That is
                         # normally this very poll, and then it is answered
@@ -836,13 +1176,22 @@ def main():
                             dp_ready_workloads[batch.fired[0]].append(ready)
 
                     if own_workload is not None:
-                        controller.write_flush(p, own_workload)
+                        if network_backend == 'flowsim':
+                            group_command = _flowsim_dp_group_command(
+                                dg, own_workload, sys)
+                            if group_command is None:
+                                raise RuntimeError(
+                                    "FlowSim could not assemble all rank ETs "
+                                    "for DP group %s" % dg)
+                            _write_response(p, group_command)
+                        else:
+                            _write_response(p, own_workload)
                     else:
-                        controller.write_flush(p, _pass_response(router, current, state_changed=True))
+                        _write_response(p, _pass_response(router, current, state_changed=True))
                     responded = True
                 else:
                     # Joined the round with a dummy; the round is not complete.
-                    controller.write_flush(p, _pass_response(router, current, state_changed=True))
+                    _write_response(p, _pass_response(router, current, state_changed=True))
                     responded = True
         # runnable batch exists
         elif new_req is not None:
@@ -881,6 +1230,11 @@ def main():
                         # Shared workload folder for all DP members
                         first_inst_id = dp_groups[dg][0]
                         first_batch = round_batches[first_inst_id][0]
+                        round_request_ids = sorted({
+                            int(req.id)
+                            for batch_item, _ in round_batches.values()
+                            for req in batch_item.requests
+                        })
                         dp_workload_name = f'{instances[first_inst_id]["hardware"]}/{instances[first_inst_id]["model_name"]}/dp_{dg}_batch{first_batch.batch_id}'
 
                         for inst_id in dp_groups[dg]:
@@ -901,17 +1255,28 @@ def main():
                                            tp_dim=inst.get("tp_dim"), ep_dim=inst.get("ep_dim"),
                                            dp_sum_total_len=sum_total_len,
                                            enable_block_copy=inst_cfg["enable_block_copy"],
-                                           inputs_root=run_paths.inputs_root)
+                                           inputs_root=run_paths.inputs_root,
+                                           pd_kv_transfer_mode=args.pd_kv_transfer_mode)
                             generate_graph(batch, inst["hardware"], inst["num_npus"], nid,
                                            inst_id, inst2npu_mapping[inst_id],
                                            inst_cfg["enable_local_offloading"],
                                            workload_name=dp_workload_name,
                                            inputs_root=run_paths.inputs_root,
                                            save_trace_text=args.save_trace_text,
+                                           event_metadata=_graph_event_metadata(
+                                               batch, inst["pd_type"],
+                                               batch_id=first_batch.batch_id,
+                                               request_ids=round_request_ids),
+                            **pd_decode_graph_kwargs(
+                                batch.requests, inst_id, instances,
+                                inst2npu_mapping,
+                                raw_cluster_config.get("pd_pairing")),
                                            trace=trace_data)
                             # See the twin block above: the NPU that opened a
                             # member's round owes its graph, and that is normally
                             # this poll.
+                            schedulers[inst_id].mark_batch_graph_start(
+                                batch, current)
                             ready = get_workload(batch, inst["hardware"], inst_id,
                                                  workload_name=dp_workload_name,
                                                  inputs_root=run_paths.inputs_root)
@@ -921,18 +1286,39 @@ def main():
                                 dp_ready_workloads[batch.fired[0]].append(ready)
 
                         if own_workload is not None:
-                            controller.write_flush(p, own_workload)
+                            if network_backend == 'flowsim':
+                                group_command = _flowsim_dp_group_command(
+                                    dg, own_workload, sys)
+                                if group_command is None:
+                                    raise RuntimeError(
+                                        "FlowSim could not assemble all rank "
+                                        "ETs for DP group %s" % dg)
+                                _write_response(p, group_command)
+                            else:
+                                _write_response(p, own_workload)
                         else:
-                            controller.write_flush(p, _pass_response(router, current, state_changed=True))
+                            _write_response(p, _pass_response(router, current, state_changed=True))
                         responded = True
                     else:
                         # Waiting for other DP members — send pass
-                        controller.write_flush(p, _pass_response(router, current, state_changed=True))
+                        _write_response(p, _pass_response(router, current, state_changed=True))
                         responded = True
                 else:
                     # Independent instance: generate trace immediately
                     inst_cfg = instance_runtime_configs[instance_id]
-                    trace_data = generate_trace(new_req, instance["hardware"], instance["tp_size"], instance["pp_size"],
+                    if getattr(new_req, "handoff_only", False):
+                        trace_path = os.path.join(
+                            run_paths.inputs_root, "trace", instance["hardware"],
+                            instance["model_name"],
+                            "instance%d_batch%d.txt" % (
+                                instance_id, new_req.batch_id))
+                        trace_data = generate_handoff_trace(
+                            new_req, get_config(instance["model_name"]),
+                            instance["tp_size"], instance["pp_size"],
+                            inst_cfg["fp"], inst_cfg["kv_cache_dtype"],
+                            trace_path)
+                    else:
+                        trace_data = generate_trace(new_req, instance["hardware"], instance["tp_size"], instance["pp_size"],
                                    instance["local_ep"], instance["ep_total"],
                                    instance["pd_type"],
                                    node_id, instance_id,
@@ -944,16 +1330,40 @@ def main():
                                    dtype=inst_cfg["dtype"], kv_cache_dtype=inst_cfg["kv_cache_dtype"],
                                    tp_dim=instance["tp_dim"], ep_dim=instance["ep_dim"],
                                    enable_block_copy=inst_cfg["enable_block_copy"],
-                                   inputs_root=run_paths.inputs_root)
+                                   inputs_root=run_paths.inputs_root,
+                                   pd_kv_transfer_mode=(
+                                       'COMPUTE_ONLY' if
+                                       args.pd_handoff_admission == 'TWO_STAGE_FIFO' and
+                                       instance['pd_type'] == 'prefill' else
+                                       args.pd_kv_transfer_mode))
                     generate_graph(new_req, instance["hardware"], instance["num_npus"], node_id,
                                    instance_id, inst2npu_mapping[instance_id],
                                    inst_cfg["enable_local_offloading"],
                                    inputs_root=run_paths.inputs_root,
                                    save_trace_text=args.save_trace_text,
+                                   event_metadata=_graph_event_metadata(
+                                       new_req, instance["pd_type"]),
+                                   **pd_decode_graph_kwargs(
+                                       new_req.requests, instance_id,
+                                       instances, inst2npu_mapping,
+                                       raw_cluster_config.get("pd_pairing")),
                                    trace=trace_data)
+                    schedulers[instance_id].mark_batch_graph_start(
+                        new_req, current)
                     workload = get_workload(new_req, instance["hardware"], instance_id,
                                             inputs_root=run_paths.inputs_root)
-                    controller.write_flush(p, workload)
+                    if network_backend == 'flowsim':
+                        # Keep all TP/EP participant ETs of this instance in
+                        # one FlowSim executor job.  A rank-local run command
+                        # cannot represent a multi-rank collective barrier.
+                        instance_ranks = range(
+                            int(inst2npu_mapping[instance_id]),
+                            int(inst2npu_mapping[instance_id]) +
+                            int(instance["num_npus"]))
+                        _write_response(
+                            p, instance_group_command(workload, instance_ranks))
+                    else:
+                        _write_response(p, workload)
             else:
                 # Joined an existing batch: pick up its workload. workload_name
                 # matters for a DP batch, whose graph lives in the group's shared
@@ -974,13 +1384,20 @@ def main():
                     waiting_request[instance_id] = False
                 if instance_id in inst_dp_group and new_req.workload_name is None:
                     new_req.fired.remove(sys)
-                    controller.write_flush(p, _pass_response(router, current, state_changed=True))
+                    # This rank only returned a temporary claim; it did not
+                    # add a new member batch to dp_pending.  Waking the whole
+                    # Decode group here makes already-joined TP peers reclaim
+                    # the same unnamed batch, return it again, and generate an
+                    # unbounded pass -1 ping-pong before the remaining DP
+                    # members can rendezvous.  A later member's real/dummy
+                    # batch insertion sends pass -1 and reopens this rank.
+                    _write_response(p, _pass_response(router, current))
                     responded = True
                 else:
                     workload = get_workload(new_req, instances[instance_id]["hardware"], instance_id,
                                             workload_name=new_req.workload_name,
                                             inputs_root=run_paths.inputs_root)
-                    controller.write_flush(p, workload)
+                    _write_response(p, workload)
 
         # check time to store throughput (only print on start NPU to avoid transient states)
         if current > last_log + INTERVAL and sys == inst2npu_mapping[instance_id]:
@@ -1115,7 +1532,7 @@ def main():
                 if not all_dp_empty:
                     # Other DP members still have work — keep this instance alive for dummy waves
                     if not responded:
-                        controller.write_flush(p, _pass_response(router, current))
+                        _write_response(p, _pass_response(router, current))
                     flush.stdout.flush()
                     continue
 
@@ -1139,21 +1556,32 @@ def main():
 
                 print_rule()
                 print_markup("[sim.heading]▶ Exiting simulation...[/]\n")
-                controller.write_flush(p, "exit")
+                _write_response(p, "exit")
                 break
-            controller.write_flush(p, "done") # make done instances to sleep
+            _write_response(p, "done") # make done instances to sleep
         elif new_req == None and not responded:
             # If all instances are idle but deferred sessions have pending
             # requests with future arrival times (tool calls still running),
             # advance current time so the next iteration can pick them up.
             # Built before the jump below: _pass_response compares against
             # the clock ASTRA-Sim is actually at, not the one we skip to.
-            pass_msg = _pass_response(router, current)
+            state_changed = (
+                network_backend == "flowsim" and
+                instances[instance_id]["pd_type"] == "decode" and
+                scheduler_state_changed)
+            scheduler_deadline = None
+            if (network_backend == "flowsim" and
+                    instances[instance_id]["pd_type"] == "decode"):
+                scheduler_deadline = schedulers[
+                    instance_id].next_scheduler_wakeup_time(current)
+            pass_msg = _pass_response(
+                router, current, state_changed=state_changed,
+                scheduler_deadline=scheduler_deadline)
             if router.has_deferred_sessions() or router.has_pending_requests():
                 next_arrival = router.get_next_pending_arrival()
                 if next_arrival is not None and next_arrival > current:
                     current = next_arrival
-            controller.write_flush(p, pass_msg)
+            _write_response(p, pass_msg)
         
         # flush
         flush.stdout.flush()

@@ -1,5 +1,6 @@
 import glob
 import hashlib
+import json
 import os
 from collections import OrderedDict
 from time import time
@@ -72,6 +73,72 @@ def _et_names(workload_dir):
     return set(glob.glob(os.path.join(workload_dir, "llm.*.et")))
 
 
+def pd_decode_graph_kwargs(requests, prefill_instance_id, instances,
+                           inst2npu_mapping, pd_pairing=None):
+    """Resolve one physical Decode receiver layout for a Prefill graph.
+
+    P2D SEND nodes are emitted while the Prefill graph is converted, so their
+    destination must be known before the post-Prefill Router handoff. A single
+    Decode instance is unambiguous; multi-Decode deployments must pin each
+    request to a Decode instance with ``pd_pairing``. A graph cannot encode a
+    batch whose requests target different Decode layouts.
+
+    Empty/dummy batches return no override and retain the converter's legacy
+    shadow-rank behavior because they emit no request KV transfers.
+    """
+    requests = list(requests or ())
+    if not requests:
+        return {}
+
+    decode_by_id = {
+        int(instance["instance_id"]): instance
+        for instance in instances
+        if instance.get("pd_type") == "decode"
+    }
+    if not decode_by_id:
+        return {}
+
+    pairing = {int(prefill): int(decode)
+               for prefill, decode in (pd_pairing or {}).items()}
+    paired_id = pairing.get(int(prefill_instance_id))
+    targets = set()
+    for request in requests:
+        request_target = getattr(request, "paired_decode_instance_id", None)
+        if request_target is None:
+            request_target = paired_id
+        if request_target is None:
+            if len(decode_by_id) != 1:
+                raise ValueError(
+                    "P2D graph receiver is ambiguous: configure pd_pairing "
+                    "for Prefill instance %s when the cluster has multiple "
+                    "Decode instances" % prefill_instance_id)
+            request_target = next(iter(decode_by_id))
+        request_target = int(request_target)
+        if request_target not in decode_by_id:
+            raise ValueError(
+                "P2D request targets non-Decode instance %s" % request_target)
+        targets.add(request_target)
+
+    if len(targets) != 1:
+        raise ValueError(
+            "One Prefill graph cannot send P2D KV to multiple Decode "
+            "instance layouts: %s" % sorted(targets))
+
+    decode_id = next(iter(targets))
+    decode = decode_by_id[decode_id]
+    try:
+        decode_offset = int(inst2npu_mapping[decode_id])
+    except KeyError as exc:
+        raise ValueError(
+            "Missing global rank offset for Decode instance %s" % decode_id
+        ) from exc
+    return {
+        "pd_decode_offset": decode_offset,
+        "pd_decode_tp": int(decode["tp_size"]),
+        "pd_decode_pp": int(decode.get("pp_size", 1)),
+    }
+
+
 def _cache_store(key, paths):
     """Read the freshly converted files into the cache, evicting LRU.
 
@@ -135,7 +202,7 @@ def _get_llm_converter():
     return _LLMConverter
 
 
-def generate_graph(batch, hardware, num_npus, node_id=0, instance_id=0, npu_offset=0, enable_local_offloading=False, event=False, workload_name=None, inputs_root=None, save_trace_text=False, *, trace):
+def generate_graph(batch, hardware, num_npus, node_id=0, instance_id=0, npu_offset=0, enable_local_offloading=False, event=False, workload_name=None, inputs_root=None, save_trace_text=False, event_metadata=None, pd_decode_offset=None, pd_decode_tp=None, pd_decode_pp=None, *, trace):
 
     cwd = os.getcwd()
     if inputs_root is None:
@@ -159,8 +226,11 @@ def generate_graph(batch, hardware, num_npus, node_id=0, instance_id=0, npu_offs
     if save_trace_text:
         write_trace(trace)
 
+    metadata_key = json.dumps(event_metadata or {}, sort_keys=True,
+                              separators=(",", ":"))
     cache_key = (_rows_digest(trace), num_npus, npu_offset,
-                 enable_local_offloading)
+                 enable_local_offloading, metadata_key,
+                 pd_decode_offset, pd_decode_tp, pd_decode_pp)
 
     cached = _ET_CACHE.get(cache_key)
     if cached is not None:
@@ -178,9 +248,21 @@ def generate_graph(batch, hardware, num_npus, node_id=0, instance_id=0, npu_offs
 
     logger.debug("Converting graph: %s -> %s", trace_path, output_path,
                  extra={"node_id": node_id, "instance_id": instance_id})
-    converter = _get_llm_converter()(
-        trace_path, output_path, num_npus, npu_offset, enable_local_offloading,
-    )
+    converter_class = _get_llm_converter()
+    pd_receiver_kwargs = {
+        "pd_decode_offset": pd_decode_offset,
+        "pd_decode_tp": pd_decode_tp,
+        "pd_decode_pp": pd_decode_pp,
+    }
+    if event_metadata:
+        converter = converter_class(
+            trace_path, output_path, num_npus, npu_offset,
+            enable_local_offloading, **pd_receiver_kwargs,
+            event_metadata=event_metadata)
+    else:
+        converter = converter_class(
+            trace_path, output_path, num_npus, npu_offset,
+            enable_local_offloading, **pd_receiver_kwargs)
     converter.convert_rows(trace.header_line, indexed_cols(trace.rows))
 
     _cache_store(cache_key, _et_names(workload_dir) - before)

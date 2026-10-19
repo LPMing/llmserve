@@ -1,0 +1,149 @@
+{
+  "arrival_buckets": {
+    "0.2": {
+      "buckets_with_9_requests": 1,
+      "exact_256_token_prefix_groups_with_2_requests": 607,
+      "exact_256_token_prefix_groups_with_4_requests": 2,
+      "nonempty_buckets": 24986,
+      "peak_requests": 9,
+      "requests_in_9_request_buckets": 9,
+      "requests_in_exact_256_token_prefix_groups_with_2": 1254,
+      "requests_in_exact_256_token_prefix_groups_with_4": 8,
+      "requests_per_nonempty_bucket_p50_p95_p99": [
+        1,
+        3,
+        5
+      ]
+    },
+    "1.0": {
+      "buckets_with_9_requests": 1139,
+      "exact_256_token_prefix_groups_with_2_requests": 2026,
+      "exact_256_token_prefix_groups_with_4_requests": 128,
+      "nonempty_buckets": 7175,
+      "peak_requests": 19,
+      "requests_in_9_request_buckets": 11510,
+      "requests_in_exact_256_token_prefix_groups_with_2": 4724,
+      "requests_in_exact_256_token_prefix_groups_with_4": 530,
+      "requests_per_nonempty_bucket_p50_p95_p99": [
+        6,
+        10,
+        12
+      ]
+    }
+  },
+  "compressed_trie_nodes": 66365,
+  "counts": {
+    "high_reuse_within_16k": 12457,
+    "input_tokens": 247212429,
+    "input_within_16k": 42936,
+    "nonroot_requests": 16605,
+    "output_tokens": 34763950,
+    "prefix_reuse_within_10s": 16802,
+    "prefix_reuse_within_1s": 8558,
+    "prefix_reuse_within_60s": 24152,
+    "requests": 43011,
+    "requests_reuse_2048": 18830,
+    "requests_reuse_256": 27813,
+    "requests_reuse_at_least_88pct": 12474,
+    "requests_reuse_at_least_half": 23149,
+    "reusable_input_tokens": 164284496
+  },
+  "input_tokens_p50_p95_p99": [
+    4540,
+    13407,
+    14407
+  ],
+  "output_tokens_p50_p95_p99": [
+    469,
+    2699,
+    5843
+  ],
+  "parent_arrival_gap_seconds_p50_p95_p99": [
+    117.71599999999944,
+    1609.1550000000002,
+    3488.921
+  ],
+  "parent_lcp_tokens_p50_p95_p99": [
+    3488,
+    12144,
+    13632
+  ],
+  "prior_input_reusable_tokens_p50_p95_p99": [
+    1072,
+    12720,
+    13520
+  ],
+  "prior_input_reuse_ratio_p50_p95_p99": [
+    0.5858900042414817,
+    0.9897048730267674,
+    0.9973931769239488
+  ],
+  "prior_prefix_age_seconds_p50_p95_p99": [
+    37.139000000000124,
+    1590.1020000000003,
+    3752.3
+  ],
+  "request_types_and_turns": {
+    "coder": 43011,
+    "turn_1": 26406,
+    "turn_10": 206,
+    "turn_11": 154,
+    "turn_12": 123,
+    "turn_13": 90,
+    "turn_14": 73,
+    "turn_15": 69,
+    "turn_16": 51,
+    "turn_17": 39,
+    "turn_18": 28,
+    "turn_19": 26,
+    "turn_2": 6693,
+    "turn_20": 20,
+    "turn_21": 18,
+    "turn_22": 13,
+    "turn_23": 10,
+    "turn_24": 8,
+    "turn_25": 7,
+    "turn_26": 7,
+    "turn_27": 6,
+    "turn_28": 2,
+    "turn_29": 1,
+    "turn_3": 3567,
+    "turn_30": 1,
+    "turn_31": 1,
+    "turn_32": 1,
+    "turn_33": 1,
+    "turn_34": 1,
+    "turn_35": 1,
+    "turn_36": 1,
+    "turn_37": 1,
+    "turn_38": 1,
+    "turn_39": 1,
+    "turn_4": 2036,
+    "turn_40": 1,
+    "turn_41": 1,
+    "turn_42": 1,
+    "turn_43": 1,
+    "turn_44": 1,
+    "turn_45": 1,
+    "turn_46": 1,
+    "turn_47": 1,
+    "turn_48": 1,
+    "turn_49": 1,
+    "turn_5": 1303,
+    "turn_50": 1,
+    "turn_51": 1,
+    "turn_52": 1,
+    "turn_53": 1,
+    "turn_54": 1,
+    "turn_6": 833,
+    "turn_7": 547,
+    "turn_8": 383,
+    "turn_9": 267
+  },
+  "source_file": "qwen_coder_blksz_16.jsonl",
+  "time_seconds": {
+    "max": 7198.879,
+    "mean_rps": 5.9746802245182895,
+    "min": 0.0
+  }
+}

@@ -1,0 +1,224 @@
+release/2026-05-17_2026-05-23/traces/2026-05-17.jsonl.zst roots 25 requests 1375 forks 0
+release/2026-05-17_2026-05-23/traces/2026-05-18.jsonl.zst roots 14 requests 1617 forks 0
+release/2026-05-17_2026-05-23/traces/2026-05-19.jsonl.zst roots 8 requests 4721 forks 0
+release/2026-05-17_2026-05-23/traces/2026-05-20.jsonl.zst roots 17 requests 383 forks 0
+release/2026-05-17_2026-05-23/traces/2026-05-21.jsonl.zst roots 15 requests 766 forks 0
+release/2026-05-17_2026-05-23/traces/2026-05-22.jsonl.zst roots 16 requests 1116 forks 1
+release/2026-05-17_2026-05-23/traces/2026-05-23.jsonl.zst roots 11 requests 760 forks 0
+release/2026-05-24_2026-05-30/traces/2026-05-24.jsonl.zst roots 22 requests 2799 forks 1
+release/2026-05-24_2026-05-30/traces/2026-05-25.jsonl.zst roots 43 requests 2798 forks 1
+release/2026-05-24_2026-05-30/traces/2026-05-26.jsonl.zst roots 21 requests 1977 forks 0
+release/2026-05-24_2026-05-30/traces/2026-05-27.jsonl.zst roots 22 requests 2252 forks 1
+release/2026-05-24_2026-05-30/traces/2026-05-28.jsonl.zst roots 8 requests 1353 forks 0
+release/2026-05-24_2026-05-30/traces/2026-05-29.jsonl.zst roots 16 requests 1019 forks 0
+release/2026-05-24_2026-05-30/traces/2026-05-30.jsonl.zst roots 3 requests 629 forks 2
+release/2026-05-31_2026-06-06/traces/2026-05-31.jsonl.zst roots 11 requests 860 forks 1
+release/2026-05-31_2026-06-06/traces/2026-06-01.jsonl.zst roots 8 requests 1492 forks 0
+release/2026-05-31_2026-06-06/traces/2026-06-02.jsonl.zst roots 7 requests 687 forks 0
+release/2026-05-31_2026-06-06/traces/2026-06-03.jsonl.zst roots 13 requests 2233 forks 0
+release/2026-05-31_2026-06-06/traces/2026-06-04.jsonl.zst roots 3 requests 394 forks 0
+release/2026-05-31_2026-06-06/traces/2026-06-05.jsonl.zst roots 18 requests 1149 forks 0
+release/2026-05-31_2026-06-06/traces/2026-06-06.jsonl.zst roots 5 requests 509 forks 0
+release/2026-06-07_2026-06-13/traces/2026-06-07.jsonl.zst roots 13 requests 1515 forks 0
+release/2026-06-07_2026-06-13/traces/2026-06-08.jsonl.zst roots 6 requests 1767 forks 0
+release/2026-06-07_2026-06-13/traces/2026-06-09.jsonl.zst roots 15 requests 739 forks 0
+release/2026-06-07_2026-06-13/traces/2026-06-10.jsonl.zst roots 11 requests 921 forks 0
+release/2026-06-07_2026-06-13/traces/2026-06-11.jsonl.zst roots 15 requests 821 forks 0
+release/2026-06-07_2026-06-13/traces/2026-06-12.jsonl.zst roots 12 requests 678 forks 0
+release/2026-06-07_2026-06-13/traces/2026-06-13.jsonl.zst roots 8 requests 418 forks 0
+release/2026-06-14_2026-06-20/traces/2026-06-14.jsonl.zst roots 8 requests 1060 forks 0
+release/2026-06-14_2026-06-20/traces/2026-06-15.jsonl.zst roots 13 requests 1090 forks 0
+release/2026-06-14_2026-06-20/traces/2026-06-16.jsonl.zst roots 9 requests 1214 forks 0
+release/2026-06-14_2026-06-20/traces/2026-06-17.jsonl.zst roots 20 requests 1361 forks 0
+release/2026-06-14_2026-06-20/traces/2026-06-18.jsonl.zst roots 108 requests 7802 forks 0
+release/2026-06-14_2026-06-20/traces/2026-06-19.jsonl.zst roots 46 requests 3706 forks 0
+release/2026-06-14_2026-06-20/traces/2026-06-20.jsonl.zst roots 271 requests 19426 forks 0
+release/2026-06-21_2026-06-27/traces/2026-06-20.jsonl.zst roots 3 requests 165 forks 0
+release/2026-06-21_2026-06-27/traces/2026-06-21.jsonl.zst roots 154 requests 9315 forks 0
+release/2026-06-21_2026-06-27/traces/2026-06-22.jsonl.zst roots 50 requests 3922 forks 0
+release/2026-06-21_2026-06-27/traces/2026-06-23.jsonl.zst roots 140 requests 10711 forks 0
+release/2026-06-21_2026-06-27/traces/2026-06-24.jsonl.zst roots 148 requests 12224 forks 0
+release/2026-06-21_2026-06-27/traces/2026-06-25.jsonl.zst roots 57 requests 6611 forks 1
+release/2026-06-21_2026-06-27/traces/2026-06-26.jsonl.zst roots 66 requests 6338 forks 0
+release/2026-06-21_2026-06-27/traces/2026-06-27.jsonl.zst roots 54 requests 7024 forks 4
+release/2026-06-28_2026-07-04/traces/2026-06-28.jsonl.zst roots 81 requests 9048 forks 0
+release/2026-06-28_2026-07-04/traces/2026-06-29.jsonl.zst roots 67 requests 9574 forks 0
+release/2026-06-28_2026-07-04/traces/2026-06-30.jsonl.zst roots 72 requests 5195 forks 2
+release/2026-06-28_2026-07-04/traces/2026-07-01.jsonl.zst roots 46 requests 5700 forks 4
+release/2026-06-28_2026-07-04/traces/2026-07-02.jsonl.zst roots 80 requests 6076 forks 5
+release/2026-06-28_2026-07-04/traces/2026-07-03.jsonl.zst roots 87 requests 6201 forks 7
+release/2026-06-28_2026-07-04/traces/2026-07-04.jsonl.zst roots 59 requests 8821 forks 7
+release/2026-07-05_2026-07-11/traces/2026-07-04.jsonl.zst roots 1 requests 208 forks 0
+release/2026-07-05_2026-07-11/traces/2026-07-05.jsonl.zst roots 68 requests 8625 forks 3
+release/2026-07-05_2026-07-11/traces/2026-07-06.jsonl.zst roots 462 requests 27305 forks 5
+release/2026-07-05_2026-07-11/traces/2026-07-07.jsonl.zst roots 58 requests 7223 forks 3
+release/2026-07-05_2026-07-11/traces/2026-07-08.jsonl.zst roots 64 requests 6959 forks 0
+release/2026-07-05_2026-07-11/traces/2026-07-09.jsonl.zst roots 59 requests 7131 forks 3
+release/2026-07-05_2026-07-11/traces/2026-07-10.jsonl.zst roots 61 requests 4658 forks 0
+release/2026-07-05_2026-07-11/traces/2026-07-11.jsonl.zst roots 59 requests 6193 forks 2
+release/2026-07-12_2026-07-18/traces/2026-07-11.jsonl.zst roots 2 requests 1027 forks 0
+release/2026-07-12_2026-07-18/traces/2026-07-12.jsonl.zst roots 84 requests 6176 forks 2
+release/2026-07-12_2026-07-18/traces/2026-07-13.jsonl.zst roots 92 requests 7400 forks 1
+release/2026-07-12_2026-07-18/traces/2026-07-14.jsonl.zst roots 73 requests 9907 forks 4
+release/2026-07-12_2026-07-18/traces/2026-07-15.jsonl.zst roots 102 requests 8049 forks 7
+release/2026-07-12_2026-07-18/traces/2026-07-16.jsonl.zst roots 96 requests 10947 forks 10
+release/2026-07-12_2026-07-18/traces/2026-07-17.jsonl.zst roots 147 requests 18205 forks 12
+release/2026-07-12_2026-07-18/traces/2026-07-18.jsonl.zst roots 103 requests 10314 forks 21
+release/2026-07-19_2026-07-25/traces/2026-07-19.jsonl.zst roots 127 requests 19262 forks 7
+release/2026-07-19_2026-07-25/traces/2026-07-20.jsonl.zst roots 112 requests 10941 forks 5
+release/2026-07-19_2026-07-25/traces/2026-07-21.jsonl.zst roots 99 requests 6273 forks 3
+release/2026-07-19_2026-07-25/traces/2026-07-22.jsonl.zst roots 126 requests 17775 forks 1
+release/2026-07-19_2026-07-25/traces/2026-07-23.jsonl.zst roots 114 requests 6414 forks 0
+release/2026-07-19_2026-07-25/traces/2026-07-24.jsonl.zst roots 117 requests 10555 forks 6
+release/2026-07-19_2026-07-25/traces/2026-07-25.jsonl.zst roots 91 requests 7584 forks 1
+release/2026-07-26_2026-08-01/traces/2026-07-25.jsonl.zst roots 1 requests 101 forks 0
+release/2026-07-26_2026-08-01/traces/2026-07-26.jsonl.zst roots 179 requests 18868 forks 4
+release/2026-07-26_2026-08-01/traces/2026-07-27.jsonl.zst roots 148 requests 13931 forks 10
+release/2026-07-26_2026-08-01/traces/2026-07-28.jsonl.zst roots 148 requests 12924 forks 0
+release/2026-07-26_2026-08-01/traces/2026-07-29.jsonl.zst roots 84 requests 8726 forks 4
+release/2026-07-26_2026-08-01/traces/2026-07-30.jsonl.zst roots 132 requests 13758 forks 4
+release/2026-07-26_2026-08-01/traces/2026-07-31.jsonl.zst roots 110 requests 7232 forks 3
+release/2026-07-26_2026-08-01/traces/2026-08-01.jsonl.zst roots 128 requests 8984 forks 6
+release/2026-08-02_2026-08-08/traces/2026-08-01.jsonl.zst roots 1 requests 133 forks 0
+release/2026-08-02_2026-08-08/traces/2026-08-02.jsonl.zst roots 142 requests 10936 forks 6
+release/2026-08-02_2026-08-08/traces/2026-08-03.jsonl.zst roots 148 requests 17590 forks 14
+release/2026-08-02_2026-08-08/traces/2026-08-04.jsonl.zst roots 173 requests 18917 forks 6
+release/2026-08-02_2026-08-08/traces/2026-08-05.jsonl.zst roots 186 requests 13700 forks 2
+release/2026-08-02_2026-08-08/traces/2026-08-06.jsonl.zst roots 147 requests 15225 forks 3
+release/2026-08-02_2026-08-08/traces/2026-08-07.jsonl.zst roots 34 requests 3045 forks 0
+release/2026-08-09_2026-08-15/traces/2026-08-08.jsonl.zst roots 3 requests 196 forks 0
+release/2026-08-09_2026-08-15/traces/2026-08-09.jsonl.zst roots 214 requests 33300 forks 2
+release/2026-08-09_2026-08-15/traces/2026-08-10.jsonl.zst roots 210 requests 26319 forks 5
+release/2026-08-09_2026-08-15/traces/2026-08-11.jsonl.zst roots 194 requests 25067 forks 1
+release/2026-08-09_2026-08-15/traces/2026-08-12.jsonl.zst roots 233 requests 20160 forks 1
+release/2026-08-09_2026-08-15/traces/2026-08-13.jsonl.zst roots 201 requests 23790 forks 1
+release/2026-08-09_2026-08-15/traces/2026-08-14.jsonl.zst roots 146 requests 17411 forks 2
+release/2026-08-09_2026-08-15/traces/2026-08-15.jsonl.zst roots 152 requests 17727 forks 6
+release/2026-08-16_2026-08-22/traces/2026-08-15.jsonl.zst roots 4 requests 98 forks 0
+release/2026-08-16_2026-08-22/traces/2026-08-16.jsonl.zst roots 164 requests 19692 forks 1
+release/2026-08-16_2026-08-22/traces/2026-08-17.jsonl.zst roots 174 requests 20807 forks 6
+release/2026-08-16_2026-08-22/traces/2026-08-18.jsonl.zst roots 190 requests 24621 forks 2
+release/2026-08-16_2026-08-22/traces/2026-08-19.jsonl.zst roots 213 requests 19535 forks 1
+release/2026-08-16_2026-08-22/traces/2026-08-20.jsonl.zst roots 201 requests 24670 forks 1
+release/2026-08-16_2026-08-22/traces/2026-08-21.jsonl.zst roots 202 requests 20482 forks 5
+release/2026-08-16_2026-08-22/traces/2026-08-22.jsonl.zst roots 159 requests 14322 forks 1
+release/2026-08-23_2026-08-29/traces/2026-08-23.jsonl.zst roots 166 requests 21442 forks 2
+release/2026-08-23_2026-08-29/traces/2026-08-24.jsonl.zst roots 174 requests 18749 forks 0
+release/2026-08-23_2026-08-29/traces/2026-08-25.jsonl.zst roots 234 requests 29563 forks 4
+release/2026-08-23_2026-08-29/traces/2026-08-26.jsonl.zst roots 227 requests 28693 forks 3
+release/2026-08-23_2026-08-29/traces/2026-08-27.jsonl.zst roots 248 requests 21443 forks 1
+release/2026-08-23_2026-08-29/traces/2026-08-28.jsonl.zst roots 190 requests 20655 forks 2
+release/2026-08-23_2026-08-29/traces/2026-08-29.jsonl.zst roots 194 requests 19380 forks 11
+release/2026-08-30_2026-09-05/traces/2026-08-29.jsonl.zst roots 4 requests 288 forks 0
+release/2026-08-30_2026-09-05/traces/2026-08-30.jsonl.zst roots 256 requests 30816 forks 6
+release/2026-08-30_2026-09-05/traces/2026-08-31.jsonl.zst roots 252 requests 32476 forks 8
+release/2026-08-30_2026-09-05/traces/2026-09-01.jsonl.zst roots 275 requests 24544 forks 7
+release/2026-08-30_2026-09-05/traces/2026-09-02.jsonl.zst roots 259 requests 25273 forks 1
+release/2026-08-30_2026-09-05/traces/2026-09-03.jsonl.zst roots 204 requests 24555 forks 2
+release/2026-08-30_2026-09-05/traces/2026-09-04.jsonl.zst roots 299 requests 27753 forks 1
+release/2026-08-30_2026-09-05/traces/2026-09-05.jsonl.zst roots 257 requests 24839 forks 10
+{
+  "completion_tokens_p50_p95_p99": [
+    217.0,
+    1674.4499999999534,
+    3995.0
+  ],
+  "counters": {
+    "fork_groups_overlapping": 280,
+    "fork_groups_shared_prefix_ge_256": 285,
+    "fork_groups_total": 288,
+    "max_depth": 4,
+    "model:claude-opus-4-8": 582,
+    "model:deepseek-v4-flash": 528165,
+    "model:deepseek-v4-pro": 1183,
+    "model:diffusiongemma": 425,
+    "model:glm-4.7": 487,
+    "model:glm-5-turbo": 14288,
+    "model:glm-5.1": 153360,
+    "model:glm-5.2": 170676,
+    "model:glm-5.3": 7778,
+    "model:glm-5.3-flash": 66439,
+    "model:gpt-oss-20b": 38,
+    "model:kimi-k2.7-code": 51608,
+    "model:minimax-fast": 827,
+    "model:minimax-m2.5": 11772,
+    "model:minimax-m2.7": 21851,
+    "model:minimax-m3": 105519,
+    "model:qwen3.6-35b": 87201,
+    "overlap_components_cross_request": 43,
+    "overlap_components_shared_prefix_ge_256": 301,
+    "overlap_components_total": 307,
+    "parent_requests_with_subagent": 1466,
+    "positive_inter_request_gaps": 1208146,
+    "requests_long_context_short_output": 387743,
+    "requests_prompt_le_2048": 1380,
+    "requests_total": 1222199,
+    "sessions_nested": 2034,
+    "sessions_root": 12002,
+    "sessions_total": 14036,
+    "subagent_calls_total": 2034,
+    "tool_calls_total": 1275252
+  },
+  "dataset": "harvardMadsys/freeinference_agentic_trace",
+  "fork_first_child_prompt_le_16384": 219,
+  "fork_first_child_prompt_le_2048": 2,
+  "fork_release_skew_ms_p50_p95": [
+    1961.0,
+    66246.45
+  ],
+  "fork_shared_prefix_tokens_p50_p95": [
+    7864.0,
+    43282.39999999958
+  ],
+  "fork_width_p50_p95_max": [
+    3.0,
+    6.0,
+    8.0
+  ],
+  "fork_with_overlap_and_shared_prefix_ge_256": 277,
+  "fork_with_overlap_shared_prefix_256_and_profile_domain": 214,
+  "group_csv_sha256": "fbc32960c2532e93e7bd65af0437fa1bb6abd8fa090facccf889589d36554bbd",
+  "overlap_cross_request_with_shared_prefix_ge_256": 40,
+  "overlap_csv_sha256": "4860c44ba09ebbe8b4f6ad96718535919c5ea95d3fc7006b6bd18edf21c7e848",
+  "overlap_with_shared_prefix_256_and_profile_domain": 232,
+  "positive_inter_request_gap_ms_p50_p95_p99": [
+    1878.0,
+    103752.0,
+    723783.0000000009
+  ],
+  "prompt_tokens_p50_p95_p99": [
+    119224.0,
+    521018.0,
+    748611.6000000006
+  ],
+  "provider_ttft_ms_p50_p95_p99": [
+    2193.0,
+    15540.449999999953,
+    41826.48999999999
+  ],
+  "request_duration_ms_p50_p95_p99": [
+    4556.0,
+    30981.0,
+    82036.02000000002
+  ],
+  "revision": "16d3c04dae6ccaa0c48a9064e204e3a8f1eb9ade",
+  "sampled_raw_files": 119,
+  "sampled_weeks": [
+    "2026-05-17_2026-05-23",
+    "2026-05-24_2026-05-30",
+    "2026-05-31_2026-06-06",
+    "2026-06-07_2026-06-13",
+    "2026-06-14_2026-06-20",
+    "2026-06-21_2026-06-27",
+    "2026-06-28_2026-07-04",
+    "2026-07-05_2026-07-11",
+    "2026-07-12_2026-07-18",
+    "2026-07-19_2026-07-25",
+    "2026-07-26_2026-08-01",
+    "2026-08-02_2026-08-08",
+    "2026-08-09_2026-08-15",
+    "2026-08-16_2026-08-22",
+    "2026-08-23_2026-08-29",
+    "2026-08-30_2026-09-05"
+  ]
+}

@@ -55,7 +55,7 @@ class KVCacheBlock:
     :class:`FreeKVCacheBlockQueue`; nothing else may touch them.
     """
 
-    __slots__ = ("block_id", "ref_cnt", "block_hash",
+    __slots__ = ("block_id", "ref_cnt", "block_hash", "access_count",
                  "prev_free_block", "next_free_block")
 
     def __init__(self, block_id):
@@ -63,11 +63,13 @@ class KVCacheBlock:
         self.ref_cnt = 0
         # Set only while the block is full and indexed for prefix caching.
         self.block_hash = None
+        self.access_count = 0
         self.prev_free_block = None
         self.next_free_block = None
 
     def reset_hash(self):
         self.block_hash = None
+        self.access_count = 0
 
     def __repr__(self):
         prev_id = self.prev_free_block.block_id if self.prev_free_block else None
@@ -235,6 +237,7 @@ class BlockPool:
         self.block_size = block_size
         self.bytes_per_block = bytes_per_block
         self.enable_caching = enable_caching
+        self.eviction_policy = "LRU"
 
         self.blocks = [KVCacheBlock(i) for i in range(num_blocks)]
         self.free_block_queue = FreeKVCacheBlockQueue(self.blocks)
@@ -276,6 +279,7 @@ class BlockPool:
                 continue
             block_hash = block_hashes[i]
             block.block_hash = block_hash
+            block.access_count = 1
             self.cached_block_hash_to_block[block_hash] = block
 
     def cache_copy(self, block_hash):
@@ -296,6 +300,7 @@ class BlockPool:
             return False
         block = self.get_new_blocks(1)[0]
         block.block_hash = block_hash
+        block.access_count = 1
         self.cached_block_hash_to_block[block_hash] = block
         self.free_blocks([block])
         return True
@@ -316,7 +321,19 @@ class BlockPool:
                 f"[BlockPool] {self.tier}: cannot get {num_blocks} free blocks, "
                 f"only {self.get_num_free_blocks()} of {self.num_blocks} are free"
             )
-        blocks = self.free_block_queue.popleft_n(num_blocks)
+        if self.eviction_policy == "LFU":
+            # Empty blocks have no reusable KV and are always consumed first.
+            # Ties follow the existing free-list order, so this is a pure
+            # frequency change under the same capacity and admission policy.
+            candidates = self.free_block_queue.get_all_free_blocks()
+            selected = sorted(enumerate(candidates), key=lambda item: (
+                -1 if item[1].block_hash is None else item[1].access_count,
+                item[0]))[:num_blocks]
+            blocks = [block for _, block in selected]
+            for block in blocks:
+                self.free_block_queue.remove(block)
+        else:
+            blocks = self.free_block_queue.popleft_n(num_blocks)
         for block in blocks:
             if self.enable_caching:
                 self._maybe_evict_cached_block(block)
@@ -351,6 +368,8 @@ class BlockPool:
             if block.ref_cnt == 0:
                 self.free_block_queue.remove(block)
             block.ref_cnt += 1
+            if block.block_hash is not None:
+                block.access_count += 1
 
     def free_blocks(self, ordered_blocks):
         """Release blocks, keeping their hashes so they stay findable.

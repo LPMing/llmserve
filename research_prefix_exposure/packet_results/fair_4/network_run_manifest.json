@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "exit_code": 0,
+  "started_unix": 1791949093.8398178,
+  "wall_seconds": 109.79450724704657,
+  "cc_mode_override": "1",
+  "traffic_class": "FULL",
+  "event_count": 384,
+  "stop_guard_ns": 120000000,
+  "events": "/home/dell/lpm/LLMServingSim/research_prefix_exposure/packet_inputs/fair_4/events.csv",
+  "events_sha256": "843286a174ea5b5267d8b48ddaf2938b67c8310dabc3bab558a152b51c2a2b53",
+  "topology": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/4p1d_unique_spines/topology.txt",
+  "topology_sha256": "4254141f11f0ea8d03a27f7b1fecbd04e0697327eed61ccb7ec5de3fd2ce2df7",
+  "rank_map": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/4p1d_unique_spines/rank_to_nic.csv",
+  "rank_map_sha256": "0b4ed9676e19070670a4a164753597cad1e625fbbe40ab80bafa970bc07c9c56",
+  "binary": "/home/dell/lpm/LLMServingSim/astra-sim/extern/network_backend/ns-3/build/scratch/ns3.42-KVEPReplay-optimized",
+  "binary_sha256": "79f8f6e6dd2fbc6af061e1a11f08dd3431f58bb61a162f06d452beb2589eadea",
+  "config": "/home/dell/lpm/LLMServingSim/research_prefix_exposure/packet_results/fair_4/replay.conf",
+  "config_sha256": "c63cf4c2237f8e22e6a662db039346cffa737051ce29f222ed2eb18965e0a566",
+  "command": [
+    "/home/dell/lpm/LLMServingSim/astra-sim/extern/network_backend/ns-3/build/scratch/ns3.42-KVEPReplay-optimized",
+    "--network-configuration=/home/dell/lpm/LLMServingSim/research_prefix_exposure/packet_results/fair_4/replay.conf",
+    "--replay-file=/home/dell/lpm/LLMServingSim/research_prefix_exposure/packet_inputs/fair_4/events.csv",
+    "--rank-to-nic-map=/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/4p1d_unique_spines/rank_to_nic.csv",
+    "--stop-guard-ns=120000000",
+    "--traffic-class=FULL"
+  ],
+  "replay_stdout": "QP is enabled \nmaxRtt=61704 maxBdp=1542600\nKVEP replay completed: events=384 issued=384 suppressed=0 excluded_kv=0 local_ep=0 stop_ns=146273000\n"
+}

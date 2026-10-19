@@ -1,0 +1,2 @@
+experiment_id,model,backend,architecture,TTFT,TBT,TPOT,token_interval,request_completion,serving_run_status,reason
+QWEN_OWNER_STREAMING_INTEGRATED,Qwen3-30B-A3B-Instruct-2507,FlowSim,AG_RS_vs_owner_ready,NOT_REPORTED,NOT_REPORTED,NOT_REPORTED,NOT_REPORTED,NOT_REPORTED,NOT_RUN_GATED,No calibrated route/profile theory pass; no serving run performed

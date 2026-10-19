@@ -1,0 +1,106 @@
+{
+  "commit": "1204367d7c7165d80c6b234190ed90e4f58e7bbf",
+  "conversation_trace.jsonl": {
+    "caveat": "Same timestamp does not prove physical simultaneity when the published trace has bucketed arrival times; model, pool size and NIC mapping are not given.",
+    "distinct_timestamps": 1180,
+    "input_tokens_p50_p95_p99": [
+      6909.0,
+      39550.5,
+      85400.4
+    ],
+    "output_tokens_p50_p95_p99": [
+      350.0,
+      698.0,
+      1118.5000000000036
+    ],
+    "positive_timestamp_gap_ms_p50_p95": [
+      3000.0,
+      3001.0
+    ],
+    "prefix_block_count_matches_512_tokens": 12031,
+    "requests": 12031,
+    "requests_input_le_16384": 9300,
+    "requests_input_le_2048": 2805,
+    "requests_per_timestamp_p50_p95_max": [
+      10.0,
+      16.0,
+      28
+    ],
+    "sha256": "b8cbb061a85206d729d91cdc2981f43c9e0d99209dce588d3af5f7934408b9df",
+    "timestamp_span_ms": 3536999,
+    "top_positive_gaps_ms": [
+      [
+        3000,
+        651
+      ],
+      [
+        2999,
+        263
+      ],
+      [
+        3001,
+        260
+      ],
+      [
+        3002,
+        2
+      ],
+      [
+        3003,
+        1
+      ]
+    ]
+  },
+  "source": "https://github.com/kvcache-ai/Mooncake/tree/1204367d7c7165d80c6b234190ed90e4f58e7bbf/FAST25-release/traces",
+  "toolagent_trace.jsonl": {
+    "caveat": "Same timestamp does not prove physical simultaneity when the published trace has bucketed arrival times; model, pool size and NIC mapping are not given.",
+    "distinct_timestamps": 1180,
+    "input_tokens_p50_p95_p99": [
+      6346.0,
+      26110.499999999978,
+      61660.78000000004
+    ],
+    "output_tokens_p50_p95_p99": [
+      30.0,
+      600.0,
+      897.9300000000003
+    ],
+    "positive_timestamp_gap_ms_p50_p95": [
+      3000.0,
+      3001.0
+    ],
+    "prefix_block_count_matches_512_tokens": 23608,
+    "requests": 23608,
+    "requests_input_le_16384": 21167,
+    "requests_input_le_2048": 2578,
+    "requests_per_timestamp_p50_p95_max": [
+      20.0,
+      29.049999999999955,
+      47
+    ],
+    "sha256": "48a2db1a13d3bc05e6330140c64f604ba366df20d3c9e128b5c35a01c1fa5f71",
+    "timestamp_span_ms": 3536999,
+    "top_positive_gaps_ms": [
+      [
+        3000,
+        651
+      ],
+      [
+        2999,
+        263
+      ],
+      [
+        3001,
+        260
+      ],
+      [
+        3002,
+        2
+      ],
+      [
+        3003,
+        1
+      ]
+    ]
+  }
+}

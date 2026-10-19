@@ -1,0 +1,350 @@
+{
+  "git_head": "0c0839aff54ec0abb1810dc09cf3d66f06b1b078",
+  "git_branch": "main",
+  "tracked_diff_sha256": "089f3d35d5740b889d4906da48d4ccbf88b1b8ba5d5a048ec16f52806584cfa9",
+  "tracked_status": "M astra-sim/extern/graph_frontend/chakra/src/converter/llm_converter.py\n M experiments/pd_kv_ep/scripts/test_pd_decode_capacity_admission.py\n M serving/__main__.py\n M serving/core/config_builder.py\n M serving/core/controller.py\n M serving/core/flowsim_backend.py\n M serving/core/flowsim_worker.py\n M serving/core/gate_function.py\n M serving/core/graph_generator.py\n M serving/core/request.py\n M serving/core/router.py\n M serving/core/scheduler.py\n M serving/core/trace_generator.py\n?? experiments/pd_kv_ep/configs/ep_ep_minimal/\n?? experiments/pd_kv_ep/configs/generate_batch_miss_minimal.py\n?? experiments/pd_kv_ep/configs/generate_minimal_1p2d_rank_mapped_tp2.py\n?? experiments/pd_kv_ep/configs/generate_two_decode_ep4_groups_flowsim.py\n?? experiments/pd_kv_ep/configs/large_scale/flowsim/\n?? experiments/pd_kv_ep/configs/large_scale/minimal_1p2d_ep16_logical_to_physical.json\n?? experiments/pd_kv_ep/configs/large_scale/minimal_1p2d_ep16_rank_mapped_tp2.json\n?? experiments/pd_kv_ep/configs/large_scale/ns3/minimal_1p2d_ep16_logical_ranks_single_tor.txt\n?? experiments/pd_kv_ep/scripts/test_config_topology_rank_count.py\n?? experiments/pd_kv_ep/scripts/test_flowsim_collective_scope.py\n?? experiments/pd_kv_ep/scripts/test_flowsim_decode_completion_wakeup.py\n?? experiments/pd_kv_ep/scripts/test_flowsim_decode_handoff_wakeup.py\n?? experiments/pd_kv_ep/scripts/test_flowsim_group_queue_ownership.py\n?? experiments/pd_kv_ep/scripts/test_flowsim_rank_mapping.py\n?? experiments/pd_kv_ep/scripts/test_ns3_config_topology_selection.py\n?? experiments/pd_kv_ep/scripts/test_pd_decode_receiver_mapping.py\n?? experiments/pd_kv_ep/scripts/test_pd_request_pairing.py\n?? experiments/pd_kv_ep/scripts/test_trace_time_units.py\n?? experiments/pd_kv_ep/workloads/minimal_cross_request_ep_round_aligned.jsonl\n?? experiments/pd_kv_ep/workloads/minimal_cross_request_no_overlap_control.jsonl\n?? experiments/pd_kv_ep/workloads/minimal_cross_request_overlap.jsonl\n?? experiments/pd_kv_ep/workloads/minimal_ep4_decode_cohort.jsonl\n?? experiments/pd_kv_ep/workloads/minimal_ep4_then_kv8192.jsonl\n?? experiments/pd_kv_ep/workloads/minimal_ep4_then_tiny_request.jsonl\n?? experiments/pd_kv_ep/workloads/minimal_kv_kv_control_i128.jsonl\n?? experiments/pd_kv_ep/workloads/minimal_kv_kv_control_i2048.jsonl\n?? experiments/pd_kv_ep/workloads/minimal_kv_kv_control_i32.jsonl\n?? experiments/pd_kv_ep/workloads/minimal_kv_kv_control_i8192.jsonl\n?? experiments/pd_kv_ep/workloads/minimal_kv_kv_distinct_sizes.jsonl\n?? experiments/pd_kv_ep/workloads/minimal_kv_kv_i128_i2048.jsonl\n?? experiments/pd_kv_ep/workloads/minimal_kv_kv_i128_i8192.jsonl\n?? experiments/pd_kv_ep/workloads/minimal_time_unit_corrected_kv_control.jsonl\n?? experiments/pd_kv_ep/workloads/minimal_time_unit_corrected_kv_ep_overlap.jsonl\n?? experiments/pd_kv_ep/workloads/moe_i1_o2_n1.jsonl\n?? experiments/pd_kv_ep/workloads/moe_i1_o3_n1.jsonl\n?? experiments/pd_kv_ep/workloads/two_ep4_groups_a_only_2req.jsonl\n?? experiments/pd_kv_ep/workloads/two_ep4_groups_a_only_4req.jsonl\n?? experiments/pd_kv_ep/workloads/two_ep4_groups_full_4req.jsonl\n?? experiments/pd_kv_ep/workloads/two_ep4_groups_full_8req.jsonl\n?? research_audit/\n?? research_final_audit/\n?? research_joint/\n?? research_motivation/\n?? research_new_mainline/\n?? research_sparse_foundation/\n?? serving/core/flowsim_groups.py",
+  "sha256_files": {
+    "configs/model/Qwen/Qwen3-30B-A3B-Instruct-2507.json": "0736f3bafb95cc658776c92ab34f5f98d8169634a3a36b84892d71448a1f19d3",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-30B-A3B-Instruct-2507/bf16/meta.yaml": "e755433ea63a19e9d4a4919f04da412807aa520972dc97df3dfb8908b6a70f96",
+    "serving/core/gate_function.py": "dc045da318b7017bf5279dd298d6569086a73c2c93efa2fd130469317f4fa491",
+    "serving/core/trace_generator.py": "65e54faf30dbc51638aa5f7a0c3b554fe8248060a74576f7dbdb70dc95923aa5",
+    "serving/core/graph_generator.py": "7ea96c919d9b6198e69a9bf27a12004cd6074711b1556e0233c4de30fcfcac23",
+    "serving/core/config_builder.py": "d49b25f5bf56fee28bd3fe91181777c30dc6a7af149c7e713a461fd52e2d4231",
+    "astra-sim/extern/graph_frontend/chakra/src/converter/llm_converter.py": "e65d863eac39da5ffa2c76cf8300a8b3b54b2e5ddd8b270421d805329ccfb76f",
+    "experiments/pd_kv_ep/configs/large_scale/generate_s16_8p8d_ep64_shared_2nic.py": "030d5c2171779cde38fcc36e13f3b0e1b5cb9349a8b26bbf647a757a8ac2c4f4"
+  },
+  "profile": {
+    "path": "profiler/perf/RTXPRO6000/Qwen/Qwen3-30B-A3B-Instruct-2507/bf16/tp1/moe.csv",
+    "sha256": "aa6e29a17412a62234a6610d7a699f72e5938f09386374b635925c5db29045f6",
+    "row_count": 50,
+    "token_grid": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64,
+      128,
+      256,
+      512,
+      1024,
+      2048
+    ],
+    "activated_experts_grid": [
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "measurement_gpu": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "measured_activated_experts_1_2_4": false
+  },
+  "sidecars": {
+    "root": "experiments/pd_kv_ep/results",
+    "sidecar_file_count": 2078,
+    "all": {
+      "files": 2078,
+      "records": 2078,
+      "weighted_queries": 3104160,
+      "ep_sizes": {
+        "1": 1440,
+        "32": 96768,
+        "4": 1536
+      },
+      "routing_policies": {
+        "BALANCED": 99744
+      },
+      "realizations": {
+        "EXACT_P2P_ROUTED_ALLTOALL": 99744
+      },
+      "token_status": {
+        "ABOVE_MAX_EXTRAPOLATED": 288,
+        "IN_DOMAIN_GRID": 3102336,
+        "IN_DOMAIN_INTERPOLATED": 1536
+      },
+      "activated_status": {
+        "BELOW_MIN_CLAMPED": 3102720,
+        "IN_DOMAIN_GRID": 1440
+      },
+      "joint_status": {
+        "ABOVE_MAX_EXTRAPOLATED|IN_DOMAIN_GRID": 288,
+        "IN_DOMAIN_GRID|BELOW_MIN_CLAMPED": 3101184,
+        "IN_DOMAIN_GRID|IN_DOMAIN_GRID": 1152,
+        "IN_DOMAIN_INTERPOLATED|BELOW_MIN_CLAMPED": 1536
+      }
+    },
+    "by_run": {
+      "integrated_remote_kv_gate_4req": {
+        "files": 24,
+        "records": 24,
+        "weighted_queries": 4032,
+        "ep_sizes": {
+          "1": 192,
+          "4": 960
+        },
+        "routing_policies": {
+          "BALANCED": 1152
+        },
+        "realizations": {
+          "EXACT_P2P_ROUTED_ALLTOALL": 1152
+        },
+        "token_status": {
+          "ABOVE_MAX_EXTRAPOLATED": 192,
+          "IN_DOMAIN_GRID": 3072,
+          "IN_DOMAIN_INTERPOLATED": 768
+        },
+        "activated_status": {
+          "BELOW_MIN_CLAMPED": 3840,
+          "IN_DOMAIN_GRID": 192
+        },
+        "joint_status": {
+          "ABOVE_MAX_EXTRAPOLATED|IN_DOMAIN_GRID": 192,
+          "IN_DOMAIN_GRID|BELOW_MIN_CLAMPED": 3072,
+          "IN_DOMAIN_INTERPOLATED|BELOW_MIN_CLAMPED": 768
+        }
+      },
+      "integrated_remote_kv_gate_4tok": {
+        "files": 14,
+        "records": 14,
+        "weighted_queries": 2400,
+        "ep_sizes": {
+          "1": 96,
+          "4": 576
+        },
+        "routing_policies": {
+          "BALANCED": 672
+        },
+        "realizations": {
+          "EXACT_P2P_ROUTED_ALLTOALL": 672
+        },
+        "token_status": {
+          "ABOVE_MAX_EXTRAPOLATED": 96,
+          "IN_DOMAIN_GRID": 1536,
+          "IN_DOMAIN_INTERPOLATED": 768
+        },
+        "activated_status": {
+          "BELOW_MIN_CLAMPED": 2304,
+          "IN_DOMAIN_GRID": 96
+        },
+        "joint_status": {
+          "ABOVE_MAX_EXTRAPOLATED|IN_DOMAIN_GRID": 96,
+          "IN_DOMAIN_GRID|BELOW_MIN_CLAMPED": 1536,
+          "IN_DOMAIN_INTERPOLATED|BELOW_MIN_CLAMPED": 768
+        }
+      },
+      "natural_ecn_baseline_v1": {
+        "files": 2040,
+        "records": 2040,
+        "weighted_queries": 3097728,
+        "ep_sizes": {
+          "1": 1152,
+          "32": 96768
+        },
+        "routing_policies": {
+          "BALANCED": 97920
+        },
+        "realizations": {
+          "EXACT_P2P_ROUTED_ALLTOALL": 97920
+        },
+        "token_status": {
+          "IN_DOMAIN_GRID": 3097728
+        },
+        "activated_status": {
+          "BELOW_MIN_CLAMPED": 3096576,
+          "IN_DOMAIN_GRID": 1152
+        },
+        "joint_status": {
+          "IN_DOMAIN_GRID|BELOW_MIN_CLAMPED": 3096576,
+          "IN_DOMAIN_GRID|IN_DOMAIN_GRID": 1152
+        }
+      }
+    },
+    "scope_note": "Only retained route sidecars are counted; this is not a census of every historical Serving run or every emitted graph."
+  },
+  "s16_rank_audit": {
+    "config": "experiments/pd_kv_ep/configs/large_scale/s16_8p8d_ep64_shared_2nic_qwen.json",
+    "config_sha256": "d097a88f6bd3c253fd2e717594cbedc45c7bcfa575c3651e2bb775635d034972",
+    "topology": "experiments/pd_kv_ep/configs/large_scale/ns3/s16_8p8d_ep64_shared_2nic_200g_clos.txt",
+    "topology_sha256": "495814c346e3c660702e1759f0be363060e29f5af229d5687ce63473220db33c",
+    "configured_effective_astarsim_rank_count": 192,
+    "prefill_instance_count": 32,
+    "decode_instance_count": 32,
+    "topology_node_count": 166,
+    "topology_switch_count": 6,
+    "topology_physical_edge_count": 208,
+    "topology_switch_ids": [
+      160,
+      161,
+      162,
+      163,
+      164,
+      165
+    ],
+    "topology_non_switch_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159
+    ],
+    "flowsim_topology_configured": false,
+    "flowsim_rank_map_configured": false
+  }
+}

@@ -1,0 +1,2 @@
+trace,request_id,batch_id,layer_id,source_ep_rank,destination_owner_rank,selected_expert_ids,source_to_owner_tokens,payload_bytes,provenance,status,reason
+NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,NOT_AVAILABLE,"No checkpoint-derived Qwen router outputs or token IDs are present in the serving workload; retained sidecars are BALANCED analytic approximations, not real routing matrices"

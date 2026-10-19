@@ -1,0 +1,23 @@
+{
+  "semantics": "same five physical servers and 10 active TP2 ranks as 4P1D; P0/P1/P2 use hosts 0/1/2, D0/D1 use hosts 3/4; each host selects one endpoint on each of its two 200G NIC rails",
+  "logical_to_physical": [
+    0,
+    4,
+    24,
+    28,
+    8,
+    12,
+    24,
+    28,
+    16,
+    20,
+    32,
+    36,
+    24,
+    28,
+    32,
+    36,
+    32,
+    36
+  ]
+}

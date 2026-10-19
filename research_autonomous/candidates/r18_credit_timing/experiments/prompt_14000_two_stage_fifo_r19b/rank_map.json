@@ -1,0 +1,14 @@
+{
+  "logical_to_physical": [
+    0,
+    4,
+    1,
+    4,
+    2,
+    4,
+    3,
+    4,
+    4
+  ],
+  "description": "four P GPUs share source 100G; D on independent100G"
+}

@@ -59,6 +59,12 @@ def request_block_hashes(req, block_size):
     if not tokens:
         req.block_hashes = []
         return req.block_hashes
+    if len(tokens) != req.original_input:
+        # The position of missing prompt IDs is unknown. Appending known
+        # output IDs would place them before the declared prompt boundary,
+        # creating a false prefix hit or exposing future output hashes.
+        req.block_hashes = []
+        return req.block_hashes
     if req.output_hash_ids:
         tokens = tokens + req.output_hash_ids
 
@@ -104,6 +110,10 @@ class TieredKVCacheManager:
         self.req_to_blocks = {}
         # request id -> how many of those blocks are already indexed
         self.num_cached_block = {}
+        # P/D requests may reserve matching Decode-side prefix blocks before
+        # issuing their missing KV shards. Reservations pin real NPU blocks in
+        # req_to_blocks until the handoff commits or the request is freed.
+        self.handoff_reservations = {}
 
         # Drained once per scheduling step by take_traffic().
         self._recall_bytes = 0
@@ -285,6 +295,107 @@ class TieredKVCacheManager:
                 req, min(total_computed + num_new_tokens, req.num_tokens_reached))
         return new_blocks
 
+    def reserve_handoff_prefix(self, req, compatibility_key, allow_empty=False):
+        """Pin a Decode prefix, if any, and reserve P/D handoff slots.
+
+        This is intentionally distinct from ``allocate_slots``: before P2D
+        completes, missing KV blocks are reserved but must not be indexed as
+        valid cache content. The reservation covers the request's current
+        prompt plus one first Decode token slot. It returns None when no NPU
+        prefix is present or capacity is insufficient, allowing the caller to
+        fall back to a full KV handoff before any bytes are issued. With
+        ``allow_empty=True`` it can also reserve a full-transfer miss before
+        Prefill starts, so the receiver cannot run out of staging blocks
+        after layerwise P2D bytes have already been sent.
+        """
+        if req.id in self.req_to_blocks or req.id in self.handoff_reservations:
+            raise RuntimeError(
+                "request %s already owns Decode KV blocks" % req.id)
+
+        prior_storage_pool = req.storage_hit_pool
+        prior_storage_blocks = req.storage_hit_blocks
+        try:
+            hit_blocks, npu_hit_tokens, _ = self.get_computed_blocks(req)
+        finally:
+            # A Request may also be mid-allocation on its Prefill manager.
+            # Destination inspection must not overwrite that manager's pending
+            # lower-tier recall bookkeeping.
+            req.storage_hit_pool = prior_storage_pool
+            req.storage_hit_blocks = prior_storage_blocks
+        if npu_hit_tokens <= 0 and not allow_empty:
+            return None
+
+        # The Prefill graph samples token 1 but has computed KV only for the
+        # prompt. Both early and post-Prefill reservations therefore need one
+        # Decode slot after the original prompt, independent of when credit
+        # is acquired. Using num_tokens_reached here over-reserves by one
+        # after Prefill has advanced that counter for the sampled token.
+        required_tokens = int(req.original_input) + 1
+        required = self._num_blocks_to_allocate(
+            req, required_tokens, hit_blocks)
+        if required > self.npu_pool.num_blocks:
+            raise ValueError(
+                "request %s needs %d Decode KV blocks but the pool has %d" %
+                (req.id, required, self.npu_pool.num_blocks))
+        if required > self.npu_pool.get_num_free_blocks():
+            return None
+
+        # All checks precede mutation. touch() pins cached blocks against LRU
+        # eviction; the new tail blocks are reserved but remain unhashed until
+        # the transferred KV has completed and is committed.
+        self.npu_pool.touch(hit_blocks)
+        self.req_to_blocks[req.id] = list(hit_blocks)
+        self.num_cached_block[req.id] = len(hit_blocks)
+        self._allocate_new_blocks(req, required_tokens)
+
+        hashes = request_block_hashes(req, self.block_size)
+        prefix_blocks = npu_hit_tokens // self.block_size
+        reservation = {
+            "compatibility_key": compatibility_key,
+            "hit_tokens": int(npu_hit_tokens),
+            "prefix_hashes": tuple(hashes[:prefix_blocks]),
+            "required_tokens": required_tokens,
+            "required_blocks": cdiv(required_tokens, self.block_size),
+        }
+        self.handoff_reservations[req.id] = reservation
+        return dict(reservation)
+
+    def commit_handoff_reservation(self, req, compatibility_key):
+        """Validate a P2D reservation after network completion and commit it."""
+        reservation = self.handoff_reservations.get(req.id)
+        if reservation is None:
+            return None
+        if reservation["compatibility_key"] != compatibility_key:
+            raise RuntimeError(
+                "Decode handoff compatibility changed for request %s" % req.id)
+        if req.num_computed_tokens < req.original_input:
+            raise RuntimeError(
+                "P2D reservation for request %s completed before Prefill KV "
+                "was ready (%d < %d)" % (
+                    req.id, req.num_computed_tokens, req.original_input))
+
+        blocks = self.req_to_blocks.get(req.id, [])
+        if len(blocks) < reservation["required_blocks"]:
+            raise RuntimeError(
+                "P2D reservation for request %s has insufficient blocks" % req.id)
+        for block, expected_hash in zip(
+                blocks, reservation["prefix_hashes"]):
+            if (block.block_hash != expected_hash or
+                    self.npu_pool.get_cached_block(expected_hash) is not block):
+                raise RuntimeError(
+                    "reserved Decode prefix changed before P2D commit for "
+                    "request %s" % req.id)
+
+        # Only now are the newly received, fully computed blocks eligible for
+        # prefix indexing. Partial final blocks remain request-owned.
+        self.cache_blocks(
+            req, min(req.num_computed_tokens, req.num_tokens_reached))
+        del self.handoff_reservations[req.id]
+        return dict(reservation)
+
+    def has_handoff_reservation(self, request_id):
+        return request_id in self.handoff_reservations
+
     def _allocate_new_blocks(self, req, num_tokens):
         req_blocks = self.req_to_blocks[req.id]
         num_new = cdiv(num_tokens, self.block_size) - len(req_blocks)
@@ -364,6 +475,7 @@ class TieredKVCacheManager:
         """
         blocks = self.req_to_blocks.pop(req.id, [])
         self.num_cached_block.pop(req.id, None)
+        self.handoff_reservations.pop(req.id, None)
         if blocks:
             self.npu_pool.free_blocks(reversed(blocks))
 

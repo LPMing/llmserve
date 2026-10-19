@@ -1,0 +1,27 @@
+# Related-work and novelty audit (2026-10-12)
+
+The result is a bounded screening, not a claim of exhaustive literature coverage. Formal publication status is distinguished from current preprints.
+
+| Work | Status / primary source | Direct overlap with this mission | Implication |
+|---|---|---|---|
+| DistServe | OSDI 2024, [USENIX](https://www.usenix.org/conference/osdi24/presentation/zhong-yinmin) | P/D disaggregation, resource/parallelism allocation, bandwidth-aware P/D placement, TTFT/TPOT goodput | A cannot claim P/D placement or TTFT/TPOT co-optimization as new by itself. |
+| Mooncake | FAST 2025, [USENIX proceedings PDF](https://www.usenix.org/system/files/fast25-qin.pdf) | KV-cache-centric P/D architecture, Conductor pairs Prefill/Decode, cache-aware Prefill, KV balance and load-balanced Decode | A's source/cache/load placement context is already system-level practice. |
+| Symphony | ICNP 2025, [IEEE Xplore](https://ieeexplore.ieee.org/document/11192450/), DOI 10.1109/ICNP65844.2025.11192450 | Runtime application-layer coordination of collective operations across tenants | Generic B “stagger competing collectives” is not novel. Scope is multi-tenant GPU collectives, not this exact MoE serving configuration. |
+| Harmonics | Proceedings of ACM on Networking / CoNEXT4, 2025, [DOI](https://doi.org/10.1145/3768985) | Scalable two-tier scheduling/coordination of collectives | Further prior art against generic B collective scheduling. |
+| FAST | NSDI 2026, [USENIX](https://www.usenix.org/conference/nsdi26/presentation/lei-yiran) | Schedules MoE All-to-All(v), handles skew and incast with balanced scale-out transfers | C must differ in its control/objective; “batch changes traffic matrix” alone is not enough. |
+| Semantic Parallelism / Sem-MoE | ICLR 2026, [official proceedings](https://proceedings.iclr.cc/paper_files/paper/2026/hash/f0552f14388d95b19740dee809f5cad1-Abstract-Conference.html) | Co-schedules expert placement and request/token placement; includes online inter-request rebatching | Direct overlap with C's batch-composition/network-geometry idea. |
+| Nuska / MFS | arXiv:2603.17456 v2, [full HTML](https://arxiv.org/html/2603.17456v2); formal proceedings publication not verified in the reviewed source | Multi-stage disaggregated communication, intra/inter-request contention, LLF-like defer/promote, finite DSCP priorities, TTFT SLO | Generic request/barrier-aware priority is not a safe novelty claim. Recurrent Decode TBT is a scope difference, but current evidence is <1% and has no algorithmic divergence. |
+| NetKV | arXiv:2606.03910, [arXiv](https://arxiv.org/abs/2606.03910); preprint status | Network-cost oracle plus load/cache eligibility for Decode instance selection | Strong direct overlap with A's joint network-ready/compute-availability candidate selection. |
+| Gimbal | arXiv:2606.15177, [arXiv](https://arxiv.org/abs/2606.15177); preprint status in source | Cross-level MoE serving schedule, engine pressure, expert pressure, source-aware expert placement | Narrows the novelty space for A/C joint serving and MoE routing. |
+| ELDR | arXiv:2607.00466, [arXiv](https://arxiv.org/abs/2607.00466); preprint status | Expert-locality-aware Decode routing for PD-disaggregated MoE | A serving placement/router must compare against MoE-specific placement signals, not only load. |
+| Libra | NSDI 2026, [USENIX paper](https://www.usenix.org/system/files/nsdi26-ruan-libra.pdf) | Flexible request partitioning/scheduling for dynamic serving load | Related serving-side control; not evidence of a specific network scheduler, but a necessary system baseline for A. “Libra” is ambiguous across networking literature, so the title matters. |
+| Kairos: load-aware prefill deflection | arXiv:2607.02043, [arXiv](https://arxiv.org/abs/2607.02043); preprint status | Deflects Prefill work to Decode nodes under TBT constraints, potentially eliminating KV movement | A broad joint Serving/network placement narrative must distinguish load-aware deflection. Not the same as the separate SLO-benchmark paper also named Kairos. |
+| Varys / coflow, EDF/LLF, pFabric/PIAS/PDQ | Established prior work; this audit does not reproduce their algorithms | Coflow/barrier completion and deadline/flow urgency are standard scheduling abstractions | A new method cannot be just “treat collective as coflow” or “assign per-flow slack priority.” |
+
+## Candidate-by-candidate novelty result
+
+- **A:** the max(network readiness, decode availability) decision is intuitive and is within NetKV's network-aware Decode selection envelope; the serving benefit observed in the repository is localized and often does not move makespan. No distinct signal or superior objective was demonstrated.
+- **B:** the local phase-shift mechanism is real in this controlled simulator case. Symphony/Harmonics already establish collective coordination/staggering. The only possible differentiator—recurrent MoE Decode token barriers under P/D serving—produced under-1% benefit with AG/RS, not sparse A2A. No implementation advantage beyond a one-time start offset was shown.
+- **C:** exact source-backed owner traffic was unavailable in the current BALANCED integrated path; FAST, Semantic Parallelism and Gimbal overlap with proposed scheduling dimensions. Do not simulate an oracle using made-up expert IDs.
+
+This is enough to reject the current novelty hypotheses; it is not a claim that no future narrowly defined Decode-TBT collective mechanism could be novel.

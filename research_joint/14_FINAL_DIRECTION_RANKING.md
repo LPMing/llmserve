@@ -1,0 +1,11 @@
+# Final direction ranking
+
+| Rank | Direction | Theoretical headroom | Simulator evidence | Serving impact | Joint increment | Novelty | Decision |
+|---:|---|---|---|---|---|---|---|
+| 1 | B — EP group phase staggering | Positive only when repeated collectives remain aligned; EP4 expected repeated delta 49.152 µs/token | 2,976 matched collective-round pairs: shared-path overlap all pairs in sync, none after 20-µs one-time group-B hold; bytes invariant | Mean ITL improves ~0.793%, makespan ~0.638%; TTFT unchanged | Not established; S1 network-only and S3 joint algorithm absent | Low: Symphony/Harmonics collective coordination; Decode-TBT scope distinction not enough here | `B_PHASE_STAGGERING_NO_GAIN` as a paper candidate |
+| 2 | A — network-aware P/D placement/admission | Max(network ready, decode available) can create candidate tradeoffs | Historical two-lane slot-crossing is narrow; prior topology oracle 0–7.1% CCT; no new three-candidate S0–S3 | One selected request had 3.381-ms earlier second token; pair makespan ~43.5 µs (~0.014%), neighboring case collapses | Not established | High overlap with NetKV, DistServe/Mooncake, and MoE routing work | `A_PLACEMENT_NO_INCREMENTAL_HEADROOM` |
+| 3 | C — MoE batch composition × A2A cut geometry | Plausible only with actual token→owner matrix and critical-cut shift | Not run: current integrated path is AG/RS and BALANCED lacks the needed source-backed route matrix | Unknown | Unknown | High overlap with FAST, Sem-MoE, Gimbal | `C_NO_TRAFFIC_GEOMETRY_HEADROOM` in current model |
+| 4 | D — generic traffic class/flow urgency | Known network-only potential, serving exposure conditional | Historical controls retained | Often filtered by request/collective barriers; EP_FIRST is a strong simple control | No new increment shown | Nuska/MFS, EDF/LLF/coflow | Excluded |
+| 5 | E — Progressive Push | Separate opt-in architecture direction | Existing semantic audit; not re-run | Out of scope in this mission | Not tested here | Requires separate comparison | Excluded by task |
+
+The ordering is not a recommendation to implement B. It is simply the strongest mechanism result among the three requested candidates; **none passes the paper gate**.

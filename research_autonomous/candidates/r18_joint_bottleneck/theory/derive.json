@@ -1,0 +1,25 @@
+{
+  "cases": {
+    "12000": {
+      "credit_to_pool_ratio": 0.8835294117647059,
+      "decode_64_token_profile_ns": 1533925888,
+      "decode_to_prefill_ratio": 1.124798136367874,
+      "first_binding_resource": "no initial D capacity block",
+      "network_to_prefill_ratio": 0.36907222385129884
+    },
+    "14000": {
+      "credit_to_pool_ratio": 1.0305882352941176,
+      "decode_64_token_profile_ns": 1605900800,
+      "decode_to_prefill_ratio": 0.9770073698161903,
+      "first_binding_resource": "Decode credit",
+      "network_to_prefill_ratio": 0.35724574562447053
+    }
+  },
+  "necessary_conditions": {
+    "capacity_exposure": "sum of outstanding D credit blocks must exceed the physical pool while a useful P GPU or D GPU is idle",
+    "decode_compute_exposure": "Decode arrival work exceeds sustainable batch token service or its queue delays the target event",
+    "network_exposure": "source cut serialization minus profile-backed overlap slack must be positive at P2D-ready"
+  },
+  "oracle_constraint": "Any oracle must preserve four P GPUs, one D GPU, their normal KV pools, the same100-Gb/s cut, workload bytes and causal release times.",
+  "two_hot_source_2048_network_to_prefill_ratio": 2.048246125232486
+}

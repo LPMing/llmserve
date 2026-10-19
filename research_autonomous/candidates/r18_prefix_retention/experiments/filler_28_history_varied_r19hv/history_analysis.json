@@ -1,0 +1,29 @@
+{
+  "analyzer_sha256": "c2f430d80daf0554911e5bb0951be9e99124eae5f89bb5c3843ef32418933f58",
+  "p2d_bytes_total": 10456399872,
+  "p2d_flows": 1536,
+  "policy": "LRU",
+  "raw_sha256": {
+    "events.jsonl": "c4c811189e47b739d954c57ef1c15c387b1671d189671f4e0d90754ad034e7ad",
+    "flows.jsonl": "6108614293626260d01c62a5cdc7734fb07326b127b35cbd5ec8fcabecebc31c",
+    "requests.csv": "766a7ff5e2e374329243bac47a8a7125d9560e4e301b052ea0c15dc9cbfc89ec"
+  },
+  "requests_complete": 34,
+  "status": "VALID",
+  "target_completion_elapsed_ns": [
+    79028875,
+    79028875
+  ],
+  "target_d_hit_tokens": [
+    0,
+    0
+  ],
+  "target_p2d_bytes": [
+    268435456,
+    268435456
+  ],
+  "target_token2_elapsed_ns": [
+    61027875,
+    61027875
+  ]
+}

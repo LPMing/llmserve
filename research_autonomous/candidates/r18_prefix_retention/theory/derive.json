@@ -1,0 +1,23 @@
+{
+  "assumption": "Two distinct cached prefixes, one D and two P GPUs; all filler jobs finish before targets. The D pool is the normal 24-GB/0.9 configuration, not an artificial cap.",
+  "delta_kv_bytes_per_request": 8388608,
+  "delta_two_request_cut_floor_ns": 1342177,
+  "filler_blocks_per_request": 128,
+  "first_overflow_filler_count": 25,
+  "full_kv_bytes_per_request": 268435456,
+  "full_two_request_cut_floor_ns": 42949673,
+  "kv_bytes_per_token": 131072,
+  "maximum_blocks_per_prefill_gpu": 1916,
+  "model_sha256": "54acfad3cffe057640904ca8a1e83525e6551c70c7a04c641f5a9eda0bbf64bd",
+  "negative_fillers": 24,
+  "negative_total_blocks": 3320,
+  "pool_blocks": 3400,
+  "positive_fillers": 28,
+  "positive_total_blocks": 3832,
+  "predicted_ready_ns_if_hit": 20969000,
+  "predicted_ready_ns_if_miss": 42949673,
+  "prefix_blocks_per_key": 124,
+  "prior_profile_cold_prefill_ns": 193161000,
+  "prior_profile_hot_prefill_ns": 20969000,
+  "profile_sha256": "9c99dc484f44f965e7cdb95767706973588b1462a20332ee6430767433732deb"
+}

@@ -1,0 +1,9 @@
+{
+  "logical_to_physical": [
+    0,
+    1,
+    1,
+    2
+  ],
+  "description": "Prefill source node has one 100G uplink; two Decode nodes have independent 100G uplinks"
+}

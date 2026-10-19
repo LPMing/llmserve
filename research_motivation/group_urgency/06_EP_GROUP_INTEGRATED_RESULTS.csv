@@ -1,0 +1,2 @@
+candidate,policy,request_id,ep_group_id,TTFT,ITL_sequence,TBT_SLO,request_completion,collective_completion,result_status,reason
+G1_H1_PROFILE_SCREEN,NOT_RUN,NOT_MEASURED,NOT_MEASURED,NOT_MEASURED,NOT_MEASURED,NOT_DEFINED,NOT_MEASURED,NOT_MEASURED,GATED_NOT_RUN_G1_FAIL,"No network-only oracle gain justified an integrated priority replay; no SLO was available"

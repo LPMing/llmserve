@@ -1,0 +1,55 @@
+{
+  "baseline": "best of ordinary mixed batch and serial length-bucket split",
+  "classification": {
+    "GPU_memory": "A/C: model weights and configured 0.9 util",
+    "latencies_and_alpha": "A: measured profile",
+    "request_arrival_mix": "C: not present in profile"
+  },
+  "excluded_by_runtime_kv_capacity": 21,
+  "gpu_kv_capacity_tokens_upper_bound": 457824,
+  "inputs_sha256": {
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-32B/bf16/tp2/attention.csv": "2c4d98649967da9c79535421c7e71663daeff80e9049608072d0237befd522a7",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-32B/bf16/tp2/dense.csv": "4f3cf699af9eace4f570d83a5d36879e6db6bc6486e04feb1fa8c524e32e11a7",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-32B/bf16/tp2/per_sequence.csv": "99c417c98e382c911d280a07cbb5902f39af886bd264584faa48f37cfb743974",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-32B/bf16/tp2/skew.csv": "3e48068965831aa6dd3afeb48546081eb04f86e7a3c3d4d754812d02677c5817"
+  },
+  "limits": [
+    "Historical skew.csv t_mean/t_max/t_skew are sums of three attention timing samples; their alpha ratio is dimensionless, but the raw times are not per-layer latencies.",
+    "The predicted skew latency uses that alpha with the separate uniform attention.csv, exactly as the simulator does.",
+    "Attention and dense interpolation is linear within the measured grid; TP and scheduler overhead are omitted, favoring serial split.",
+    "A GPU-memory upper bound filters impossible profile shots; actual activation/context reservations can only lower capacity.",
+    "No arrival trace or per-request queue state is inferred from the profile."
+  ],
+  "max_ideal_zero_skew_case": {
+    "alpha": 0.1021,
+    "ideal_zero_skew_gain_over_strong": 0.11312263764290659,
+    "long_count": 1,
+    "long_kv": 8192,
+    "mean_kv": 2096,
+    "mixed_step_ms": 60.93773246421176,
+    "n": 128,
+    "serial_length_split_step_ms": 79.10505764750002,
+    "serial_split_gain": -0.2981293272433098,
+    "short_kv": 2048,
+    "zero_skew_step_ms": 54.04429543588235
+  },
+  "max_ideal_zero_skew_gain_over_strong": 0.11312263764290659,
+  "max_serial_split_case": {
+    "alpha": 0.0961,
+    "ideal_zero_skew_gain_over_strong": 0.10232871720769937,
+    "long_count": 4,
+    "long_kv": 8192,
+    "mean_kv": 2240,
+    "mixed_step_ms": 61.94225282618824,
+    "n": 128,
+    "serial_length_split_step_ms": 80.29491895000001,
+    "serial_split_gain": -0.29628670715787303,
+    "short_kv": 2048,
+    "zero_skew_step_ms": 55.60378155352941
+  },
+  "max_serial_split_gain": -0.29628670715787303,
+  "oracle": "remove measured attention skew penalty without extra kernel or rebatched dense work",
+  "profiled_pure_rows_feasible": 249,
+  "serial_split_rows_with_10pct_gain": 0,
+  "status": "NO_GO for serial rebatching if max gain <10%; multi-D placement needs ordered workload evidence"
+}

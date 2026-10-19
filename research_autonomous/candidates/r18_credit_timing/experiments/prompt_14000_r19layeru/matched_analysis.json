@@ -1,0 +1,17 @@
+{
+  "admission": "EARLY_LAYERWISE",
+  "analyzer_sha256": "9626f643d375a17dc46ea09e00973168659632f6525ca9a54c285d415a75fcce",
+  "last_completion_ns": 5899737000,
+  "max_reserved_d_blocks": 2628,
+  "mean_completion_latency_ns": 3810067500.0,
+  "p2d_bytes": 7340032000,
+  "p2d_flow_count": 896,
+  "raw_sha256": {
+    "events.jsonl": "b49924934de65bb17b58ac0ee69db481f408b7085ed7f03c8431427e2959119f",
+    "flows.jsonl": "89a1d6b0ed6840c3d8ab9770b9a0e2ded9e18c3f9cad703265dc1afcfafc2dd3",
+    "requests.csv": "6c00ddf0ab2913219433ca81feec897c932ca1fa17468cc3ec1a6c561827351f"
+  },
+  "requests_complete": 4,
+  "shape": "UNIFORM",
+  "status": "VALID"
+}

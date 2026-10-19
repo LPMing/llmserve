@@ -55,15 +55,25 @@ class FlowSpec:
     # supply one concrete shortest physical-pair path without changing bytes
     # or serving semantics; it is not an online routing policy.
     path_override: tuple = ()
+    # Preserve the frontend namespace when logical shadow ranks are mapped to
+    # physical GPU endpoints before the network computes its path.
+    logical_src: int = None
+    logical_dst: int = None
 
 
 class FluidFlowNetwork:
     """Directed, event-driven max-min flow model with simple priority modes."""
 
     def __init__(self, topology_path, policy="FAIR",
-                 parallel_link_mode="AGGREGATE"):
+                 parallel_link_mode="AGGREGATE", rank_map=None):
         self.policy = str(policy).upper()
         self.parallel_link_mode = str(parallel_link_mode).upper()
+        if isinstance(rank_map, list):
+            rank_map = {index: endpoint
+                        for index, endpoint in enumerate(rank_map)}
+        self.rank_map = (None if rank_map is None else
+                         {int(rank): int(endpoint)
+                          for rank, endpoint in rank_map.items()})
         if self.parallel_link_mode not in ("AGGREGATE", "HASHED_PHYSICAL"):
             raise ValueError(
                 "unsupported FlowSim parallel_link_mode %r" %
@@ -240,6 +250,10 @@ class FluidFlowNetwork:
                 int(item) for item in fields
                 if item.lstrip("-").isdigit())
             edge_start += 1
+        if len(switch_nodes) != declared_switches:
+            raise ValueError(
+                "FlowSim topology declares %d switches but lists %d" %
+                (declared_switches, len(switch_nodes)))
 
         # The ns-3 files used by this repository list each physical point-to-
         # point link once.  A Clos leaf-to-spine pair can consequently occur
@@ -272,6 +286,10 @@ class FluidFlowNetwork:
                 directed[(dst, src)].extend(dict(link) for link in links)
 
         physical_edge_count = sum(len(links) for links in listed.values())
+        if physical_edge_count != declared_edges:
+            raise ValueError(
+                "FlowSim topology declares %d physical links but contains %d" %
+                (declared_edges, physical_edge_count))
         reverse_materialized_count = sum(
             len(links) for pair, links in directed.items()
             if pair not in listed)
@@ -536,6 +554,71 @@ class FluidFlowNetwork:
             self._debug_rates(active, paths, rates)
             return rates
 
+        if self.policy == "KV_REQUEST_FIRST":
+            # Offline characterization control: prioritize every active P2D
+            # shard of one known request as a group. This is not an online
+            # scheduler and deliberately does not prioritize its later EP.
+            request_id = getattr(self, "request_first_id", None)
+            high = [fid for fid in active
+                    if (request_id is not None and
+                        active[fid]["spec"].traffic_class == "KV_MOVEMENT" and
+                        int(request_id) in tuple(
+                            active[fid]["spec"].request_ids or ()))]
+            if not high:
+                rates = self._waterfill(list(active), paths, capacities)
+                self._debug_rates(active, paths, rates)
+                return rates
+            high_set = set(high)
+            low = [fid for fid in active if fid not in high_set]
+            rates = self._waterfill(high, paths, capacities)
+            residual = dict(capacities)
+            high_link_rates = defaultdict(float)
+            for fid in high:
+                for link in paths[fid]:
+                    high_link_rates[link] += rates[fid]
+            for link in residual:
+                residual[link] = max(
+                    residual[link] - high_link_rates.get(link, 0.0), 0.0)
+            rates.update(self._waterfill(low, paths, residual))
+            self._debug_rates(active, paths, rates)
+            return rates
+
+        if self.policy == "EP_THEN_KV_REQUEST_FIRST":
+            # Offline Decode-opportunity upper-bound control: preserve every
+            # active Decode collective first, then prioritize all KV shards
+            # belonging to the selected request over other KV movement. This
+            # isolates request ordering from the harmful effect of placing a
+            # long KV transfer above an already-running Decode barrier.
+            request_id = getattr(self, "request_first_id", None)
+            ep = [fid for fid in active
+                  if active[fid]["spec"].traffic_class == "EP"]
+            selected_kv = [
+                fid for fid in active
+                if (active[fid]["spec"].traffic_class == "KV_MOVEMENT" and
+                    request_id is not None and
+                    int(request_id) in tuple(
+                        active[fid]["spec"].request_ids or ())) ]
+            tiers = [ep, selected_kv]
+            assigned = {}
+            residual = dict(capacities)
+            for tier in tiers:
+                if not tier:
+                    continue
+                tier_rates = self._waterfill(tier, paths, residual)
+                assigned.update(tier_rates)
+                used = defaultdict(float)
+                for fid in tier:
+                    for link in paths[fid]:
+                        used[link] += tier_rates[fid]
+                for link in residual:
+                    residual[link] = max(
+                        residual[link] - used.get(link, 0.0), 0.0)
+            low = [fid for fid in active if fid not in assigned]
+            if low:
+                assigned.update(self._waterfill(low, paths, residual))
+            self._debug_rates(active, paths, assigned)
+            return assigned
+
         if self.policy == "CRITICAL_ONLY":
             high = [fid for fid in active
                     if (active[fid]["spec"].traffic_class == "EP" and
@@ -763,8 +846,9 @@ class PersistentFluidFlowNetwork(FluidFlowNetwork):
 
     def __init__(self, topology_path, policy="FAIR",
                  kv_backpressure="OFF", kv_buffer_bytes=0,
-                 critical_flow_file=None, parallel_link_mode="AGGREGATE"):
-        super().__init__(topology_path, policy, parallel_link_mode)
+                 critical_flow_file=None, parallel_link_mode="AGGREGATE",
+                 rank_map=None, request_first_id=None):
+        super().__init__(topology_path, policy, parallel_link_mode, rank_map)
         self.clock_ns = 0
         self._sequence = 0
         self._pending = []
@@ -780,6 +864,13 @@ class PersistentFluidFlowNetwork(FluidFlowNetwork):
         self._release_callback = None
         self.critical_flow_ids = self._read_critical_flow_file(
             critical_flow_file)
+        self.request_first_id = (None if request_first_id is None else
+                                 int(request_first_id))
+        if (self.policy in ("KV_REQUEST_FIRST",
+                            "EP_THEN_KV_REQUEST_FIRST") and
+                self.request_first_id is None):
+            raise ValueError(
+                "%s requires a concrete request_first_id" % self.policy)
 
     @staticmethod
     def _read_critical_flow_file(path):
@@ -868,6 +959,8 @@ class PersistentFluidFlowNetwork(FluidFlowNetwork):
             "flow_id": spec.flow_id,
             "src": spec.src,
             "dst": spec.dst,
+            "logical_src": getattr(spec, "logical_src", None),
+            "logical_dst": getattr(spec, "logical_dst", None),
             "bytes": spec.bytes,
             "traffic_class": spec.traffic_class,
             "traffic_subtype": spec.traffic_subtype,
@@ -898,6 +991,24 @@ class PersistentFluidFlowNetwork(FluidFlowNetwork):
     def _install(self, specs):
         target_ids = []
         for spec in specs:
+            if self.rank_map is not None and spec.logical_src is None:
+                missing = {int(spec.src), int(spec.dst)} - set(self.rank_map)
+                if missing:
+                    raise ValueError(
+                        "FlowSim rank map misses logical endpoint(s): %s" %
+                        sorted(missing))
+                if spec.path_override:
+                    raise ValueError(
+                        "FlowSim cannot combine a logical rank map with a "
+                        "physical path override")
+                values = dict(spec.__dict__)
+                values.update({
+                    "logical_src": int(spec.src),
+                    "logical_dst": int(spec.dst),
+                    "src": self.rank_map[int(spec.src)],
+                    "dst": self.rank_map[int(spec.dst)],
+                })
+                spec = FlowSpec(**values)
             flow_id = spec.flow_id
             if flow_id in self._seen:
                 target_ids.append(flow_id)

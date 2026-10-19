@@ -1,0 +1,23 @@
+{
+  "analysis_sha256": "b11d78504afe06aa1c028e68039c6b7ae1a418c77eebe2c6f2bbe6b40b23c50c",
+  "assumptions": [
+    "Fourth Prefill starts at arrival and retains all source KV.",
+    "No KV byte is sent before receiver credit.",
+    "First three D jobs and their credit release remain unchanged.",
+    "The fourth transfer pays only the 100-Gb/s cut serialization floor.",
+    "Fourth Decode service equals its measured isolated service.",
+    "An ordinary two-stage FIFO may attain the same idealized bound."
+  ],
+  "claim": "conditional Oracle gap versus early credit, not policy gain",
+  "credit_release_ns": 3113511000,
+  "incremental_gap_vs_two_stage_fifo": "unknown; no implementation",
+  "measured_decode_service_ns": 1141560000,
+  "measured_early_credit_finish_ns": 5899737000,
+  "measured_prefill_to_ready_ns": 1644666000,
+  "nic_serialization_floor_ns": 146800640,
+  "optimistic_gap_fraction_vs_early_credit": 0.2538868020727026,
+  "optimistic_two_stage_fifo_finish_ns": 4401871640,
+  "source_cut_bps": 100000000000,
+  "status": "ANALYTICAL_ONLY",
+  "timeline_sha256": "4d359d45fc69d99cc4ac8253cb99bc824499c5f4ae776b708b52e0afbe459299"
+}

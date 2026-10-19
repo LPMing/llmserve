@@ -1,0 +1,51 @@
+{
+  "classification": {
+    "derived_thresholds": "ANALYTICAL",
+    "model_and_profile": "MEASURED local profile and config",
+    "prompt_output_and_nic": "ASSUMED small scenario"
+  },
+  "cross_node_tp_cut": {
+    "caveat": "TP2 inside one GPU server uses local interconnect; this cross-node case needs deployment evidence",
+    "ideal_removal_latency_fraction_of_compute_plus_cut_floor": 0.11141109085085893,
+    "one_rank_serialization_floor_ms_at_200gbps": 6.710886400000001,
+    "one_rank_tp_allreduce_payload_bytes_per_decode_step": 167772160
+  },
+  "decode_memory_and_rate": {
+    "additional_2048_token_handoff_slots_before_pool_full": 58,
+    "capacity_after_128_running_2048_plus_600_token_sequences": 118880,
+    "decode_step_ms_excluding_tp_collectives": 53.52446673000001,
+    "full_128_seq_capacity_output_threshold_tokens": 1528.75,
+    "optimistic_decode_requests_per_s_at_600_output_tokens": 3.9857161848893643,
+    "optimistic_decode_tokens_per_s": 2391.4297109336185,
+    "optimistic_one_prefill_instance_requests_per_s": 5.415750922059472,
+    "rank_kv_capacity_tokens_upper_bound": 457824,
+    "rank_model_weight_gib": 30.512704849243164
+  },
+  "layerwise_receiver_cut": {
+    "four_source_layer_service_us": 671.0886399999999,
+    "four_source_per_layer_residual_lower_bound_us": 0.0,
+    "kv_bytes_per_layer_per_tp_rail": 4194304,
+    "measured_prefill_block_compute_us_excluding_tp_collectives": 2875.951,
+    "measured_prefill_compute_ms_excluding_tp_collectives": 184.64660107,
+    "minimum_synchronous_sources_on_one_receiver_to_exceed_one_block_compute_floor": 18,
+    "one_source_layer_service_us_at_200gbps": 167.77215999999999,
+    "single_source_full_shard_serialization_ms": 10.73741824
+  },
+  "limits": [
+    "Prefill and Decode profile times omit TP collective and graph scheduling cost.",
+    "KV transfer serialization is a cut floor; completion and exposed stall require a causal DAG.",
+    "The KV pool capacity omits activation peak and CUDA context and is an upper bound.",
+    "No paper benefit or arrival rate is inferred from these optimistic figures."
+  ],
+  "scenario": {
+    "assumed_output_tokens": 600,
+    "hardware": "RTX PRO 6000 Blackwell Server Edition",
+    "kv_bytes_per_prompt_token_aggregate": 262144,
+    "kv_bytes_per_request_aggregate": 536870912,
+    "model": "Qwen/Qwen3-32B BF16",
+    "nic_gbps_per_tp_rail": 200,
+    "pp": 1,
+    "prompt_tokens": 2048,
+    "tp": 2
+  }
+}

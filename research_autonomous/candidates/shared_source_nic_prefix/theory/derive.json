@@ -1,0 +1,35 @@
+[
+  {
+    "assumption": "Every prior prefix remains resident on the chosen Decode; ignores finite capacity and routing, so this is an optimistic byte-reuse ceiling.",
+    "block_size": 16,
+    "max_prior_reuse_fraction": 0.07588273939799176,
+    "max_prior_reuse_tokens": 19520,
+    "prompt_tokens": 257239,
+    "requests": 300,
+    "requests_with_any_prior_reuse": 32,
+    "sha256": "05e48b32da530d4a3dd77f3d47c6fe694ac8308d611aa088e38bb10fba2b3b3a",
+    "workload": "workloads/sharegpt-llama-3.1-8b-300-sps10.jsonl"
+  },
+  {
+    "assumption": "Every prior prefix remains resident on the chosen Decode; ignores finite capacity and routing, so this is an optimistic byte-reuse ceiling.",
+    "block_size": 16,
+    "max_prior_reuse_fraction": 0.07904411054114754,
+    "max_prior_reuse_tokens": 20448,
+    "prompt_tokens": 258691,
+    "requests": 300,
+    "requests_with_any_prior_reuse": 32,
+    "sha256": "4af54eb2f7ac12b0856a1668e367fc8a330acd37c4f6c3e336ae02229e21a8bb",
+    "workload": "workloads/sharegpt-qwen3-30b-a3b-300-sps10.jsonl"
+  },
+  {
+    "assumption": "Every prior prefix remains resident on the chosen Decode; ignores finite capacity and routing, so this is an optimistic byte-reuse ceiling.",
+    "block_size": 16,
+    "max_prior_reuse_fraction": 0.07904411054114754,
+    "max_prior_reuse_tokens": 20448,
+    "prompt_tokens": 258691,
+    "requests": 300,
+    "requests_with_any_prior_reuse": 32,
+    "sha256": "4af54eb2f7ac12b0856a1668e367fc8a330acd37c4f6c3e336ae02229e21a8bb",
+    "workload": "workloads/sharegpt-qwen3-32b-300-sps10.jsonl"
+  }
+]

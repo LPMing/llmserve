@@ -1,0 +1,34 @@
+{
+  "not_in_scope": [
+    "network flow priority",
+    "Decode rebatching",
+    "role reallocation",
+    "future-informed routing"
+  ],
+  "results": {
+    "heterogeneous": {
+      "admission_only_oracle_lower_ns": 4112784320,
+      "early_case": "prompt_14000_early_post_hetero_r19h",
+      "early_last_completion_ns": 5310646680,
+      "early_to_two_stage_gain_fraction": 0.2255586620949899,
+      "scope_proof": "all four Prefills start at arrival; credits and D admissions occur at readiness with non-overlapping P2D flows",
+      "two_stage_case": "prompt_14000_two_stage_fifo_hetero_r19h",
+      "two_stage_gap_to_admission_lower_fraction": 0.0,
+      "two_stage_last_completion_ns": 4112784320,
+      "workload_sha256": "1d8402a24fb98c4a4360f74b567de7b625c00aafdfebc764c38ee4bfaf1d0966"
+    },
+    "uniform": {
+      "admission_only_oracle_lower_ns": 4842285760,
+      "early_case": "prompt_14000_early_post_r19b",
+      "early_last_completion_ns": 6486961960,
+      "early_to_two_stage_gain_fraction": 0.2535337820911162,
+      "scope_proof": "identical first-three credits are symmetric under fixed FAIR and FIFO Decode",
+      "two_stage_case": "prompt_14000_two_stage_fifo_r19b",
+      "two_stage_gap_to_admission_lower_fraction": 2.519464952544969e-06,
+      "two_stage_last_completion_ns": 4842297960,
+      "workload_sha256": "cbc5b85a886b7cbb1a692ba2105e172c29cabdb15c6879689bc7c34d4662076c"
+    }
+  },
+  "scope": "admission timing only; same FAIR network and FIFO Decode; no GPU/NIC/KV changes",
+  "status": "CONDITIONAL_ORACLE"
+}

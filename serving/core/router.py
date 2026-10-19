@@ -10,7 +10,8 @@ class Router:
             num_instances,
             schedulers, req_num,
             routing_policy="RR",
-            seed=42
+            seed=42,
+            pd_pairing=None,
     ):
         self.schedulers = schedulers
         self.num_instances = num_instances
@@ -18,6 +19,22 @@ class Router:
         self.prefill_instances = len(self.prefill_schedulers)
         self.decode_schedulers = [s for s in schedulers if s.pd_type == "decode"]
         self.decode_instances = len(self.decode_schedulers)
+        self.decode_scheduler_by_id = {
+            int(s.instance_id): s for s in self.decode_schedulers
+        }
+        self.pd_pairing = {
+            int(prefill_id): int(decode_id)
+            for prefill_id, decode_id in (pd_pairing or {}).items()
+        }
+        unknown_pairs = {
+            (prefill_id, decode_id)
+            for prefill_id, decode_id in self.pd_pairing.items()
+            if decode_id not in self.decode_scheduler_by_id
+        }
+        if unknown_pairs:
+            raise ValueError(
+                "P/D pairing refers to non-Decode instances: %s" %
+                sorted(unknown_pairs))
         self.req_num = req_num
         self.routing_policy = routing_policy.upper()
         self.seed = seed
@@ -149,6 +166,9 @@ class Router:
         if enable_prefix_caching:
             req_data['input_hash_ids'] = row.get('input_tok_ids', [])
             req_data['output_hash_ids'] = row.get('output_tok_ids', [])
+        if 'paired_decode_instance_id' in row:
+            req_data['paired_decode_instance_id'] = int(
+                row['paired_decode_instance_id'])
         self._pending_requests.append(req_data)
 
     def _load_agentic_session(self, row, enable_prefix_caching):
@@ -181,6 +201,9 @@ class Router:
         if enable_prefix_caching:
             req_data['input_hash_ids'] = first.get('input_tok_ids', [])
             req_data['output_hash_ids'] = first.get('output_tok_ids', [])
+        if 'paired_decode_instance_id' in first:
+            req_data['paired_decode_instance_id'] = int(
+                first['paired_decode_instance_id'])
         self._pending_requests.append(req_data)
         self._request_to_session[base_id] = (session_id, 0)
 
@@ -200,20 +223,36 @@ class Router:
 
             instance_id = self._select_instance(self.prefill_schedulers, "prefill")
             sched = self.prefill_schedulers[instance_id]
+            decode_id = req_data.get(
+                'paired_decode_instance_id',
+                self.pd_pairing.get(int(sched.instance_id)))
+            if (decode_id is not None and
+                    decode_id not in self.decode_scheduler_by_id):
+                raise ValueError(
+                    "request %s targets non-Decode instance %s" %
+                    (req_data['index'], decode_id))
 
             if sched.enable_prefix_caching:
-                sched.add_request([
+                request = sched.add_request([
                     req_data['index'], sched.model,
                     req_data['input_toks'], req_data['output_toks'],
                     req_data['arrival_time_ns'], sched.instance_id,
                     req_data.get('input_hash_ids', []), req_data.get('output_hash_ids', []),
-                ], is_init=self._is_init)
+                ], is_init=self._is_init,
+                    paired_decode_instance_id=decode_id)
             else:
-                sched.add_request([
+                request = sched.add_request([
                     req_data['index'], sched.model,
                     req_data['input_toks'], req_data['output_toks'],
                     req_data['arrival_time_ns'], sched.instance_id,
-                ], is_init=self._is_init)
+                ], is_init=self._is_init,
+                    paired_decode_instance_id=decode_id)
+
+            # Keep the session identity on the Request object for cache-hit
+            # validation and per-request result provenance. Routing remains
+            # unchanged: RR/LOAD are not made session-sticky here.
+            request.session_id = req_data.get('session_id')
+            request.sub_request_index = req_data.get('sub_request_index')
 
             self._pending_idx += 1
             routed += 1
@@ -271,6 +310,9 @@ class Router:
             if self._enable_prefix_caching:
                 req_data['input_hash_ids'] = next_sub.get('input_tok_ids', [])
                 req_data['output_hash_ids'] = next_sub.get('output_tok_ids', [])
+            if 'paired_decode_instance_id' in next_sub:
+                req_data['paired_decode_instance_id'] = int(
+                    next_sub['paired_decode_instance_id'])
             # Insert in sorted position after _pending_idx
             self._insert_pending_sorted(req_data)
             self._request_to_session[next_id] = (session_id, next_idx)
@@ -321,7 +363,24 @@ class Router:
                 scheduler.pd_type
             )
 
-    def transfer_prefill_request(self, requests):
+    def transfer_prefill_request(self, requests, completion_time_ns=None):
         for req in requests:
-            instance_id = self._select_instance(self.decode_schedulers, "decode")
-            self.decode_schedulers[instance_id].add_decode(req)
+            paired_id = req.paired_decode_instance_id
+            if paired_id is None:
+                instance_id = self._select_instance(
+                    self.decode_schedulers, "decode")
+                decode_scheduler = self.decode_schedulers[instance_id]
+            else:
+                try:
+                    decode_scheduler = self.decode_scheduler_by_id[
+                        int(paired_id)]
+                except KeyError as exc:
+                    raise RuntimeError(
+                        "request %s has invalid paired Decode instance %s" %
+                        (req.id, paired_id)) from exc
+            self.logger.info(
+                "P/D handoff request #%d: prefill_instance=%s decode_instance=%d ready_ns=%d",
+                req.id, req.instance_id, decode_scheduler.instance_id,
+                int(completion_time_ns))
+            decode_scheduler.add_decode(
+                req, completion_time_ns=completion_time_ns)

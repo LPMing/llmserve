@@ -1,0 +1,2 @@
+experiment_id,backend,model,topology,route,case,policy,run_status,reason
+QWEN_OWNER_STREAMING_MINIMAL,FlowSim, Qwen3-30B-A3B-Instruct-2507,NOT_RUN,NOT_AVAILABLE_IN_STANDARD_SERVING_DAG,owner-ready vs bulk,NOT_APPLICABLE,NOT_RUN_GATED,Theory gate did not establish profile-backed headroom; standard Serving emits AG/RS and exact route metadata is not connected

@@ -1,0 +1,15 @@
+{
+  "implication": "Unknown location/content of missing prompt IDs prevents valid chained prefix hashes; simulator now disables prefix hashing for these requests.",
+  "incomplete_input_requests": 765,
+  "incomplete_output_requests": 765,
+  "input_missing_ids_distribution": {
+    "141": 765
+  },
+  "output_missing_ids_max": 999,
+  "output_missing_ids_median": 41,
+  "output_missing_ids_min": 20,
+  "sessions": 50,
+  "sha256": "2f7cb044b4e45ef05b7d05337a6a947094fb3e44bc0ef0753d3566ffbab8591b",
+  "subrequests": 765,
+  "trace": "workloads/swe-bench-qwen3-30b-a3b-50-sps0.2.jsonl"
+}

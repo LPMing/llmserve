@@ -1,0 +1,7 @@
+case,deployment,cache_handoff,session0_finish_ms,session1_finish_ms,session2_finish_ms,session3_finish_ms,mean_session_finish_ms,max_session_finish_ms,mean_session_latency_delta_pct_vs_4p1d,max_session_latency_delta_pct_vs_4p1d,child_mean_e2e_ms,child_latency_delta_pct_vs_4p1d,notes
+B0,4P1D,full,211.436480,211.436480,211.436480,211.436480,211.436480,211.436480,0.00,0.00,61.329480,0.00,reference full root-session DAG
+B0-DELTA,4P1D,delta,205.965000,205.965000,205.965000,205.965000,205.965000,205.965000,-2.59,-2.59,55.858000,-8.92,child P2D bytes fall by 99.7808%; session latency gains are below 15%
+B1,3P2D,full,181.432000,222.092000,176.874000,226.790000,201.797000,226.790000,-4.56,7.26,47.768500,-22.10,full sessions from roots; two sessions regress in absolute completion
+B2,3P2D,delta,181.432000,222.092000,176.874000,226.790000,201.797000,226.790000,-4.56,7.26,47.768500,-22.10,serving timestamps exactly match B1 despite lower P2D bytes
+B2P3,2P3D,not-representable,,,,,,,,,,,NOT_RUN_UNREPRESENTABLE: one static Decode receiver per Prefill graph
+DYNAMIC,4P1D-to-3P2D,not-modeled,,,,,,,,,,,NOT_RUN: role switch/cache/weight/inflight migration costs absent

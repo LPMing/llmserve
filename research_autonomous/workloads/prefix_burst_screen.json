@@ -1,0 +1,165 @@
+{
+  "files": {
+    "qwen_coder_blksz_16.jsonl": {
+      "burst_windows": {
+        "1984_2304_0.1s": {
+          "buckets_ge_2": 0,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 3,
+          "max_distinct_prior_prefixes": 1
+        },
+        "1984_2304_1.0s": {
+          "buckets_ge_2": 0,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 3,
+          "max_distinct_prior_prefixes": 1
+        },
+        "1984_4096_0.1s": {
+          "buckets_ge_2": 1,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 20,
+          "max_distinct_prior_prefixes": 2
+        },
+        "1984_4096_1.0s": {
+          "buckets_ge_2": 1,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 20,
+          "max_distinct_prior_prefixes": 2
+        }
+      },
+      "counts": {
+        "eligible_root_1984_2304": 3,
+        "eligible_root_1984_4096": 21,
+        "prior_observed_1984_token_prefix": 18965,
+        "requests_with_1984_token_prefix": 29396
+      },
+      "sha256": "3d74974cebb7bccb69b1ca6ea210a44d9a3033443c0271ed015327284dea1aff",
+      "source_file": "qwen_coder_blksz_16.jsonl"
+    },
+    "qwen_thinking_blksz_16.jsonl": {
+      "burst_windows": {
+        "1984_2304_0.1s": {
+          "buckets_ge_2": 0,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 0,
+          "max_distinct_prior_prefixes": 0
+        },
+        "1984_2304_1.0s": {
+          "buckets_ge_2": 0,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 0,
+          "max_distinct_prior_prefixes": 0
+        },
+        "1984_4096_0.1s": {
+          "buckets_ge_2": 0,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 14,
+          "max_distinct_prior_prefixes": 1
+        },
+        "1984_4096_1.0s": {
+          "buckets_ge_2": 0,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 12,
+          "max_distinct_prior_prefixes": 1
+        }
+      },
+      "counts": {
+        "eligible_root_1984_4096": 17,
+        "prior_observed_1984_token_prefix": 3686,
+        "requests_with_1984_token_prefix": 6451
+      },
+      "sha256": "41ac36d9d1b54d084eeb6b05e9d142ba9d02f8bf79cfc9fff418d8ab7cdee906",
+      "source_file": "qwen_thinking_blksz_16.jsonl"
+    },
+    "qwen_traceA_blksz_16.jsonl": {
+      "burst_windows": {
+        "1984_2304_0.1s": {
+          "buckets_ge_2": 0,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 1,
+          "max_distinct_prior_prefixes": 1
+        },
+        "1984_2304_1.0s": {
+          "buckets_ge_2": 0,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 1,
+          "max_distinct_prior_prefixes": 1
+        },
+        "1984_4096_0.1s": {
+          "buckets_ge_2": 0,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 2,
+          "max_distinct_prior_prefixes": 1
+        },
+        "1984_4096_1.0s": {
+          "buckets_ge_2": 0,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 2,
+          "max_distinct_prior_prefixes": 1
+        }
+      },
+      "counts": {
+        "eligible_root_1984_2304": 1,
+        "eligible_root_1984_4096": 2,
+        "prior_observed_1984_token_prefix": 7181,
+        "requests_with_1984_token_prefix": 14051
+      },
+      "sha256": "07cedc9ed8aff301994ac68ed4aede8123b7603673575eeba9dd677de663db17",
+      "source_file": "qwen_traceA_blksz_16.jsonl"
+    },
+    "qwen_traceB_blksz_16.jsonl": {
+      "burst_windows": {
+        "1984_2304_0.1s": {
+          "buckets_ge_2": 1,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 432,
+          "max_distinct_prior_prefixes": 2
+        },
+        "1984_2304_1.0s": {
+          "buckets_ge_2": 6,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 408,
+          "max_distinct_prior_prefixes": 2
+        },
+        "1984_4096_0.1s": {
+          "buckets_ge_2": 36,
+          "buckets_ge_4": 0,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 2518,
+          "max_distinct_prior_prefixes": 2
+        },
+        "1984_4096_1.0s": {
+          "buckets_ge_2": 278,
+          "buckets_ge_4": 1,
+          "buckets_ge_8": 0,
+          "eligible_nonempty_buckets": 2127,
+          "max_distinct_prior_prefixes": 4
+        }
+      },
+      "counts": {
+        "eligible_root_1984_2304": 436,
+        "eligible_root_1984_4096": 2572,
+        "prior_observed_1984_token_prefix": 4017,
+        "requests_with_1984_token_prefix": 13878
+      },
+      "sha256": "68e3f98e2d601d60d0abf4b89bc8a3654372abab7b1cde6373a13d0054379d59",
+      "source_file": "qwen_traceB_blksz_16.jsonl"
+    }
+  },
+  "method": "Exact equality of first 124 released 16-token hash IDs in an earlier input; root turn; short output; arrival buckets. Prior occurrence is an optimistic upper bound on cache hit, not an observed P/D cache state. Qwen traces are not the Llama-3.1-8B simulator model.",
+  "source_manifest": "qwen_bailian_raw/manifest.json"
+}

@@ -1,0 +1,51 @@
+{
+  "baseline": "best same-TP2 2P:2D role allocation and topology-aware pairing",
+  "classification": {
+    "2048_input_600_output_two_200g_rails": "C",
+    "model_profile_and_memory": "A"
+  },
+  "gain_upper_for_decode_throughput": 0.0,
+  "inputs_sha256": {
+    "configs/model/Qwen/Qwen3-32B.json": "855a9d23f97f8771c84280619ae156c8f73c9cd64a5d53a059125b4aecab12d4",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-32B/bf16/tp1/attention.csv": "7198bb9b565dab1fa56ecb82ed40e7b138917482ec25fd601e84392201fd32ee",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-32B/bf16/tp1/dense.csv": "96d32cda00c850488fa4e215807c4015b471ccf9d4217d38e8cd8a5e13d338d3",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-32B/bf16/tp1/per_sequence.csv": "bca39f32ce77d4e3afb0ebb595d38b4813c4f239619dabadc8ca932575974b0e",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-32B/bf16/tp2/attention.csv": "2c4d98649967da9c79535421c7e71663daeff80e9049608072d0237befd522a7",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-32B/bf16/tp2/dense.csv": "4f3cf699af9eace4f570d83a5d36879e6db6bc6486e04feb1fa8c524e32e11a7",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-32B/bf16/tp2/per_sequence.csv": "99c417c98e382c911d280a07cbb5902f39af886bd264584faa48f37cfb743974"
+  },
+  "kv_total_bytes_per_request": 536870912,
+  "limits": [
+    "TP1 batch40 is itself above the KV-feasible 39-sequence bound, so its throughput is an intentionally optimistic TP1 upper screen.",
+    "All profile values omit TP collective service; a new mixed-TP claim needs calibrated local communication and weight-memory validation.",
+    "This excludes only this long-output Qwen3-32B deployment shape, not every heterogeneous P/D cluster."
+  ],
+  "optimistic_tp1_batch40_tokens_per_s_per_gpu": 617.3619038950067,
+  "oracle": "choose TP1 or TP2 independently per phase without repartition cost",
+  "per_layout": {
+    "tp1": {
+      "decode_step_ms": 63.20177079000001,
+      "decode_tokens_per_s_per_gpu": 569.6042935191941,
+      "decode_tokens_per_s_per_instance": 569.6042935191941,
+      "kv_bytes_per_source_rank": 536870912,
+      "kv_capacity_tokens_per_gpu_upper_bound": 103936,
+      "max_2048_plus_600_sequences_by_kv": 39,
+      "one_200g_source_rail_serialization_ms": 21.47483648,
+      "profiled_feasible_batch": 36,
+      "weight_gib_per_gpu": 61.024179458618164
+    },
+    "tp2": {
+      "decode_step_ms": 53.52446673000001,
+      "decode_tokens_per_s_per_gpu": 1195.7148554668092,
+      "decode_tokens_per_s_per_instance": 2391.4297109336185,
+      "kv_bytes_per_source_rank": 268435456,
+      "kv_capacity_tokens_per_gpu_upper_bound": 457824,
+      "max_2048_plus_600_sequences_by_kv": 172,
+      "one_200g_source_rail_serialization_ms": 10.73741824,
+      "profiled_feasible_batch": 128,
+      "weight_gib_per_gpu": 30.512704849243164
+    }
+  },
+  "status": "NO_GO in the measured 2048/600 memory-feasible envelope",
+  "tp2_to_two_tp1_decode_throughput_ratio_upper_bound": 0.5163119794593398
+}

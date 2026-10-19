@@ -1,0 +1,17 @@
+{
+  "semantics": "logical rank to physical GPU endpoint; P2D shadow ranks alias their paired Decode GPU and do not add a NIC or GPU",
+  "logical_to_physical": [
+    0,
+    8,
+    1,
+    9,
+    2,
+    16,
+    3,
+    17,
+    8,
+    9,
+    16,
+    17
+  ]
+}

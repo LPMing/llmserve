@@ -1,0 +1,25 @@
+{
+  "policy": "FAIR",
+  "traffic_class": "KV_ONLY",
+  "event_count": 1536,
+  "completed_flow_count": 1536,
+  "request_count": 16,
+  "telemetry_rows": 4096,
+  "telemetry_truncated": true,
+  "coalesce_ep_window_us": 0.0,
+  "parallel_link_model": "AGGREGATE",
+  "queue_semantics": "residual fluid, not packet queue",
+  "serving_metric_semantics": "ttft_data_plane_proxy is a replay-derived lower-level anchor, not integrated scheduler E2E TTFT",
+  "flow_metric_semantics": {
+    "queueing_ns": "actual fluid-flow service start minus requested event start",
+    "service_ns": "flow completion minus actual fluid-flow service start",
+    "kv_fct_ns": "last required KV-flow completion minus first requested KV-flow start",
+    "collective_cct_ns": "last EP-flow completion minus collective requested start"
+  },
+  "files": {
+    "flows": "flows.csv",
+    "request_metrics": "request_metrics.csv",
+    "collectives": "collectives.csv",
+    "link_telemetry": "link_telemetry.jsonl"
+  }
+}

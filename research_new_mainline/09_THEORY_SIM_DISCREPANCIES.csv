@@ -1,0 +1,5 @@
+item,prediction_or_invariant,observed_or_audit,classification,action,status
+standard_ep_communication,"owner-level sparse A2A required to compute per-owner d_i,c_i,r_i","trace_generator emits AG/RS and route matrix is not passed by graph_generator",PROFILE_LIMITATION_AND_INTEGRATION_GAP,do not use historical exact-P2P replay as standard integrated result,OPEN_NOT_RUN
+dormant_exact_p2p_join,rank-local owner compute can progress after its local dispatch join,join waits all local outgoing sends and incoming receives; not only inbound readiness,DAG_SEMANTICS_REQUIRES_REFINEMENT,retain dependency until buffer/transport semantics audited,NO_PERFORMANCE_RUN
+route_profile_alignment,owner compute duration should be backed by measured MoE profile,retained EP32 sidecar has activated_experts=2 while profile minimum is 8,PROFILE_LIMITATION,do not extrapolate for conservative bound,THEORY_GATE_FAIL
+reference_math,exact optimal >= lower bound and <= bulk,3 abstract cases satisfy both checks,NOT_A_SIMULATOR_DISCREPANCY,keep as proof harness only,PASS_ABSTRACT

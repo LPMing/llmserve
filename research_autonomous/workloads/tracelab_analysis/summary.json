@@ -1,0 +1,266 @@
+{
+  "counts": {
+    "rounds": 665453,
+    "rounds_large_prefix_small_append": 173815,
+    "rounds_long_context_short_output": 200953,
+    "rounds_prompt_le_2048": 300,
+    "subagent_related_tool_calls": 9541,
+    "tools": 743819
+  },
+  "license": "CC-BY-4.0",
+  "providers": {
+    "claude": {
+      "rounds": 305445,
+      "subagent_related_tool_calls": 7430
+    },
+    "codex": {
+      "rounds": 360008,
+      "subagent_related_tool_calls": 2111
+    }
+  },
+  "session_round_count_p50_p95_p99": [
+    16.0,
+    303.2999999999993,
+    1130.020000000004
+  ],
+  "sessions": 8058,
+  "shape_p50_p95_p99": {
+    "fresh_tokens": [
+      1045.0,
+      14365.0,
+      159485.2799999998
+    ],
+    "output_tokens": [
+      249.0,
+      2281.0,
+      5542.0
+    ],
+    "prefix_fraction": [
+      0.9916633689222838,
+      0.9991334835479798,
+      0.9996939902436995
+    ],
+    "prefix_tokens": [
+      126336.0,
+      500793.80000000016,
+      848885.9199999999
+    ],
+    "prompt_tokens": [
+      132092.0,
+      519459.20000000007,
+      856464.1599999992
+    ],
+    "tool_wall_latency_ms": [
+      218.0,
+      30006.0,
+      151613.57000000007
+    ]
+  },
+  "source": "https://github.com/uw-syfi/TraceLab/releases/tag/v0.0.2",
+  "source_sha256": "11ce51ec0a25e3d1d95b025bca2f7d1647e47571eb7cc968acd5fc64d4b4fb65",
+  "subagent_link_caveat": "The public release has no ground-truth parent-child session link or content block IDs; tool counts cannot establish fork width, sibling prefix identity, or parent join.",
+  "top_models": [
+    [
+      "gpt-5.5",
+      165365
+    ],
+    [
+      "claude-opus-4-8",
+      141747
+    ],
+    [
+      "claude-opus-4-7",
+      93236
+    ],
+    [
+      "gpt-5.6-sol",
+      66294
+    ],
+    [
+      "gpt-5.4",
+      59980
+    ],
+    [
+      "gpt-5.3-codex",
+      29712
+    ],
+    [
+      "claude-opus-4-6",
+      20149
+    ],
+    [
+      "claude-haiku-4-5-20251001",
+      18479
+    ],
+    [
+      "codex-auto-review",
+      13389
+    ],
+    [
+      "claude-sonnet-4-6",
+      12799
+    ],
+    [
+      "claude-fable-5",
+      10297
+    ],
+    [
+      "gpt-5.2-codex",
+      7436
+    ],
+    [
+      "gpt-5-codex",
+      5604
+    ],
+    [
+      "gpt-5.3-codex-spark",
+      4272
+    ],
+    [
+      "claude-sonnet-5",
+      3789
+    ],
+    [
+      "claude-sonnet-4-5-20250929",
+      3583
+    ],
+    [
+      "gpt-5.1-codex-max",
+      2652
+    ],
+    [
+      "gpt-5",
+      1725
+    ],
+    [
+      "gpt-5.1-codex",
+      1339
+    ],
+    [
+      "gpt-5.1",
+      759
+    ]
+  ],
+  "top_tools": [
+    [
+      "exec_command",
+      251630
+    ],
+    [
+      "Bash",
+      158610
+    ],
+    [
+      "write_stdin",
+      75975
+    ],
+    [
+      "Read",
+      63984
+    ],
+    [
+      "exec",
+      46757
+    ],
+    [
+      "Edit",
+      36713
+    ],
+    [
+      "apply_patch",
+      32332
+    ],
+    [
+      "wait",
+      11404
+    ],
+    [
+      "TaskUpdate",
+      8853
+    ],
+    [
+      "Write",
+      8625
+    ],
+    [
+      "shell_command",
+      7624
+    ],
+    [
+      "shell",
+      5416
+    ],
+    [
+      "TaskCreate",
+      4877
+    ],
+    [
+      "WebFetch",
+      3636
+    ],
+    [
+      "update_plan",
+      3473
+    ],
+    [
+      "Grep",
+      3360
+    ],
+    [
+      "Agent",
+      2546
+    ],
+    [
+      "WebSearch",
+      1710
+    ],
+    [
+      "ToolSearch",
+      1710
+    ],
+    [
+      "ScheduleWakeup",
+      1635
+    ],
+    [
+      "AskUserQuestion",
+      1499
+    ],
+    [
+      "Monitor",
+      1114
+    ],
+    [
+      "wait_agent",
+      1045
+    ],
+    [
+      "Glob",
+      986
+    ],
+    [
+      "view_image",
+      748
+    ],
+    [
+      "SendMessage",
+      748
+    ],
+    [
+      "ExitPlanMode",
+      672
+    ],
+    [
+      "spawn_agent",
+      664
+    ],
+    [
+      "TaskOutput",
+      647
+    ],
+    [
+      "TodoWrite",
+      570
+    ]
+  ]
+}

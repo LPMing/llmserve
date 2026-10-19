@@ -1,0 +1,2 @@
+start_ns,src,dst,bytes,event_type,request_id,collective_id,layer_id,tag,active_request_ids,serving_role
+0,0,32,201326592,1,0,0,47,0,0,prefill

@@ -1,0 +1,374 @@
+─────────────────────────────── LLMServingSim2.0 ───────────────────────────────
+  A Unified Simulator for Heterogeneous Hardware and Serving Techniques in LLM  
+────────────────────────────────────────────────────────────────────────────────
+      _    _    __  __ ___              _           ___ _       ___   __        
+     | |  | |  |  \/  / __| ___ _ ___ _(_)_ _  __ _/ __(_)_ __ |_  ) /  \       
+     | |__| |__| |\/| \__ \/ -_) '_\ V / | ' \/ _` \__ \ | '  \ / / | () |      
+     |____|____|_|  |_|___/\___|_|  \_/|_|_||_\__, |___/_|_|_|_/___(_)__/       
+                                              |___/                             
+────────────────────────────────────────────────────────────────────────────────
+                              Input configuration                               
+
+  • Cluster config             : research_autonomous/experiments/prefix_inversion/p8_hit1536_miss/cluster.json
+  • Run ID                     : prefix-inversion-p8-h1536-miss
+  • ASTRA-Sim inputs root      : /home/dell/lpm/LLMServingSim/astra-sim/inputs/runs/prefix-inversion-p8-h1536-miss
+  • Dataset                    : research_autonomous/experiments/prefix_inversion/p8_hit1536_miss/workload.jsonl
+  • Max num seqs               : 8
+  • Max batched tokens         : 2048
+  • Block size (tokens)        : 16
+  • Request routing            : RR
+  • Expert routing             : BALANCED
+  • Prefix caching             : ENABLED
+  • Chunked prefill            : ENABLED
+  • Prefix caching scheme      : xPU-Only
+  • Centralized prefix caching : DISABLED
+  • Offload attention to PIM   : DISABLED
+  • Sub-batch interleaving     : DISABLED
+  • Network backend            : flowsim
+  • Log interval (s)           : 1.0
+  • Log level                  : WARNING
+────────────────────────────────────────────────────────────────────────────────
+                            KV Cache Initialization                             
+
+  • Instance [0]  : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [1]  : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [2]  : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [3]  : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [4]  : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [5]  : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [6]  : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [7]  : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [8]  : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [9]  : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [10] : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [11] : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [12] : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [13] : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [14] : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [15] : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [16] : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [17] : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [18] : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [19] : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [20] : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [21] : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [22] : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+  • Instance [23] : 54400 tokens / 3400 blocks (6.64 GiB/rank at util 0.90)
+────────────────────────────────────────────────────────────────────────────────
+▶ Starting simulation...
+
+────────────────────────────────────────────────────────────────────────────────
+▶ Exiting simulation...
+
+All Request Has Been Exited
+────────────────────────────────────────────────────────────────────────────────
+▶ Simulation results...
+
+Total simulation time: 0h 0m 4.233s
+────────────────────────────── Throughput Results ──────────────────────────────
+Total requests:                                                     16
+Total clocks (ns):                                                  556244894
+Total latency (s):                                                  0.556
+Total input tokens:                                                 28672
+Total generated tokens:                                             32
+Request throughput (req/s):                                         28.76
+Average prompt throughput (tok/s):                                  51545.64
+Average generation throughput (tok/s):                              57.53
+Total token throughput (tok/s):                                     51603.17
+Throughput per 1 sec ([prompt_throughput], [gen_throughput]): []
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────── Prefix Caching Results ────────────────────────────
+Total requested prompt tokens:                                      28672
+NPU prefix hit prompt tokens:                                       12288
+NPU prefix hit ratio (%):                                           42.86
+Total prefix hit ratio (%):                                         42.86
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [0] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+No Time data available
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+No Time data available
+───────────────────────────── Inter-token Latency ──────────────────────────────
+No Inter-token data available
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [1] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+No Time data available
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+No Time data available
+───────────────────────────── Inter-token Latency ──────────────────────────────
+No Inter-token data available
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [2] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+No Time data available
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+No Time data available
+───────────────────────────── Inter-token Latency ──────────────────────────────
+No Inter-token data available
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [3] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+No Time data available
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+No Time data available
+───────────────────────────── Inter-token Latency ──────────────────────────────
+No Inter-token data available
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [4] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+No Time data available
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+No Time data available
+───────────────────────────── Inter-token Latency ──────────────────────────────
+No Inter-token data available
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [5] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+No Time data available
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+No Time data available
+───────────────────────────── Inter-token Latency ──────────────────────────────
+No Inter-token data available
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [6] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+No Time data available
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+No Time data available
+───────────────────────────── Inter-token Latency ──────────────────────────────
+No Inter-token data available
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [7] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+No Time data available
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+No Time data available
+───────────────────────────── Inter-token Latency ──────────────────────────────
+No Inter-token data available
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [8] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     144.83
+Median TTFT (ms):                                                   144.83
+P99 TTFT (ms):                                                      144.83
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.03
+Median TPOT (ms):                                                   17.03
+P99 TPOT (ms):                                                      17.03
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.03
+Median ITL (ms) :                                                   17.03
+P99 ITL (ms) :                                                      17.03
+────────────────────────────────────────────────────────────────────────────────
+───────────────────────────────── Instance [9] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     171.99
+Median TTFT (ms):                                                   171.99
+P99 TTFT (ms):                                                      171.99
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.13
+Median TPOT (ms):                                                   17.13
+P99 TPOT (ms):                                                      17.13
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.13
+Median ITL (ms) :                                                   17.13
+P99 ITL (ms) :                                                      17.13
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────── Instance [10] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     144.83
+Median TTFT (ms):                                                   144.83
+P99 TTFT (ms):                                                      144.83
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.03
+Median TPOT (ms):                                                   17.03
+P99 TPOT (ms):                                                      17.03
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.03
+Median ITL (ms) :                                                   17.03
+P99 ITL (ms) :                                                      17.03
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────── Instance [11] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     171.99
+Median TTFT (ms):                                                   171.99
+P99 TTFT (ms):                                                      171.99
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.13
+Median TPOT (ms):                                                   17.13
+P99 TPOT (ms):                                                      17.13
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.13
+Median ITL (ms) :                                                   17.13
+P99 ITL (ms) :                                                      17.13
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────── Instance [12] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     144.83
+Median TTFT (ms):                                                   144.83
+P99 TTFT (ms):                                                      144.83
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.03
+Median TPOT (ms):                                                   17.03
+P99 TPOT (ms):                                                      17.03
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.03
+Median ITL (ms) :                                                   17.03
+P99 ITL (ms) :                                                      17.03
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────── Instance [13] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     171.99
+Median TTFT (ms):                                                   171.99
+P99 TTFT (ms):                                                      171.99
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.13
+Median TPOT (ms):                                                   17.13
+P99 TPOT (ms):                                                      17.13
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.13
+Median ITL (ms) :                                                   17.13
+P99 ITL (ms) :                                                      17.13
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────── Instance [14] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     144.83
+Median TTFT (ms):                                                   144.83
+P99 TTFT (ms):                                                      144.83
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.03
+Median TPOT (ms):                                                   17.03
+P99 TPOT (ms):                                                      17.03
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.03
+Median ITL (ms) :                                                   17.03
+P99 ITL (ms) :                                                      17.03
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────── Instance [15] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     171.99
+Median TTFT (ms):                                                   171.99
+P99 TTFT (ms):                                                      171.99
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.13
+Median TPOT (ms):                                                   17.13
+P99 TPOT (ms):                                                      17.13
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.13
+Median ITL (ms) :                                                   17.13
+P99 ITL (ms) :                                                      17.13
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────── Instance [16] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     171.99
+Median TTFT (ms):                                                   171.99
+P99 TTFT (ms):                                                      171.99
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.13
+Median TPOT (ms):                                                   17.13
+P99 TPOT (ms):                                                      17.13
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.13
+Median ITL (ms) :                                                   17.13
+P99 ITL (ms) :                                                      17.13
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────── Instance [17] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     144.83
+Median TTFT (ms):                                                   144.83
+P99 TTFT (ms):                                                      144.83
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.03
+Median TPOT (ms):                                                   17.03
+P99 TPOT (ms):                                                      17.03
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.03
+Median ITL (ms) :                                                   17.03
+P99 ITL (ms) :                                                      17.03
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────── Instance [18] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     171.99
+Median TTFT (ms):                                                   171.99
+P99 TTFT (ms):                                                      171.99
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.13
+Median TPOT (ms):                                                   17.13
+P99 TPOT (ms):                                                      17.13
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.13
+Median ITL (ms) :                                                   17.13
+P99 ITL (ms) :                                                      17.13
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────── Instance [19] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     144.83
+Median TTFT (ms):                                                   144.83
+P99 TTFT (ms):                                                      144.83
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.03
+Median TPOT (ms):                                                   17.03
+P99 TPOT (ms):                                                      17.03
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.03
+Median ITL (ms) :                                                   17.03
+P99 ITL (ms) :                                                      17.03
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────── Instance [20] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     171.99
+Median TTFT (ms):                                                   171.99
+P99 TTFT (ms):                                                      171.99
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.13
+Median TPOT (ms):                                                   17.13
+P99 TPOT (ms):                                                      17.13
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.13
+Median ITL (ms) :                                                   17.13
+P99 ITL (ms) :                                                      17.13
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────── Instance [21] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     144.83
+Median TTFT (ms):                                                   144.83
+P99 TTFT (ms):                                                      144.83
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.03
+Median TPOT (ms):                                                   17.03
+P99 TPOT (ms):                                                      17.03
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.03
+Median ITL (ms) :                                                   17.03
+P99 ITL (ms) :                                                      17.03
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────── Instance [22] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     171.99
+Median TTFT (ms):                                                   171.99
+P99 TTFT (ms):                                                      171.99
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.13
+Median TPOT (ms):                                                   17.13
+P99 TPOT (ms):                                                      17.13
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.13
+Median ITL (ms) :                                                   17.13
+P99 ITL (ms) :                                                      17.13
+────────────────────────────────────────────────────────────────────────────────
+──────────────────────────────── Instance [23] ─────────────────────────────────
+───────────────────────────── Time to First Token ──────────────────────────────
+Mean TTFT (ms):                                                     144.83
+Median TTFT (ms):                                                   144.83
+P99 TTFT (ms):                                                      144.83
+─────────────────── Time per Output Token (excl. 1st token) ────────────────────
+Mean TPOT (ms):                                                     17.03
+Median TPOT (ms):                                                   17.03
+P99 TPOT (ms):                                                      17.03
+───────────────────────────── Inter-token Latency ──────────────────────────────
+Mean ITL (ms) :                                                     17.03
+Median ITL (ms) :                                                   17.03
+P99 ITL (ms) :                                                      17.03
+────────────────────────────────────────────────────────────────────────────────
+Saving each request's information to output file: research_autonomous/experiments/prefix_inversion/p8_hit1536_miss/requests.csv

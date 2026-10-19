@@ -1,0 +1,4 @@
+{
+  "semantics": "Logical ranks 0-11: P0 actual 0-1 and shadow 2-3; P1 actual 4-5 and shadow 6-7; D0 actual 8-9; D1 actual 10-11. Decode TP/EP ranks are split across the two leaves: D0 maps to endpoints 2 and 8, D1 to endpoints 3 and 9. Shadow P2D receivers alias the paired Decode endpoints. Prefill sources remain on leaf 12; cross-leaf P2D shards and Decode EP peers therefore share directed cut 12->13.",
+  "logical_to_physical": [0, 1, 3, 9, 4, 5, 2, 8, 2, 8, 3, 9]
+}

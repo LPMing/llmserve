@@ -1,0 +1,17 @@
+{
+  "semantics": "FlowSim logical rank to physical GPU endpoint. Prefill shadow receiver ranks alias the paired Decode GPU endpoint. Four logical Decode instances occupy the same physical D0/D1 servers.",
+  "logical_to_physical": [
+    0,
+    1,
+    8,
+    9,
+    2,
+    3,
+    16,
+    17,
+    8,
+    9,
+    16,
+    17
+  ]
+}

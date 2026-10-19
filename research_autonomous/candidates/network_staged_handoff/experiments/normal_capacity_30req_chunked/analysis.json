@@ -1,0 +1,25 @@
+{
+  "analyzer_sha256": "e7ba448a0a3e2f7591b6e32e30ffd8281c90a6dafac92876a929b04f84bf4657",
+  "bytes_per_request": 268435456,
+  "capacity_wait_event_count": 378,
+  "capacity_wait_ns_by_request": {
+    "27": 4025125000,
+    "28": 3428663000,
+    "29": 210653000
+  },
+  "capacity_wait_request_ids": [
+    27,
+    28,
+    29
+  ],
+  "last_completion_ns": 24699696000,
+  "note": "Correctness fixture only; synchronous 30-request burst is not a policy benefit measurement.",
+  "p2d_bytes": 8053063680,
+  "p2d_flows": 960,
+  "raw_sha256": {
+    "events.jsonl": "ac192fe2853761e7e0533585dd6b676cb65f2da53d36271aeb95b118924379c3",
+    "flows.jsonl": "8a8de02f7ced09255a38092ba6405a6df2be9c392a2c10b7e4432b1e7cd4466a",
+    "requests.csv": "895ec1785cae86918761399c5233b536d141078e52a3d6f031ac5b8d371676f2"
+  },
+  "requests_complete": 30
+}

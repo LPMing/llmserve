@@ -1,0 +1,23 @@
+{
+  "cut_time_over_earliest_last_completion_fraction": 0.030781934315026634,
+  "earliest_last_completion_s": 15.9957404652,
+  "first_arrival_s": 0.046926808,
+  "full_kv_bytes_upper_before_prefix_delta": 6154747904,
+  "full_transfer_cut_floor_s": 0.49237983232,
+  "last_arrival_s": 4.229722316,
+  "last_output_tokens": 708,
+  "last_request_unavoidable_decode_s": 11.7660181492,
+  "min_profiled_decode_step_ms": 16.642175599999998,
+  "model_sha256": "54acfad3cffe057640904ca8a1e83525e6551c70c7a04c641f5a9eda0bbf64bd",
+  "num_hidden_layers": 32,
+  "profile_sha256": {
+    "attention.csv": "60f0669b5e85467b18d0ca241a826c4376c530b22b74b7b20748a1955cf61949",
+    "dense.csv": "4f5b0623f1fa27033752cc54807a4089c39205c7132a0bb196520249d9d9140a",
+    "per_sequence.csv": "acbc8294d6749cb3ed8eaccb9ab561e62cacf9fbc06e6901c89646d750d94647"
+  },
+  "prompt_tokens": 46957,
+  "qualification": "The ratio screens a fixed-work network-only change. It is not a global upper bound when network decisions change Decode batching, memory pressure or request order.",
+  "source_rows": 50,
+  "status": "THEORY_SCREEN_ONLY",
+  "workload_sha256": "05e48b32da530d4a3dd77f3d47c6fe694ac8308d611aa088e38bb10fba2b3b3a"
+}

@@ -1,0 +1,20 @@
+{
+  "git_head": "0c0839aff54ec0abb1810dc09cf3d66f06b1b078",
+  "invocation": "PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION=python PYTHONPATH=.:astra-sim/extern/graph_frontend /home/lpm/.conda/envs/llmsim-flowsim/bin/python research_autonomous/experiments/receiver_recheck/scripts/recheck.py",
+  "source_and_result_sha256": {
+    "research_autonomous/experiments/receiver_recheck/scripts/recheck.py": "1ca71596cfd425f76c445385d0ce502fa7300ac5b2a8264b0e1d038d2fbf83b9",
+    "research_receiver_matching/run_exhaustive_gate.py": "479550752c4f90c078ddd9e5bf44935543efec846bf4a8ab28c0f364ee83fa80",
+    "serving/core/flowsim_worker.py": "ed75cd9dd86d5a95c37fe178bc0db80147807a43edfd20a4baf7849399363e49",
+    "astra-sim/extern/graph_frontend/chakra/src/converter/llm_converter.py": "583f735f849fb012c3febbac9561e67189d7ed7ef7b833a849cd79057fae1c96",
+    "research_cache_network_joint/3p2d_tp2_flowsim.json": "c32b4f6b9c629d9943d74658b7e80f55ef2aff4390135ce8ce515704a45e6fd9",
+    "research_receiver_matching/cohort_3x2048.jsonl": "b16c3556df5909880610ae59b592a489deeb704ba05044ef361dbf490eccfa77",
+    "configs/model/Qwen/Qwen3-30B-A3B-Instruct-2507.json": "0736f3bafb95cc658776c92ab34f5f98d8169634a3a36b84892d71448a1f19d3",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-30B-A3B-Instruct-2507/bf16/tp1/moe.csv": "aa6e29a17412a62234a6610d7a699f72e5938f09386374b635925c5db29045f6",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-30B-A3B-Instruct-2507/bf16/tp2/dense.csv": "710f04261d67ec53639095cec91751c9a9dc1aa6f5b335c9decaee4802407633",
+    "profiler/perf/RTXPRO6000/Qwen/Qwen3-30B-A3B-Instruct-2507/bf16/tp2/attention.csv": "0b0fb7a5436cb4bffba5e89397cf747064b1566e0053db4584c70d766d243b10",
+    "research_autonomous/experiments/receiver_recheck/processed/post_moe_fix_assignments.csv": "b0d0411d2c9bfd97a3c27db27ad2be9acf10688c13fd81462b431ecacc994ab4",
+    "research_ns3_incast/fixtures_rankcap200g/fixtures/4p1d_unique_spines/topology.txt": "4254141f11f0ea8d03a27f7b1fecbd04e0697327eed61ccb7ec5de3fd2ce2df7",
+    "research_cache_network_joint/3p2d_logical_to_physical.json": "e4fde284347b9865db2ffdd6794ef9d1e4e0348c21bd451f57cd34d90160bca6"
+  },
+  "note": "The imported historical runner saves the exact per-case command inputs in configs and immutable per-case raw files. This recheck never overwrites the historical runs."
+}

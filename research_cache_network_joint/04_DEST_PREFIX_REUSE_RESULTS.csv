@@ -1,0 +1,8 @@
+case,run,topology,source_prefix_hit_tokens,destination_hit_tokens,child_input_tokens,new_tokens,p2d_bytes_per_child,full_p2d_bytes_per_child,serving_replay,request_event_result,protocol_result,ttft_claim
+A0,full-transfer,4P1D,4096,0,4105,9,403537920,403537920,yes,full P2D completes 182646480 ns after sampler at 177175000 ns,baseline,TTFT not independently modeled
+A1,query-only,4P1D,4096,4096,4105,9,403537920,403537920,yes,timestamps and payload match A0,QUERY hit; no suppression,no TTFT gain claim
+A2,delta,4P1D,4096,4096,4105,9,884736,403537920,yes,last KV flow finishes 176419675 ns; P2D-ready is 177175000 ns,reservation committed; sampler-ready unchanged,TTFT not independently modeled
+A3,partial-hit,4P1D,4096,2048,4105,2057,202211328,403537920,yes,partial transfer completes through normal DAG,2048-token hit and missing KV sent,no 15% result claimed
+A4,destination-miss,4P1D,4096,0,4105,9,403537920,403537920,yes,full transfer fallback,cache MISS,no 15% result claimed
+A5,eviction-after-query,unit,NA,evicted-before-reserve,NA,NA,NA,NA,no serving replay,capacity/eviction fallback leaves required KV transfer intact,correctness only,not applicable
+A6,concurrent-shared-hit,unit,NA,shared reservation,NA,NA,NA,NA,no serving replay,reference accounting and shared block adoption pass,correctness only,not applicable

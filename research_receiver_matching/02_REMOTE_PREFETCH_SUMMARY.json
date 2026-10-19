@@ -1,0 +1,17 @@
+{
+  "all_session_cache_fits_one_instance": true,
+  "child_calls": 715,
+  "configured_kv_capacity_blocks_per_tp2_instance": 42260,
+  "conservative_session_distinct_blocks_plus_live_tails": 29086,
+  "fraction_gaps_cover_conditional_fetch": 0.8545454545454545,
+  "max_unhashed_blocks_per_live_session": 73,
+  "max_unhashed_tokens_per_request": 1140,
+  "mean_conditional_hideable_ms": 7.841038667132867,
+  "median_conditional_fetch_ms": 7.733248,
+  "median_tool_gap_ms": 109.265772,
+  "positive_tool_gaps": 611,
+  "remote_fetches_measured": null,
+  "remote_miss_status": "NOT_MEASURED_AND_NOT_CAPACITY_FORCED",
+  "sessions": 50,
+  "unique_full_block_hashes_all_sessions": 25338
+}

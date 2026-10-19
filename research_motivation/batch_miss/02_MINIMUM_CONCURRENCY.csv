@@ -1,0 +1,11 @@
+prompt_tokens,kv_bytes_per_request,kv_bytes_per_layer,shared_rail_gbps,flows_same_layer,bytes_on_shared_cut,ideal_group_finish_us,target_extra_vs_solo_us,extra_vs_measured_N4_us,projected_delta_ready_vs_E3a_us,projected_cross_batch9,interpretation
+2048,201326592,4194304,200,1,4194304,167.772,0,,0,NO,solo per-layer reference; fixed path overhead excluded from relative extra
+2048,201326592,4194304,200,2,8388608,335.544,167.772,,0,NO,synchronized equal-flow ideal
+2048,201326592,4194304,200,3,12582912,503.316,335.544,,0,NO,synchronized equal-flow ideal
+2048,201326592,4194304,200,4,16777216,671.089,503.316,0,0,NO,measured maximum planned concurrency E3a baseline
+2048,201326592,4194304,200,7,29360128,1174.405,1006.632,503.316,0,NO,theoretical only; relative increment from N4 remains below compute slack
+2048,201326592,4194304,200,8,33554432,1342.177,1174.405,671.088,0,NO,total-over-solo extra exceeds N4 compute slack, but incremental-over-N4 does not
+2048,201326592,4194304,200,10,41943040,1677.722,1509.950,1006.632,0,NO,still below N4 hidden compute slack of1165.711us
+2048,201326592,4194304,200,11,46137344,1845.493,1677.722,1174.404,8.693,NO,first ideal N with additional delay over E3a sufficient to expose P2D-ready, not run
+2048,201326592,4194304,200,18,75497472,3019.898,2852.126,2348.808,1183.097,NO,ready delayed but remains before isolated Batch9 decision, not run
+2048,201326592,4194304,200,19,79691776,3187.670,3019.898,2516.580,1350.869,YES,first ideal N crossing Batch9 after compute slack; not run and outside current four-active-Prefill envelope

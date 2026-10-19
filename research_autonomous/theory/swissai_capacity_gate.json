@@ -1,0 +1,51 @@
+{
+  "batch_capacity": {
+    "128": {
+      "decode_tokens_per_second_excluding_collectives": 2929.196112334305,
+      "full_kv_gbps_per_receiver_at_this_request_rate": 13.497198756320921,
+      "requests_per_second_at_mean_output_length": 5.497893900114593,
+      "step_ms_excluding_collectives": 43.697996
+    },
+    "16": {
+      "decode_tokens_per_second_excluding_collectives": 601.8908476214383,
+      "full_kv_gbps_per_receiver_at_this_request_rate": 2.773402697671565,
+      "requests_per_second_at_mean_output_length": 1.1297065449932022,
+      "step_ms_excluding_collectives": 26.582893
+    },
+    "32": {
+      "decode_tokens_per_second_excluding_collectives": 1076.9660882562266,
+      "full_kv_gbps_per_receiver_at_this_request_rate": 4.96246232398139,
+      "requests_per_second_at_mean_output_length": 2.0213891662363443,
+      "step_ms_excluding_collectives": 29.713099
+    },
+    "64": {
+      "decode_tokens_per_second_excluding_collectives": 1810.1081188892588,
+      "full_kv_gbps_per_receiver_at_this_request_rate": 8.340646414284938,
+      "requests_per_second_at_mean_output_length": 3.397444897418795,
+      "step_ms_excluding_collectives": 35.357004
+    }
+  },
+  "hardware_profile": "RTXPRO6000/Qwen/Qwen3-32B/bf16/tp2",
+  "kv_bytes_per_prompt_token_aggregate": 262144,
+  "mean_input_tokens": 1170.6238817254505,
+  "mean_kv_length_used_for_profile_lookup": 1170.6238817254505,
+  "mean_output_tokens": 532.7851292789138,
+  "notes": [
+    "The source production platform used heterogeneous hardware and no P/D split.",
+    "RTXPRO6000 TP2 is an explicit hypothetical deployment using a local measured profile.",
+    "Throughput omits TP collectives, scheduling, queueing and hardware interference.",
+    "A one-second sum of arriving output tokens is workload work, not output tokens emitted in that second.",
+    "The instance count is an optimistic capacity-sizing screen, not a production deployment estimate.",
+    "Full-KV wire demand assumes a cold Decode and no layerwise overlap or prefix delta."
+  ],
+  "one_cut_full_kv_gbps_for_peak_arriving_input_tokens": 3245.917339648,
+  "optimistic_minimum_tp2_decode_instances_to_drain_peak_arriving_output_work_in_one_second": 94,
+  "optimistic_minimum_tp2_decode_instances_to_drain_peak_five_minute_work_within_five_minutes": 23,
+  "optimistic_minimum_tp2_decode_instances_to_drain_peak_one_minute_work_within_one_minute": 25,
+  "peak_five_minute_arriving_output_tokens": 19456066,
+  "peak_one_minute_arriving_output_tokens": 4233202,
+  "peak_one_second_arrival_count": 714,
+  "peak_one_second_arriving_input_tokens": 1547774,
+  "peak_one_second_arriving_output_tokens": 274738,
+  "source": "research_autonomous/workloads/swissai_analysis/summary.json"
+}

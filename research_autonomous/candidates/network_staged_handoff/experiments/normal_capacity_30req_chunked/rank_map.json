@@ -1,0 +1,10 @@
+{
+  "logical_to_physical": [
+    0,
+    2,
+    1,
+    2,
+    2
+  ],
+  "description": "two RTX4090 P GPUs on one100G node and one D GPU on another100G node"
+}

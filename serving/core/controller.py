@@ -8,6 +8,7 @@ _ITERATION_RE = re.compile(
     r"sys\[(\d+)\] iteration (\d+) finished, (\d+) cycles, "
     r"exposed communication (\d+) cycles."
 )
+_FLOWSIM_ITERATION_RE = re.compile(r"^R (\d+) (\d+) (\d+) 0\s*$")
 
 
 class Controller():
@@ -30,6 +31,13 @@ class Controller():
         out = [""]
         while "Waiting" not in out[-1] and out[-1] != "Checking Non-Exited Systems ...\n":
             line = p.stdout.readline()
+            if line == "":
+                detail = ""
+                if p.poll() is not None and p.stderr is not None:
+                    detail = p.stderr.read().strip()
+                raise RuntimeError(
+                    "network worker closed stdout before its Waiting prompt"
+                    + (": " + detail if detail else ""))
             # For debugging
             # print(line, end='')
             out.append(line)
@@ -69,4 +77,11 @@ class Controller():
                 )
                 self.end_dict[sys] = id
             return {'sys': sys, 'id': id, 'cycle': cycle}
+        match = _FLOWSIM_ITERATION_RE.search(output.strip())
+        if match:
+            return {
+                'sys': int(match.group(1)),
+                'id': int(match.group(2)),
+                'cycle': int(match.group(3)),
+            }
         return

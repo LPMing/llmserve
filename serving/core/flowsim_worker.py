@@ -9,7 +9,7 @@ replaced by a directed fluid max-min flow calculation.
 
 import argparse
 import csv
-from collections import deque
+from collections import Counter, deque
 import heapq
 import json
 import math
@@ -131,6 +131,88 @@ def _collective_type_name(node):
         return _COLLECTIVE_TYPE_NAMES.get(int(value), "UNKNOWN")
     except (TypeError, ValueError):
         return "UNKNOWN"
+
+
+def _involved_dimensions(node, topology_dims):
+    """Read Chakra's collective scope as a tuple of topology-axis flags."""
+    raw = _attr(node, "involved_dim", None)
+    values = tuple(bool(value) for value in getattr(raw, "values", ()))
+    if not values:
+        return tuple(True for _ in (topology_dims or ()))
+    if topology_dims and len(values) != len(topology_dims):
+        raise ValueError(
+            "collective %s has %d involved_dim entries, topology has %d axes" %
+            (node.name, len(values), len(topology_dims)))
+    return values
+
+
+def _rank_coordinates(rank, topology_dims):
+    """Decode ASTRA's first-axis-fastest rank layout into coordinates."""
+    remaining = int(rank)
+    coordinates = []
+    for size in topology_dims:
+        size = int(size)
+        if size < 1:
+            raise ValueError("topology dimensions must be positive")
+        coordinates.append(remaining % size)
+        remaining //= size
+    if remaining:
+        raise ValueError(
+            "rank %d is outside topology dimensions %s" %
+            (rank, list(topology_dims)))
+    return tuple(coordinates)
+
+
+def _collective_identity(node, topology_dims):
+    involved = _involved_dimensions(node, topology_dims)
+    explicit_id = _attr(node, "collective_id", None)
+    if explicit_id is None:
+        identity = ("name", str(node.name),
+                    str(_attr(node, "comm_type", "")), involved)
+    else:
+        identity = ("id", str(explicit_id), involved)
+    return identity, involved
+
+
+def _collective_instance_key(node, rank, occurrence, topology_dims):
+    """Identify one rank's occurrence and its exact communicator scope.
+
+    Chakra graphs in this checkout do not carry collective_id. Node names are
+    reused for every model layer, so name alone merges dozens of independent
+    collectives and leaves their barriers permanently unresolved. The
+    per-rank occurrence number distinguishes those rounds; involved_dim and
+    fixed coordinates distinguish independent communicators such as each
+    TP group inside a DP/EP graph.
+    """
+    identity, involved = _collective_identity(node, topology_dims)
+    coordinates = (_rank_coordinates(rank, topology_dims)
+                   if topology_dims else ())
+    fixed = tuple((axis, coordinates[axis])
+                  for axis, participates in enumerate(involved)
+                  if not participates and coordinates)
+    key = (identity, int(occurrence), fixed)
+    display_id = "%s#%d@%s" % (
+        ":".join(str(value) for value in identity), int(occurrence),
+        ",".join("%d=%d" % item for item in fixed) or "all")
+    return key, display_id, involved, fixed
+
+
+def _collective_participants(rank, job_ranks, involved, topology_dims):
+    """Return ranks in this job that share this rank's communicator."""
+    if not topology_dims:
+        return tuple(sorted(int(item) for item in job_ranks))
+    coordinates = _rank_coordinates(rank, topology_dims)
+    fixed = tuple(coordinates[axis] for axis, value in enumerate(involved)
+                  if not value)
+    result = []
+    for candidate in job_ranks:
+        candidate_coordinates = _rank_coordinates(candidate, topology_dims)
+        candidate_fixed = tuple(
+            candidate_coordinates[axis]
+            for axis, value in enumerate(involved) if not value)
+        if candidate_fixed == fixed:
+            result.append(int(candidate))
+    return tuple(sorted(result))
 
 
 def _collective_peer_bytes(node, comm_size, participant_count):
@@ -363,7 +445,8 @@ class AsyncGraphExecutor:
     """
 
     def __init__(self, network, telemetry_path=None, decode_ranks=None,
-                 remote_kv_plan=None, remote_kv_mode='LEGACY'):
+                 remote_kv_plan=None, remote_kv_mode='LEGACY',
+                 topology_dims=None):
         self.network = network
         self.telemetry_path = telemetry_path
         # The completed-flow JSONL is useful for a small validation window,
@@ -378,6 +461,8 @@ class AsyncGraphExecutor:
                 "0", "false", "no", "off")
         self.decode_ranks = (None if decode_ranks is None else
                              {int(rank) for rank in decode_ranks})
+        self.topology_dims = tuple(int(value) for value in
+                                   (topology_dims or ()))
         self.remote_kv_plan = remote_kv_plan or {}
         self.remote_kv_mode = str(remote_kv_mode or 'LEGACY').upper()
         self.remote_kv_submitted = set()
@@ -839,7 +924,8 @@ class AsyncGraphExecutor:
             "traffic_class": first.get("class"),
             "traffic_subtype": first.get("subtype"),
             "collective_type": _collective_type_name(node),
-            "collective_id": _attr(node, "collective_id", None),
+            "collective_id": (metadata[0].get("collective_id") or
+                               _attr(node, "collective_id", None)),
             "batch_id": metadata[0].get("batch_id"),
             "collective_batch_id": metadata[0].get("collective_batch_id"),
             "layer_id": metadata[0].get("layer_id"),
@@ -964,6 +1050,33 @@ class AsyncGraphExecutor:
         with open(self.debug_path, "a", encoding="utf-8") as stream:
             stream.write(json.dumps(row, sort_keys=True) + "\n")
 
+    @staticmethod
+    def _job_provenance(job):
+        request_ids = set()
+        batch_ids = set()
+        collective_ids = set()
+        execution_types = set()
+        for record in job.get("nodes", {}).values():
+            metadata = record.get("metadata", {})
+            request_ids.update(int(value) for value in
+                               metadata.get("request_ids", ()))
+            for name in ("batch_id", "collective_batch_id"):
+                value = metadata.get(name)
+                if value is not None:
+                    batch_ids.add(int(value))
+            value = metadata.get("collective_id")
+            if value is not None:
+                collective_ids.add(str(value))
+            value = metadata.get("execution_type")
+            if value:
+                execution_types.add(str(value))
+        return {
+            "request_ids": sorted(request_ids),
+            "batch_ids": sorted(batch_ids),
+            "collective_ids": sorted(collective_ids),
+            "execution_types": sorted(execution_types),
+        }
+
     def _write_flow_telemetry(self, flow_id):
         if flow_id in self.telemetry_written:
             return
@@ -1053,6 +1166,7 @@ class AsyncGraphExecutor:
         }
         for rank, nodes in graph_items:
             rank = int(rank)
+            collective_occurrences = Counter()
             for node in sorted(nodes, key=lambda item: int(item.id)):
                 key = self._node_key(rank, node.id)
                 parents = [
@@ -1096,10 +1210,23 @@ class AsyncGraphExecutor:
                     )
                     record["metadata"] = _flow_metadata(node)
                 elif kind == "collective":
-                    collective_id = _attr(node, "collective_id", None)
-                    record["collective_key"] = (
-                        collective_id if collective_id is not None else node.name)
-                    record["metadata"] = _flow_metadata(node, record["collective_key"])
+                    identity, _ = _collective_identity(
+                        node, self.topology_dims)
+                    occurrence = collective_occurrences[identity]
+                    collective_occurrences[identity] += 1
+                    (collective_key, display_id, involved_dims,
+                     fixed_coordinates) = _collective_instance_key(
+                        node, rank, occurrence, self.topology_dims)
+                    del fixed_coordinates
+                    record["collective_key"] = collective_key
+                    record["collective_display_id"] = display_id
+                    record["collective_involved_dims"] = involved_dims
+                    record["collective_expected_ranks"] = (
+                        _collective_participants(
+                            rank, job["ranks"], involved_dims,
+                            self.topology_dims))
+                    record["metadata"] = _flow_metadata(
+                        node, record["collective_display_id"])
                 else:
                     # Zero-time NIXL Push COMMIT nodes are represented as
                     # compute/control nodes, but still carry request-scoped
@@ -1110,6 +1237,25 @@ class AsyncGraphExecutor:
                 job["children"].setdefault(key, [])
                 for parent in parents:
                     job["children"].setdefault(parent, []).append(key)
+        collective_observed = {}
+        collective_expected = {}
+        for key, record in job["nodes"].items():
+            if record["kind"] != "collective":
+                continue
+            group = record["collective_key"]
+            collective_observed.setdefault(group, set()).add(key[0])
+            expected = set(record["collective_expected_ranks"])
+            previous = collective_expected.setdefault(group, expected)
+            if previous != expected:
+                raise RuntimeError(
+                    "inconsistent collective communicator scope for %s" %
+                    (record["collective_display_id"],))
+        for group, expected in collective_expected.items():
+            observed = collective_observed[group]
+            if observed != expected:
+                raise RuntimeError(
+                    "collective %s has graph ranks %s, expected participants %s" %
+                    (group, sorted(observed), sorted(expected)))
         for key, record in job["nodes"].items():
             metadata = record.get("metadata", {})
             request_ids = metadata.get("request_ids", ())
@@ -1142,7 +1288,8 @@ class AsyncGraphExecutor:
             decode_ranks=sorted(self.decode_ranks or ()),
             local_next=(self.local_events[0][0]
                         if self.local_events else None),
-            network_next=self.network.next_event_time())
+            network_next=self.network.next_event_time(),
+            **self._job_provenance(job))
         if not job["nodes"]:
             job["completed"] = True
             return
@@ -1373,11 +1520,43 @@ class AsyncGraphExecutor:
     def _activate_p2p(self, job, key, ready):
         record = job["nodes"][key]
         # TP and prefill-side auxiliary communication is outside this study's
-        # scale-out fabric. Complete it at the DAG-ready timestamp so it does
-        # not consume FlowSim state or contend with Decode EP. Opt in to the
-        # legacy all-traffic model with FLOWSIM_NETWORK_CLASSES=...
+        # scale-out fabric. Its service time is zero in this mode, but a PP
+        # stage's RECV must still wait for the matching SEND: independently
+        # completing both nodes at their own DAG-ready times lets stage 1 run
+        # before stage 0 has produced its input. Opt in to timed service with
+        # FLOWSIM_NETWORK_CLASSES=...
         if record["class"] not in self.network_classes:
-            self._finish_node(job, key, int(ready))
+            if record["subtype"] == "P2D":
+                raise RuntimeError(
+                    "P2D communication cannot be excluded from the FlowSim "
+                    "network classes: its sender and receiver are separate "
+                    "serving graphs")
+            comm_key = record["comm_key"]
+            senders = job.setdefault("local_p2p_sender_ready", {})
+            receivers = job.setdefault("local_p2p_receiver_waiters", {})
+            if record["is_send"]:
+                waiting = receivers.get(comm_key)
+                if waiting:
+                    recv_key, recv_ready = waiting.popleft()
+                    if not waiting:
+                        del receivers[comm_key]
+                    self._finish_node(job, key, int(ready))
+                    self._finish_node(
+                        job, recv_key, max(int(ready), int(recv_ready)))
+                else:
+                    senders.setdefault(comm_key, deque()).append(int(ready))
+                    self._finish_node(job, key, int(ready))
+            else:
+                pending = senders.get(comm_key)
+                if pending:
+                    send_ready = pending.popleft()
+                    if not pending:
+                        del senders[comm_key]
+                    self._finish_node(job, key,
+                                      max(int(ready), int(send_ready)))
+                else:
+                    receivers.setdefault(comm_key, deque()).append(
+                        (key, int(ready)))
             return
         comm_key = record["comm_key"]
         flow_id = job["comm_flow_by_key"].get(comm_key)
@@ -1544,6 +1723,26 @@ class AsyncGraphExecutor:
         if key in job["node_finish"]:
             return
         job["node_finish"][key] = int(finish)
+        record = job["nodes"].get(key, {})
+        node_name = str(getattr(record.get("node"), "name", ""))
+        debug_compute_graph_ids = {
+            int(value.strip())
+            for value in os.environ.get(
+                "FLOWSIM_EXEC_DEBUG_COMPUTE_GRAPH_IDS", "").split(",")
+            if value.strip()
+        }
+        if (record.get("kind") == "compute" and
+                int(job["id"]) in debug_compute_graph_ids):
+            metadata = record.get("metadata", {})
+            self._debug(
+                "compute_node_completed",
+                graph_id=int(job["id"]),
+                batch_id=metadata.get("batch_id"),
+                request_ids=list(metadata.get("request_ids", ())),
+                rank=int(key[0]), node_id=int(key[1]),
+                node_name=node_name,
+                finish_ns=int(finish),
+                duration_ns=int(record.get("duration_ns", 0)))
         for child in job["children"].get(key, []):
             job["unresolved"][child] -= 1
             if job["unresolved"][child] == 0:
@@ -1738,6 +1937,11 @@ class AsyncGraphExecutor:
             if not job["completed"]:
                 continue
             finish = max(job["node_finish"].values() or [job["start_ns"]])
+            self._debug(
+                "graph_completed", graph_id=int(job_id),
+                start_ns=int(job["start_ns"]), finish_ns=int(finish),
+                ranks=sorted(int(rank) for rank in job["ranks"]),
+                **self._job_provenance(job))
             completed.append((int(finish), list(job["ranks"]), job_id))
             del self.jobs[job_id]
         return completed
@@ -1863,11 +2067,14 @@ class Worker:
             kv_backpressure=args.kv_backpressure,
             kv_buffer_bytes=args.kv_buffer_bytes,
             critical_flow_file=args.critical_flow_file,
-            parallel_link_mode=args.parallel_link_mode)
+            parallel_link_mode=args.parallel_link_mode,
+            rank_map=args.rank_map,
+            request_first_id=args.request_first_id)
         self.executor = AsyncGraphExecutor(
             self.network, args.telemetry, decode_ranks=args.decode_ranks,
             remote_kv_plan=args.remote_kv_plan,
-            remote_kv_mode=args.remote_kv_mode)
+            remote_kv_mode=args.remote_kv_mode,
+            topology_dims=args.topology_dims)
         self.network.set_release_callback(self._on_network_release)
         self.decode_ranks = (None if args.decode_ranks is None else
                              {int(rank) for rank in args.decode_ranks})
@@ -1972,6 +2179,18 @@ class Worker:
         self.executor._debug("command", rank=int(rank), command=command,
                     wake=bool(wake), now_ns=int(self.now))
         del wake
+        if command.startswith("wake-decode "):
+            _, command = command.split(" ", maxsplit=1)
+            if self.decode_ranks is None:
+                raise RuntimeError(
+                    "Decode wake notification requires an explicit Decode rank set")
+            # A P2D-ready handoff changes Decode scheduler state even when the
+            # Prefill rank has another graph to submit (so it cannot answer
+            # with pass -1). Invalidate Decode ranks' future-arrival
+            # suppression before processing that rank's normal response.
+            # pass -1 already performs this wake itself.
+            if command != "pass -1":
+                self._wake_unscheduled_ranks(allowed=self.decode_ranks)
         if command == "exit":
             self.exit = True
             return
@@ -2119,8 +2338,14 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--workload-configuration", required=True)
     parser.add_argument("--total-ranks", type=int, required=True)
+    parser.add_argument(
+        "--topology-dims", default="",
+        help="ASTRA logical dimensions, first axis fastest, e.g. 2,8,2")
     parser.add_argument("--topology", required=True)
     parser.add_argument("--policy", default="FAIR")
+    parser.add_argument(
+        "--request-first-id", type=int, default=None,
+        help="offline KV_REQUEST_FIRST characterization target request id")
     parser.add_argument("--telemetry", default=None)
     parser.add_argument("--mtu", type=int, default=4096)
     parser.add_argument(
@@ -2138,6 +2363,9 @@ def main():
         default="AGGREGATE",
         help="parallel-link resource model: aggregate fluid capacity (default) "
              "or deterministic one-flow-per-physical-link sensitivity mode")
+    parser.add_argument(
+        "--rank-map", default=None,
+        help="JSON object or logical_to_physical list mapping ranks to endpoints")
     parser.add_argument("--decode-ranks", default=None,
                         help="comma-separated physical ranks whose EP is Decode-side")
     parser.add_argument("--rank-groups", default="",
@@ -2151,6 +2379,8 @@ def main():
         default="LEGACY",
         help="remote-KV dependency semantics: legacy, R->P->D baseline, or V1 split-source")
     args = parser.parse_args()
+    args.topology_dims = tuple(
+        int(item) for item in args.topology_dims.split(",") if item)
     if args.remote_kv_plan:
         with open(args.remote_kv_plan, encoding="utf-8") as stream:
             payload = json.load(stream)
@@ -2159,6 +2389,18 @@ def main():
             args.remote_kv_plan["__warmup__"] = payload["warmup"]
     else:
         args.remote_kv_plan = {}
+    if args.rank_map:
+        with open(args.rank_map, encoding="utf-8") as stream:
+            payload = json.load(stream)
+        args.rank_map = payload.get("logical_to_physical", payload)
+        if isinstance(args.rank_map, list):
+            args.rank_map = {index: endpoint
+                             for index, endpoint in enumerate(args.rank_map)}
+        if not isinstance(args.rank_map, dict):
+            parser.error(
+                "rank map must be a JSON object or logical_to_physical list")
+    else:
+        args.rank_map = None
     del args.workload_configuration, args.mtu
     if args.decode_ranks is not None:
         args.decode_ranks = [int(item) for item in args.decode_ranks.split(",")

@@ -1,0 +1,8 @@
+{
+  "status": "INVALID_BYTE_OVERCOUNT",
+  "reason": "The new transfer-only trace treated fp=16 bits as 16 bytes and emitted 14,680,064,000 B per request instead of the model-derived 1,835,008,000 B. This run is excluded from all latency comparisons.",
+  "observed_flows": 4,
+  "observed_bytes_per_request": 14680064000,
+  "expected_bytes_per_request": 1835008000,
+  "corrective_action": "Use fp // 8 for non-FP8 KV and rerun in a new case directory."
+}

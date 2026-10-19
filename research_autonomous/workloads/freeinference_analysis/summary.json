@@ -1,0 +1,105 @@
+{
+  "completion_tokens_p50_p95_p99": [
+    217.0,
+    1674.4499999999534,
+    3995.0
+  ],
+  "counters": {
+    "fork_groups_overlapping": 280,
+    "fork_groups_shared_prefix_ge_256": 285,
+    "fork_groups_total": 288,
+    "max_depth": 4,
+    "model:claude-opus-4-8": 582,
+    "model:deepseek-v4-flash": 528165,
+    "model:deepseek-v4-pro": 1183,
+    "model:diffusiongemma": 425,
+    "model:glm-4.7": 487,
+    "model:glm-5-turbo": 14288,
+    "model:glm-5.1": 153360,
+    "model:glm-5.2": 170676,
+    "model:glm-5.3": 7778,
+    "model:glm-5.3-flash": 66439,
+    "model:gpt-oss-20b": 38,
+    "model:kimi-k2.7-code": 51608,
+    "model:minimax-fast": 827,
+    "model:minimax-m2.5": 11772,
+    "model:minimax-m2.7": 21851,
+    "model:minimax-m3": 105519,
+    "model:qwen3.6-35b": 87201,
+    "overlap_components_cross_request": 43,
+    "overlap_components_shared_prefix_ge_256": 301,
+    "overlap_components_total": 307,
+    "parent_requests_with_subagent": 1466,
+    "positive_inter_request_gaps": 1208146,
+    "requests_long_context_short_output": 387743,
+    "requests_prompt_le_2048": 1380,
+    "requests_total": 1222199,
+    "sessions_nested": 2034,
+    "sessions_root": 12002,
+    "sessions_total": 14036,
+    "subagent_calls_total": 2034,
+    "tool_calls_total": 1275252
+  },
+  "dataset": "harvardMadsys/freeinference_agentic_trace",
+  "fork_first_child_prompt_le_16384": 219,
+  "fork_first_child_prompt_le_2048": 2,
+  "fork_release_skew_ms_p50_p95": [
+    1961.0,
+    66246.45
+  ],
+  "fork_shared_prefix_tokens_p50_p95": [
+    7864.0,
+    43282.39999999958
+  ],
+  "fork_width_p50_p95_max": [
+    3.0,
+    6.0,
+    8.0
+  ],
+  "fork_with_overlap_and_shared_prefix_ge_256": 277,
+  "fork_with_overlap_shared_prefix_256_and_profile_domain": 214,
+  "group_csv_sha256": "fbc32960c2532e93e7bd65af0437fa1bb6abd8fa090facccf889589d36554bbd",
+  "overlap_cross_request_with_shared_prefix_ge_256": 40,
+  "overlap_csv_sha256": "4860c44ba09ebbe8b4f6ad96718535919c5ea95d3fc7006b6bd18edf21c7e848",
+  "overlap_with_shared_prefix_256_and_profile_domain": 232,
+  "positive_inter_request_gap_ms_p50_p95_p99": [
+    1878.0,
+    103752.0,
+    723783.0000000009
+  ],
+  "prompt_tokens_p50_p95_p99": [
+    119224.0,
+    521018.0,
+    748611.6000000006
+  ],
+  "provider_ttft_ms_p50_p95_p99": [
+    2193.0,
+    15540.449999999953,
+    41826.48999999999
+  ],
+  "request_duration_ms_p50_p95_p99": [
+    4556.0,
+    30981.0,
+    82036.02000000002
+  ],
+  "revision": "16d3c04dae6ccaa0c48a9064e204e3a8f1eb9ade",
+  "sampled_raw_files": 119,
+  "sampled_weeks": [
+    "2026-05-17_2026-05-23",
+    "2026-05-24_2026-05-30",
+    "2026-05-31_2026-06-06",
+    "2026-06-07_2026-06-13",
+    "2026-06-14_2026-06-20",
+    "2026-06-21_2026-06-27",
+    "2026-06-28_2026-07-04",
+    "2026-07-05_2026-07-11",
+    "2026-07-12_2026-07-18",
+    "2026-07-19_2026-07-25",
+    "2026-07-26_2026-08-01",
+    "2026-08-02_2026-08-08",
+    "2026-08-09_2026-08-15",
+    "2026-08-16_2026-08-22",
+    "2026-08-23_2026-08-29",
+    "2026-08-30_2026-09-05"
+  ]
+}

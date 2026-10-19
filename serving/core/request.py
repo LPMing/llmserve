@@ -13,6 +13,7 @@ class RequestStatus(Enum):
     RUNNING = 2
     PREEMPTED = 3
     FINISHED = 4
+    HANDOFF_WAIT = 5
 
 
 # class that manages request of astra-sim
@@ -24,6 +25,11 @@ class Request:
         self.output = output
         self.arrival = arrival
         self.instance_id = instance_id
+        # In P/D mode the Decode destination is selected together with the
+        # Prefill placement, before any model-derived KV shard is emitted.
+        # Keeping the pairing on the request prevents a post-transfer router
+        # decision from admitting the KV onto a different Decode instance.
+        self.paired_decode_instance_id = None
         self.is_init = is_init
         self.original_input = input
         self.num_computed_tokens = 0  # Tracks actual computed tokens (vLLM style)
@@ -42,6 +48,29 @@ class Request:
         self.itl = []
         self.recent_end = 0
 
+        # P/D handoff and Decode admission timing.  The KV-ready timestamp is
+        # set by the router when the Prefill batch (including its required KV
+        # sends) completes.  A ready request can still wait for a Decode
+        # sequence slot; keep that wait separate from network handoff time.
+        self.p2d_kv_ready_time_ns = -1
+        self.decode_admit_time_ns = -1
+        self.decode_capacity_queue_enter_time_ns = -1
+        self.decode_capacity_queue_wait_ns = 0
+        self.decode_running_at_handoff = -1
+        self.decode_max_num_seqs_at_handoff = -1
+        self.decode_eligible_time_ns = -1
+        self.decode_phase_wait_ns = 0
+        self.prefill_start_ns = -1
+        self.prefill_compute_end_ns = -1
+        self.handoff_cancelled = False
+        self.first_token_visible_ns = -1
+        self.decode_first_batch_id = -1
+        self.decode_first_batch_decision_ns = -1
+        self.decode_first_batch_start_ns = -1
+        self.decode_first_batch_finish_ns = -1
+        self.second_token_visible_ns = -1
+        self.ttst_ns = -1
+
         # For chunked prefill
         self.chunk_len = 0  # tokens scheduled for this request in the current step
 
@@ -55,6 +84,10 @@ class Request:
         self.prefix_cache_hit = 0
         self.npu_cache_hit = 0
         self.storage_cache_hit = 0
+        self.destination_prefix_reuse_tokens = 0
+        self.destination_prefix_reservation = None
+        self.destination_prefix_query_checked = False
+        self.destination_prefix_control_wall_ns = 0
         # Set by the tier lookup so allocate_slots can charge the recall once
         # the allocation is known to succeed.
         self.storage_hit_pool = None
@@ -122,6 +155,8 @@ class Batch:
         self.total_len = total_len
         self.kv_len = kv_len
         self.batch_time = batch_time
+        self.execution_start_ns = -1
+        self.group_decision_time_ns = -1
         self.fired = [] # systems that fired this batch
         self.requests = []
         self.end = []
@@ -161,4 +196,3 @@ class Batch:
         for req in self.requests:
             req.log()
         print("----------------------------------------------------------")
-    

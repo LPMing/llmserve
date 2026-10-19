@@ -1,0 +1,6 @@
+direction,condition,model_derived_work,requests_per_D0_rail,NIC_capacity_Gbps,KV_average_Gbps,EP_seed_average_Gbps,total_average_Gbps,offered_load_fraction,network_only_bound,serving_bound,status
+A,A8_neighbor,8x2048_tokens;4MiB_per_layer;1.537064ms_release,8,200,174.642,1.405,176.047,0.8802,EP serialization upper bound ~93us/token if fully exposed,not inferred,THEORETICAL
+A,A7L2M_primary,7x2048_tokens+2x1024_tokens;model-profile_release_intervals,9,200,180.990,1.405,182.396,0.9120,EP serialization upper bound ~93us/token if fully exposed,not inferred,THEORETICAL
+A,A9L_full_near_capacity,9x2048_tokens,9,200,196.472,1.405,197.878,0.9894,near-capacity sensitivity only,not inferred,EXCLUDED_FROM_PRIMARY
+A,A10L_overload,10x2048_tokens,10,200,218.302,1.405,219.707,1.0985,sustained overload; no priority claim,not applicable,EXCLUDED
+B,B7L2M_on_both_rails,per rail 7x2048+2x1024;18 candidates across two rails,9_each,200,180.990,1.405,182.396,0.9120,KV request-oracle bound requires request-specific event slack,not inferred,THEORETICAL

@@ -1,0 +1,28 @@
+{
+  "case": "NETWORK_ONLY_REQUEST_BUNDLE_ORDER",
+  "status": "INPUT_READY",
+  "request_count": 4,
+  "event_count": 8,
+  "traffic": "model-derived Qwen3-30B-A3B P2D KV, POST_PREFILL shard messages",
+  "model": "Qwen3-30B-A3B-Instruct-2507",
+  "input_tokens": 4096,
+  "kv_bytes_per_token_all_layers": 98304,
+  "kv_bytes_per_request": 402653184,
+  "kv_bytes_per_tp_rank": 201326592,
+  "total_event_bytes": 1610612736,
+  "ns3_topology": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/4p1d_unique_spines/topology.txt",
+  "rank_to_nic_map": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/4p1d_unique_spines/rank_to_nic.csv",
+  "release_pattern": "same request set/bytes/endpoints; per-request bundles shifted by fixed spacing while preserving within-request release offsets",
+  "packet_level_only": true,
+  "serving_metrics": "NOT_AVAILABLE: offline network-only release-order counterfactual",
+  "source_events": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures_rankcap200g/fixtures/events/FULL_FOUR_REQUESTS_TWO_REQUIRED_SHARDS/events.csv",
+  "source_events_sha256": "3195aa36b7f8ccf6794e7cfa9033ac0843322b7e96521f4313e7a9bbd286ca03",
+  "events_sha256": "cc514597ab4fbe8e3ebd4cda667b916e70f0ff94e94c46a018886fd6e4274a79",
+  "request_order": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "request_bundle_spacing_ns": 8200000
+}

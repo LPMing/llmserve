@@ -1,0 +1,18 @@
+{
+  "case": "N4_FOUR_TO_FOUR_RECEIVER_NICS",
+  "status": "INPUT_READY",
+  "request_count": 4,
+  "event_count": 4,
+  "traffic": "model-derived Qwen3-30B-A3B P2D KV, POST_PREFILL shard messages",
+  "model": "Qwen3-30B-A3B-Instruct-2507",
+  "input_tokens": 4096,
+  "kv_bytes_per_token_all_layers": 98304,
+  "kv_bytes_per_request": 402653184,
+  "kv_bytes_per_tp_rank": 201326592,
+  "total_event_bytes": 805306368,
+  "ns3_topology": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures/4p2d_receiver_spread/topology.txt",
+  "rank_to_nic_map": "/home/dell/lpm/LLMServingSim/research_ns3_incast/fixtures/4p2d_receiver_spread/rank_to_nic.csv",
+  "release_pattern": "all listed messages released at start_ns; default 0",
+  "packet_level_only": true,
+  "serving_metrics": "NOT_AVAILABLE: fixed event replay has no serving feedback"
+}

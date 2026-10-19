@@ -324,7 +324,13 @@ def _measure(llm, reqs, slice_, iters: int) -> float:
     timings = [TimingSample(layer=d["layer"],
                             microseconds=float(d["microseconds"]))
                for d in raw[0]]
-    return sum(t.microseconds for t in timings if t.layer == "attention")
+    attention_times = [t.microseconds for t in timings
+                       if t.layer == "attention"]
+    if not attention_times:
+        raise RuntimeError("Skew shot produced no attention timing")
+    # Match AttentionCategory.extract_points: the shot can profile several
+    # identical attention modules, but the simulator needs one layer's cost.
+    return sum(attention_times) / len(attention_times)
 
 
 def _measure_case(llm, case: SkewCase, slice_, iters: int) -> dict:

@@ -1,0 +1,160 @@
+{
+  "aggregate_kv_bytes_per_prompt_token": 262144,
+  "assumptions": [
+    "The released original Qwen model and physical topology are unknown.",
+    "Every request's entire prompt KV crosses the same cut once.",
+    "Decode has no prefix KV and no cache-aware placement is applied.",
+    "Arrival-window byte sums are a load screen, not transfer schedules, TTFT, or gain."
+  ],
+  "model_assumed_for_sizing": "Qwen/Qwen3-32B BF16",
+  "traces": {
+    "qwen_coder_blksz_16": {
+      "input_tokens": 247212429,
+      "mean_full_kv_gbps_on_one_cut": 72.01705153013518,
+      "requests": 43011,
+      "seconds": 7198.879,
+      "windows": {
+        "0.2": {
+          "100": {
+            "buckets_exceeding_capacity": 11870,
+            "fraction_of_requests_in_exceeding_buckets": 0.5849433865755271,
+            "maximum_overload_bytes": 14565574400.0,
+            "requests_in_exceeding_buckets": 25159
+          },
+          "200": {
+            "buckets_exceeding_capacity": 3190,
+            "fraction_of_requests_in_exceeding_buckets": 0.22261746994954779,
+            "maximum_overload_bytes": 12065574400.0,
+            "requests_in_exceeding_buckets": 9575
+          }
+        },
+        "1.0": {
+          "100": {
+            "buckets_exceeding_capacity": 1617,
+            "fraction_of_requests_in_exceeding_buckets": 0.32582362651414754,
+            "maximum_overload_bytes": 17072988928.0,
+            "requests_in_exceeding_buckets": 14014
+          },
+          "200": {
+            "buckets_exceeding_capacity": 23,
+            "fraction_of_requests_in_exceeding_buckets": 0.006370463369835624,
+            "maximum_overload_bytes": 4572988928.0,
+            "requests_in_exceeding_buckets": 274
+          }
+        }
+      },
+      "within_16384_tokens": 42936
+    },
+    "qwen_thinking_blksz_16": {
+      "input_tokens": 51496311,
+      "mean_full_kv_gbps_on_one_cut": 15.016627645887903,
+      "requests": 10812,
+      "seconds": 7191.734,
+      "windows": {
+        "0.2": {
+          "100": {
+            "buckets_exceeding_capacity": 1931,
+            "fraction_of_requests_in_exceeding_buckets": 0.2729374768775435,
+            "maximum_overload_bytes": 16745563904.0,
+            "requests_in_exceeding_buckets": 2951
+          },
+          "200": {
+            "buckets_exceeding_capacity": 509,
+            "fraction_of_requests_in_exceeding_buckets": 0.08018867924528301,
+            "maximum_overload_bytes": 14245563904.0,
+            "requests_in_exceeding_buckets": 867
+          }
+        },
+        "1.0": {
+          "100": {
+            "buckets_exceeding_capacity": 51,
+            "fraction_of_requests_in_exceeding_buckets": 0.0268220495745468,
+            "maximum_overload_bytes": 11223769856.0,
+            "requests_in_exceeding_buckets": 290
+          },
+          "200": {
+            "buckets_exceeding_capacity": 0,
+            "fraction_of_requests_in_exceeding_buckets": 0.0,
+            "maximum_overload_bytes": 0,
+            "requests_in_exceeding_buckets": 0
+          }
+        }
+      },
+      "within_16384_tokens": 10278
+    },
+    "qwen_traceA_blksz_16": {
+      "input_tokens": 100382715,
+      "mean_full_kv_gbps_on_one_cut": 29.240761746663363,
+      "requests": 43058,
+      "seconds": 7199.464,
+      "windows": {
+        "0.2": {
+          "100": {
+            "buckets_exceeding_capacity": 2899,
+            "fraction_of_requests_in_exceeding_buckets": 0.1759487203307167,
+            "maximum_overload_bytes": 21044987648.0,
+            "requests_in_exceeding_buckets": 7576
+          },
+          "200": {
+            "buckets_exceeding_capacity": 393,
+            "fraction_of_requests_in_exceeding_buckets": 0.02898416089925217,
+            "maximum_overload_bytes": 18544987648.0,
+            "requests_in_exceeding_buckets": 1248
+          }
+        },
+        "1.0": {
+          "100": {
+            "buckets_exceeding_capacity": 78,
+            "fraction_of_requests_in_exceeding_buckets": 0.018486692368433276,
+            "maximum_overload_bytes": 21451318016.0,
+            "requests_in_exceeding_buckets": 796
+          },
+          "200": {
+            "buckets_exceeding_capacity": 3,
+            "fraction_of_requests_in_exceeding_buckets": 0.0006967346370012541,
+            "maximum_overload_bytes": 8951318016.0,
+            "requests_in_exceeding_buckets": 30
+          }
+        }
+      },
+      "within_16384_tokens": 42808
+    },
+    "qwen_traceB_blksz_16": {
+      "input_tokens": 158029113,
+      "mean_full_kv_gbps_on_one_cut": 46.029507121026334,
+      "requests": 172800,
+      "seconds": 7199.97,
+      "windows": {
+        "0.2": {
+          "100": {
+            "buckets_exceeding_capacity": 2656,
+            "fraction_of_requests_in_exceeding_buckets": 0.11835648148148148,
+            "maximum_overload_bytes": 16144467712.0,
+            "requests_in_exceeding_buckets": 20452
+          },
+          "200": {
+            "buckets_exceeding_capacity": 224,
+            "fraction_of_requests_in_exceeding_buckets": 0.00980324074074074,
+            "maximum_overload_bytes": 13644467712.0,
+            "requests_in_exceeding_buckets": 1694
+          }
+        },
+        "1.0": {
+          "100": {
+            "buckets_exceeding_capacity": 98,
+            "fraction_of_requests_in_exceeding_buckets": 0.018298611111111113,
+            "maximum_overload_bytes": 12036678400.0,
+            "requests_in_exceeding_buckets": 3162
+          },
+          "200": {
+            "buckets_exceeding_capacity": 0,
+            "fraction_of_requests_in_exceeding_buckets": 0.0,
+            "maximum_overload_bytes": 0,
+            "requests_in_exceeding_buckets": 0
+          }
+        }
+      },
+      "within_16384_tokens": 172681
+    }
+  }
+}

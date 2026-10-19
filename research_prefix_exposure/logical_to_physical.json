@@ -1,0 +1,23 @@
+{
+  "semantics": "TP2 data ranks map to one GPU on each 200G rail per server; P2D shadow receivers alias the actual D0 rail endpoints",
+  "logical_to_physical": [
+    0,
+    4,
+    32,
+    36,
+    8,
+    12,
+    32,
+    36,
+    16,
+    20,
+    32,
+    36,
+    24,
+    28,
+    32,
+    36,
+    32,
+    36
+  ]
+}

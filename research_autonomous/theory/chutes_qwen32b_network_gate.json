@@ -1,0 +1,12 @@
+{
+  "block_compute_ms_excluding_collectives": 2.8759509999999997,
+  "compute_to_wire_ratio": 8.57100188732147,
+  "conditional_prefill_cache_fraction_for_full_kv_wire_to_match_compute": 0.8833275253994244,
+  "hardware_profile": "RTXPRO6000/bf16/tp2",
+  "minimum_identical_sources_to_exceed_block_compute_on_one_cut": 9,
+  "model": "Qwen/Qwen3-32B",
+  "notes": "This is a necessary pressure screen for a layerwise P2D baseline with one shared 200-Gbps cut. Compute omits collectives and control overhead, so real inter-wave slack can be larger. It is not a simulated TTFT or proof that concurrent sources share one physical cut. The cache-fraction threshold assumes a Prefill cache hit, a cold Decode prefix, full KV retransmission, and compute linear in fresh tokens; attention on long cached contexts and a cache-aware Decode choice can defeat it.",
+  "per_layer_kv_bytes_aggregate_ranks": 8388608,
+  "per_layer_wire_ms_single_200gbps_cut": 0.33554432,
+  "profile_condition": "2048-token first prefill chunk, no prior KV"
+}

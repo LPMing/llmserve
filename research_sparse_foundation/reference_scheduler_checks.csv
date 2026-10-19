@@ -1,0 +1,5 @@
+case,status,expected,observed,scope
+ABSTRACT_SHARED_CUT,PASS,"EP=2, KV=11 time units","{'ep': 2.0, 'kv': 11.0}",abstract sanity only; not Qwen evidence
+ABSTRACT_DISJOINT_CUTS,PASS,"EP=1, KV=10 time units","{'ep': 1.0, 'kv': 10.0}",abstract sanity only; not Qwen evidence
+ABSTRACT_ISOLATED_BOUNDARY,PASS,EP=bytes/capacity=1 time unit,{'ep': 1.0},abstract sanity only; not Qwen evidence
+ABSTRACT_MULTI_BOTTLENECK,PASS,f1=f2=4; narrow cut saturates,"{'f1': 4.0, 'f2': 4.0}",abstract sanity only; not Qwen evidence

@@ -1,0 +1,6 @@
+case,assumed_ready_delay_ms,measured_decode_iteration_ms,uniform_phase_crossing_fraction,possible_wait_if_miss_ms,observed_batch_miss_count,observed_ready_delta_ms,interpretation
+observed_E3,0,8.431,0,0,0,0,measured workload; actual request joins Batch 9
+hypothetical_sensitivity,0.2,8.431,0.02372,NOT_ANALYTICALLY_DETERMINED,NOT_RUN,NOT_RUN,uniform phase and stable-period assumptions are unvalidated
+hypothetical_sensitivity,0.5,8.431,0.05930,NOT_ANALYTICALLY_DETERMINED,NOT_RUN,NOT_RUN,uniform phase and stable-period assumptions are unvalidated
+hypothetical_sensitivity,1.0,8.431,0.11856,NOT_ANALYTICALLY_DETERMINED,NOT_RUN,NOT_RUN,uniform phase and stable-period assumptions are unvalidated
+hypothetical_sensitivity,1.256992,8.431,0.14921,NOT_ANALYTICALLY_DETERMINED,NOT_RUN,NOT_RUN,delay equals observed next-batch slack; strict crossing requires greater delay

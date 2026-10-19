@@ -1,0 +1,4 @@
+{
+  "semantics": "G0 rank-symmetry gate only: logical ranks 0-5 map to six endpoint nodes in the retained 2-leaf/200-Gbps topology; Prefill sender ranks are 0-1, unused legacy shadow slots are 2-3, and actual Decode ranks are 4-5.",
+  "logical_to_physical": [0, 1, 2, 3, 4, 5]
+}

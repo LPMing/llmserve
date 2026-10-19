@@ -1,0 +1,40 @@
+{
+  "cases_by_fresh_tokens": {
+    "2048": {
+      "minimum_synchronous_sources_per_shared_nic_for_layer_service_to_exceed_block": 9,
+      "profiled_block_compute_us": 5995.177,
+      "profiled_prefill_compute_ms_excluding_transport": 193.004638,
+      "source_prefix_hit_tokens": 0,
+      "two_source_layer_serialization_us": 1342.1772799999999,
+      "two_source_per_layer_residual_serialization_us": 0.0
+    },
+    "64": {
+      "minimum_synchronous_sources_per_shared_nic_for_layer_service_to_exceed_block": 1,
+      "profiled_block_compute_us": 614.049,
+      "profiled_prefill_compute_ms_excluding_transport": 20.777002,
+      "source_prefix_hit_tokens": 1984,
+      "two_source_layer_serialization_us": 1342.1772799999999,
+      "two_source_per_layer_residual_serialization_us": 728.1282799999999
+    }
+  },
+  "condition": "After a strong destination-prefix suppression baseline, full KV remains only if Decode has no reusable prefix; the current default simulator sends full KV even when Decode is hot, and a Prefill hit does not prove a Decode miss",
+  "decode_capacity_control": {
+    "batch": 16,
+    "optimistic_requests_per_s_for_64_output_tokens": 11.161017725883708,
+    "optimistic_tokens_per_s": 714.3051344565573,
+    "step_ms": 22.399391
+  },
+  "hardware_evidence": "UBELIX documents 8x RTX4090 and one 100-Gbps InfiniBand interface per node",
+  "hardware_url": "https://hpc-unibe-ch.github.io/hardware/gpu/",
+  "kv_bytes_per_layer": 8388608,
+  "kv_bytes_per_request": 268435456,
+  "model_profile": "RTX4090/meta-llama/Llama-3.1-8B/bf16/tp1",
+  "one_layer_service_us_at_100gbps": 671.0886399999999,
+  "prompt_tokens": 2048,
+  "status": "THEORY_READY_NEED_CACHE_AND_PLACEMENT_EVIDENCE",
+  "strong_baselines": [
+    "cache-aware Decode selection or local pairing",
+    "pinned destination-prefix DELTA",
+    "existing network priority and flow-size scheduling"
+  ]
+}

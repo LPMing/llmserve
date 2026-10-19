@@ -1,0 +1,62 @@
+{
+  "command": [
+    "/home/lpm/.conda/envs/llmsim-flowsim/bin/python",
+    "-m",
+    "serving",
+    "--cluster-config",
+    "research_autonomous/experiments/prefix_inversion/p2_hit1984_miss/cluster.json",
+    "--dataset",
+    "research_autonomous/experiments/prefix_inversion/p2_hit1984_miss/workload.jsonl",
+    "--network-backend",
+    "flowsim",
+    "--pd-kv-transfer-mode",
+    "LAYERWISE",
+    "--flowsim-policy",
+    "FAIR",
+    "--request-routing-policy",
+    "RR",
+    "--dtype",
+    "bfloat16",
+    "--max-num-seqs",
+    "8",
+    "--max-num-batched-tokens",
+    "2048",
+    "--enable-prefix-caching",
+    "--destination-prefix-handoff",
+    "DELTA",
+    "--pd-handoff-capacity-reservation",
+    "--flowsim-telemetry",
+    "research_autonomous/candidates/network_staged_handoff/experiments/under_capacity_credit/flows.jsonl",
+    "--output",
+    "research_autonomous/candidates/network_staged_handoff/experiments/under_capacity_credit/requests.csv",
+    "--run-id",
+    "r16-credit-under-capacity",
+    "--log-level",
+    "WARNING"
+  ],
+  "exit_code": 0,
+  "git_head": "0c0839aff54ec0abb1810dc09cf3d66f06b1b078",
+  "input_sha256": {
+    "research_autonomous/experiments/prefix_inversion/p2_hit1984_miss/cluster.json": "893c20984fbb7d242d11fe09460e1544c2efe21cca5e72e2753e1bf4c56006da",
+    "research_autonomous/experiments/prefix_inversion/p2_hit1984_miss/rank_map.json": "d387ef3054bf5148161d5423173ad8de392f5386c542f27f4bd9e1f382861aa1",
+    "research_autonomous/experiments/prefix_inversion/p2_hit1984_miss/topology.txt": "d9941071a7a51d2075457fe45d67c729af0687f38d3f4cee64a16f9906e6537a",
+    "research_autonomous/experiments/prefix_inversion/p2_hit1984_miss/workload.jsonl": "30d9856482a5d1d48e7246c20cd7979ce257da48091edb6248460f14a1c95456"
+  },
+  "output_sha256": {
+    "events.jsonl": "67f59806cca31636c4c7f54884da98b6cbb5301e25a84786c483d8b084718ec0",
+    "flows.jsonl": "1a3fc125395657fa7c170989f449a80189faae5aff031450192df75a3868848b",
+    "requests.csv": "19e2b1b9b14050cd5b0ff02fb3fec1c04b41b47e1835062860ee9e558c75d43c"
+  },
+  "prior_requests_sha256": "19e2b1b9b14050cd5b0ff02fb3fec1c04b41b47e1835062860ee9e558c75d43c",
+  "seed": "prior deterministic workload",
+  "source_sha256": {
+    "serving/__main__.py": "bd9742f75924a5ed92488ee534a3084563152d15aae4bf4d95b3d797a4fef3d5",
+    "serving/core/flowsim_backend.py": "89028c7c75d1eb8fa181647f3de82dc01fa55be4ff3f108e79676fa251fc35aa",
+    "serving/core/flowsim_worker.py": "ed75cd9dd86d5a95c37fe178bc0db80147807a43edfd20a4baf7849399363e49",
+    "serving/core/kv_cache_manager.py": "86734a47cf828d18a79cd416e9be78de347ee222452a3c9f30893194a7edde17",
+    "serving/core/router.py": "f29b2990c3f88af5cbc4ebd7bb977de63486afce3fc78cffb5ee833dc3b93bda",
+    "serving/core/scheduler.py": "a48cbd1391f6a7fc7d67aca5ac90aa9eba1185f58262b8314a0992bf83d6d5b0",
+    "serving/core/trace_generator.py": "ebb151ca81268a90557e3e1bf2e887a7280f30362728d2be78f71cf9be5e3afe"
+  },
+  "status": "COMPLETE"
+}

@@ -1,0 +1,32 @@
+{
+  "assumption": "Four single-GPU Prefills share one100-Gb/s source NIC; one 24-GB/0.9 RTX4090 Decode has3400 blocks. A credit is acquired before Prefill and held until D completion. Profile sum excludes graph/network overhead and is a compute estimate, not an observed completion time.",
+  "block_tokens": 16,
+  "cases": {
+    "12000": {
+      "blocks_per_handoff_credit": 751,
+      "decode_step_n3_profile_ns": 22299578,
+      "decode_step_n4_profile_ns": 23967592,
+      "four_credits_blocks": 3004,
+      "four_credits_fit": true,
+      "four_request_nic_floor_ns": 503316480,
+      "kv_bytes_per_request": 1572864000,
+      "prefill_profile_sum_ns": 1363734379
+    },
+    "14000": {
+      "blocks_per_handoff_credit": 876,
+      "decode_step_n3_profile_ns": 23146970,
+      "decode_step_n4_profile_ns": 25092200,
+      "four_credits_blocks": 3504,
+      "four_credits_fit": false,
+      "four_request_nic_floor_ns": 587202560,
+      "kv_bytes_per_request": 1835008000,
+      "prefill_profile_sum_ns": 1643693640
+    }
+  },
+  "decode_gpu_count": 1,
+  "first_prompt_length_that_blocks_four_credits": 13600,
+  "model_sha256": "54acfad3cffe057640904ca8a1e83525e6551c70c7a04c641f5a9eda0bbf64bd",
+  "pool_blocks": 3400,
+  "prefill_gpu_count": 4,
+  "profile_sha256": "9c99dc484f44f965e7cdb95767706973588b1462a20332ee6430767433732deb"
+}

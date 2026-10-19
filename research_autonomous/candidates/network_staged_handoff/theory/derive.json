@@ -1,0 +1,49 @@
+{
+  "additional_full_prompt_handoffs_before_d_pool_full": 58,
+  "baseline": "layerwise FAIR + capacity-aware FIFO admission and 1P2D resource-ratio control",
+  "capacity_after_128_running_tokens": 118880,
+  "classification": {
+    "kv_size": "A: exact model config",
+    "model_profile": "A: measured vLLM TP2 profile",
+    "network_and_output": "C: 200 Gb/s per rail, 600 output tokens",
+    "ready_barrier": "A: prior integrated FlowSim run"
+  },
+  "cold_isolated_zero_transfer_fraction_ceiling": 0.05488231321186094,
+  "conditional_fill_time_s_after_128_running_at_one_p_one_d_rate_gap": 40.55845532450215,
+  "falsifier": "if 1-4-source ready rises with transfer despite the measured 2.453-ms last-flow slack, re-audit DAG and topology",
+  "four_source_last_flow_to_ready_slack_ms_existing_run": 2.453,
+  "four_source_ready_ms_existing_run": 184.907,
+  "full_kv_serialization_ms_per_rail": 10.73741824,
+  "gain_upper_cold_isolated": 0.0,
+  "gain_upper_saturated": null,
+  "inputs": {
+    "model_sha256": "855a9d23f97f8771c84280619ae156c8f73c9cd64a5d53a059125b4aecab12d4",
+    "prior_theory_sha256": "e238e1766aec59e4cb7ed954997dae7753d7446fdb4c147f52247a8662d788eb",
+    "profile_attention_sha256": "2c4d98649967da9c79535421c7e71663daeff80e9049608072d0237befd522a7",
+    "profile_dense_sha256": "4f3cf699af9eace4f570d83a5d36879e6db6bc6486e04feb1fa8c524e32e11a7"
+  },
+  "kv_bytes_per_rank": 268435456,
+  "kv_total_bytes_per_request": 536870912,
+  "limits": [
+    "The isolated zero-transfer fraction is a loose serial ceiling; layerwise overlap makes the observed ready headroom zero.",
+    "The fill time is conditional on already having 128 active sequences; it is not an observed trace interval.",
+    "At pool exhaustion the current simulator frees source KV before Decode allocation and raises; no saturated Serving gain is credible.",
+    "The 128-sequence Decode service estimate omits TP collective time and is optimistic."
+  ],
+  "measured_prefill_block_us": 2875.951,
+  "model": "Qwen/Qwen3-32B BF16 TP2 PP1",
+  "one_to_four_source_layer_service_us": [
+    167.77215999999999,
+    335.54431999999997,
+    503.31648,
+    671.0886399999999
+  ],
+  "optimistic_d_rps_at_batch128": 3.9857161848893643,
+  "optimistic_p_rps": 5.415750922059472,
+  "oracle": "zero handoff network service, with unchanged GPU and KV capacity",
+  "output_tokens": 600,
+  "physical_cut": "two independent 200 Gb/s receiver rails, one shard each",
+  "prompt_tokens": 2048,
+  "status": "NO_GO for cold isolated network staging; saturated case needs causal backpressure and a matched burst",
+  "steady_bottleneck_one_p_one_d": "Decode"
+}

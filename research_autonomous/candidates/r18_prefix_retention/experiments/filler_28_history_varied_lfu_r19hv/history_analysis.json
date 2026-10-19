@@ -1,0 +1,29 @@
+{
+  "analyzer_sha256": "c2f430d80daf0554911e5bb0951be9e99124eae5f89bb5c3843ef32418933f58",
+  "p2d_bytes_total": 9940500480,
+  "p2d_flows": 1536,
+  "policy": "LFU",
+  "raw_sha256": {
+    "events.jsonl": "0052eeab6352ee83366a430331be54ed4e0e671483f3ecf0c9dad704dd5b3929",
+    "flows.jsonl": "85603169ddfc63511c9bef05afc15c8cd65c5aa0ad9f8db75213ea06513aaaec",
+    "requests.csv": "34fee6d2e05df7fa534b3a26236400fceb81f6494cf84ec1a8d7d951b30cfb6c"
+  },
+  "requests_complete": 34,
+  "status": "VALID",
+  "target_completion_elapsed_ns": [
+    56971000,
+    56971000
+  ],
+  "target_d_hit_tokens": [
+    1968,
+    1968
+  ],
+  "target_p2d_bytes": [
+    10485760,
+    10485760
+  ],
+  "target_token2_elapsed_ns": [
+    38970000,
+    38970000
+  ]
+}

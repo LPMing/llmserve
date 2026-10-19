@@ -143,6 +143,14 @@ def _resolve_dp_groups(all_instances):
         dg = inst.get("dp_group")
         if dg is not None:
             dp_groups.setdefault(dg, []).append(inst)
+    has_pd_role_axis = (
+        bool(dp_groups) and
+        any(inst.get("pd_type") == "prefill" for inst in all_instances)
+    )
+    has_group_lane_axis = (
+        bool(dp_groups) and
+        (has_pd_role_axis or len(dp_groups) > 1)
+    )
 
     for group_name, members in dp_groups.items():
         # All members must have same tp_size and ep_size
@@ -203,6 +211,16 @@ def _resolve_dp_groups(all_instances):
                 # EP spans both dimensions (cross-instance ALLTOALL)
                 ep_dim = [True, True] if tp0 > 1 else [False, True]
 
+        if has_group_lane_axis:
+            # The final topology dimension separates independent collective
+            # lanes.  In a P/D topology, Prefill (including shadow P2D
+            # receiver ranks) occupies the prefix lanes and each Decode
+            # dp_group occupies its own lane.  With multiple Decode groups but
+            # no Prefill, the same axis separates those groups.  A group's
+            # collective must never enlist ranks from another lane.
+            tp_dim.append(False)
+            ep_dim.append(False)
+
         for m in members:
             m["dp_group_size"] = dp_size
             m["local_ep"] = local_ep
@@ -236,6 +254,9 @@ def _compute_network_dims(instances):
             dp_groups.setdefault(dg, []).append(inst)
 
     if dp_groups:
+        if (len(dp_groups) > 1 or
+                any(inst.get("pd_type") == "prefill" for inst in instances)):
+            return _compute_multi_dp_group_network_dims(instances, dp_groups)
         # DP group mode: topology = [tp_size, pp_size, dp_group_size], innermost
         # first, mirroring vLLM's DP x PP x TP rank layout. pp_size is dropped
         # when it is 1 so a plain DP+TP config keeps the 2-D topology (and the
@@ -250,6 +271,11 @@ def _compute_network_dims(instances):
         pp_size = first_group[0]["pp_size"]
         dims = ([tp_size, pp_size, len(first_group)] if pp_size > 1
                 else [tp_size, len(first_group)])
+        if any(inst.get("pd_type") == "prefill" for inst in instances):
+            # P/D runs with a Decode DP/EP group have two disjoint rank planes:
+            # Prefill (including its legacy shadow P2D receivers) and Decode.
+            # The final role dimension preserves the Decode collective scope.
+            dims.append(2)
     else:
         # Independent instances: standard topology.
         total_npu = sum(
@@ -275,6 +301,113 @@ def _compute_network_dims(instances):
     # Remove trailing 1s (single-element dimensions are unnecessary).
     while len(dims) > 1 and dims[-1] == 1:
         dims.pop()
+    return dims
+
+
+def _compute_multi_dp_group_network_dims(instances, dp_groups):
+    """Build a rectangular topology for grouped EP lanes and P/D prefixes.
+
+    The rank order is group-major: all members of one ``dp_group`` are
+    contiguous, and all ungrouped ranks (normally the Prefill/shadow prefix)
+    precede the grouped Decode ranks.  The final topology axis is a lane index:
+    it separates Prefill lanes and independent EP groups while each EP
+    collective spans TP, optional PP stage-local membership, and its own
+    group's DP-member axis.
+
+    A single EP group with a multi-lane Prefill/shadow prefix uses the same
+    representation. Layouts that are not representable by this Cartesian rank
+    order fail closed instead of allowing collectives to alias or recruit the
+    wrong ranks.
+    """
+    group_names = list(dp_groups)
+    first_members = dp_groups[group_names[0]]
+    tp_size = int(first_members[0]["tp_size"])
+    pp_size = int(first_members[0]["pp_size"])
+    dp_size = len(first_members)
+    num_npus = int(first_members[0]["num_npus"])
+
+    for group_name, members in dp_groups.items():
+        if len(members) != dp_size:
+            raise ValueError(
+                "Grouped topology requires equal group sizes; "
+                "%s has %d members, expected %d" %
+                (group_name, len(members), dp_size))
+        for member in members:
+            signature = (
+                int(member["tp_size"]), int(member["pp_size"]),
+                int(member["num_npus"]))
+            expected = (tp_size, pp_size, num_npus)
+            if signature != expected:
+                raise ValueError(
+                    "Grouped topology requires matching "
+                    "(tp_size, pp_size, num_npus); group %s has %s, "
+                    "expected %s" % (group_name, signature, expected))
+
+    # The frontend assigns ranks in config order.  A uniform topology can
+    # isolate each communicator with the last axis only when group members
+    # appear as complete contiguous group-major blocks after the ungrouped
+    # prefix.  Do not silently reinterpret interleaved or mixed-role layouts.
+    first_group_index = next(
+        index for index, instance in enumerate(instances)
+        if instance.get("dp_group") is not None)
+    if any(instance.get("dp_group") is None
+           for instance in instances[first_group_index:]):
+        raise ValueError(
+            "Grouped topology requires ungrouped instances to "
+            "precede all grouped instances")
+
+    observed_group_order = [
+        instance["dp_group"] for instance in instances[first_group_index:]]
+    expected_group_order = [
+        group_name for group_name in group_names for _ in range(dp_size)]
+    if observed_group_order != expected_group_order:
+        raise ValueError(
+            "Grouped topology requires contiguous group-major "
+            "instance order; observed %s, expected %s" %
+            (observed_group_order, expected_group_order))
+
+    inner_size = tp_size * pp_size * dp_size
+    prefix_ranks = sum(
+        int(instance["num_npus"]) *
+        (2 if instance.get("pd_type") == "prefill" else 1)
+        for instance in instances[:first_group_index])
+    total_ranks = sum(
+        int(instance["num_npus"]) *
+        (2 if instance.get("pd_type") == "prefill" else 1)
+        for instance in instances)
+    if prefix_ranks % inner_size:
+        raise ValueError(
+            "Grouped topology requires the ungrouped rank prefix "
+            "to align to a complete TP×PP×group-member lane (%d ranks); "
+            "prefix has %d ranks" % (inner_size, prefix_ranks))
+    if total_ranks % inner_size:
+        raise ValueError(
+            "Grouped topology rank count %d is not divisible by "
+            "the collective lane size %d" % (total_ranks, inner_size))
+
+    lane_count = total_ranks // inner_size
+    dims = [tp_size]
+    if pp_size > 1:
+        dims.append(pp_size)
+    dims.extend((dp_size, lane_count))
+    return dims
+
+
+def _validate_network_rank_count(instances):
+    """Reject cluster layouts whose ASTRA topology omits or invents ranks."""
+    dims = _compute_network_dims(instances)
+    topology_rank_count = math.prod(dims)
+    configured_rank_count = sum(
+        inst["num_npus"] * (2 if inst.get("pd_type") == "prefill" else 1)
+        for inst in instances
+    )
+    if topology_rank_count != configured_rank_count:
+        raise ValueError(
+            "Cluster rank/topology mismatch: configured serving ranks="
+            f"{configured_rank_count}, ASTRA topology dimensions={dims} "
+            f"(product={topology_rank_count}). This layout cannot be simulated "
+            "faithfully with the current uniform-dimension topology builder."
+        )
     return dims
 
 
@@ -675,6 +808,13 @@ def build_cluster_config(astra_sim, cluster_config_path, enable_local_offloading
     # Resolve DP groups across all instances.
     _resolve_dp_groups(total_instances)
 
+    # The network topology must have exactly one coordinate for every rank
+    # that the serving frontend and Chakra converter will address. An
+    # inconsistent product otherwise leaves ranks without a network
+    # coordinate (or creates phantom participants), which can hang a run or
+    # silently change collective membership.
+    _validate_network_rank_count(total_instances)
+
     # Keep collective implementation arity aligned with the final global
     # ASTRA-Sim topology, while preserving the default ring implementation.
     _sync_system_collective_dims(system_config_path, total_instances)
@@ -699,6 +839,7 @@ def build_cluster_config(astra_sim, cluster_config_path, enable_local_offloading
         "placement": placement,
         "block_mode_on": block_mode_on,
         "total_npu": total_npu,
+        "topology_dims": _compute_network_dims(total_instances),
         "cpu_mem_size": cpu_mem_size,
         "cxl_mem_size": cxl_mem_size,
         "power_modeling": power_modeling,
